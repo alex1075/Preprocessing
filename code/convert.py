@@ -1,8 +1,10 @@
 import cv2
 import glob, os, datetime
 from PIL import Image
+from imutils import paths
 from code.helper.utils import *
 from code.helper.imageTools import *
+
 
 
 def convert(path_to_folder='/Volumes/PhD/PhD/Data/'):
@@ -104,3 +106,33 @@ def convert2Gray(path_to_folder='/Volumes/PhD/PhD/Dataset/'):
         flute = cv2.imread(jpg, 0)
         print(flute.shape)
         cv2.imwrite(jpg, flute)
+
+def variance_of_laplacian(image):
+	# compute the Laplacian of the image and then return the focus
+	# measure, which is simply the variance of the Laplacian
+	return cv2.Laplacian(image, cv2.CV_64F).var()
+
+def detectBlurr(path_to_folder='/Volumes/PHD/', threshold=100.0):
+    file = open(path_to_folder + 'recap.txt', "w")
+    file.write('Threshold: ' + str(threshold) + '\n')
+    print('Detecting blurr')
+   # loop over the input images
+    for imagePath in paths.list_images(path_to_folder):
+        # load the image, convert it to grayscale, and compute the
+        # focus measure of the image using the Variance of Laplacian
+        # method
+        image = cv2.imread(imagePath)
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        fm = variance_of_laplacian(gray)
+        text = 'Not Blurry'
+ 
+        # if the focus measure is less than the supplied threshold,
+        # then the image should be considered "blurry"
+        if fm < threshold:
+            text = 'Blurry'
+            print(imagePath)
+            # file.write(fm + "<" + threshold + '\n')
+            file.write('Below threshold' + imagePath + '\n')
+        
+        # print(image)
+  
