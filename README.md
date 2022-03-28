@@ -18,3 +18,7 @@ python -c "from code.convert import radomCrop; randomCrop('Data/Image_temp/', 'D
 Now label the images cropped. 
 # 2. Split the data into training and test sets
 # 3. Normalize the data
+
+```
+python -c "from code.convert import *; detectBlurr()"
+```
