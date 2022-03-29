@@ -121,6 +121,7 @@ def detectBlurr(path_to_folder='/Volumes/PHD/', threshold=100.0):
         # load the image, convert it to grayscale, and compute the
         # focus measure of the image using the Variance of Laplacian
         # method
+        print("Checking image: " + imagePath)
         image = cv2.imread(imagePath)
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         fm = variance_of_laplacian(gray)
@@ -133,6 +134,11 @@ def detectBlurr(path_to_folder='/Volumes/PHD/', threshold=100.0):
             print(imagePath)
             # file.write(fm + "<" + threshold + '\n')
             file.write('Below threshold' + imagePath + '\n')
-        
         # print(image)
-  
+    
+    file.close()
+
+def iterateBlur(path_to_folder='/Volumes/PHD/', start=0, end=100, step=5):
+    for i in range(start, end, step):
+        print('Threshold: ' + str(i))
+        detectBlurr(path_to_folder, threshold=i)
