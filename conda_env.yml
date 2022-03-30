@@ -129,6 +129,7 @@ dependencies:
   - zstd=1.5.2=h861e0a7_0
   - pip:
     - imagecorruptions==1.1.2
+    - imutils==0.5.4
     - opencv-python==4.5.5.62
     - pillow==9.0.1
 prefix: /Users/alexanderhunt/miniforge3/envs/preprocessing
