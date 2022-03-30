@@ -19,6 +19,10 @@ Now label the images cropped.
 # 2. Split the data into training and test sets
 # 3. Normalize the data
 
+``` bash
+python -c "from code.convert import *; iterateBlur()"
 ```
+``` bash
 python -c "from code.convert import *; detectBlurr()"
+
 ```
