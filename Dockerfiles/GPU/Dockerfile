@@ -1,14 +1,22 @@
 FROM nvidia/cuda:11.5.0-cudnn8-devel-ubuntu20.04
 LABEL maintainer="Alexander Hunt <alexander.hunt@ed.ac.uk>"
+RUN apt-get update && apt-get upgrade -y
 
-RUN apt-get update && apt upgrade -y
+# Set the locale and timezone
+RUN apt-get -y install locales
+RUN ln -fs /usr/share/zoneinfo/Europe/London /etc/localtime
+RUN apt-get install -y tzdata
+RUN dpkg-reconfigure --frontend noninteractive tzdata
+# Set the locale
+RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && \
+    locale-gen
+ENV LANG en_US.UTF-8  
+ENV LANGUAGE en_US:en  
+ENV LC_ALL en_US.UTF-8   
 
-RUN apt install wget git libssl-dev zip unzip -y
+# Install OpenCV with CUDA and CUDNN support
+RUN apt install wget git libssl-dev zip cmake unzip -y
 WORKDIR /root/
-RUN wget https://github.com/Kitware/CMake/releases/download/v3.22.2/cmake-3.22.2.tar.gz
-RUN tar -xzf cmake-3.22.2.tar.gz
-RUN cd cmake-3.22.2 && ./bootstrap && make -j$(nproc) && make install
-RUN cd && rm -rf cmake-3.22.2.tar.gz
 RUN cd 
 RUN wget https://github.com/opencv/opencv/archive/4.5.5.zip
 RUN unzip 4.5.5.zip
@@ -42,8 +50,8 @@ RUN cd opencv-4.5.5 && cd build && cmake --build . --target install --parallel $
 RUN cd && rm -rf opencv-4.5.5.zip  4.5.5.tar.gz 
 
 RUN apt install python3-pip -y
-COPY requirements.txt /root/
-RUN pip3 install -r requirements.txt
-COPY . /root/
-RUN mkdir -P /Volumes/PHD
-CMD ["python3 -c "from code.convert import *; iterateBlur()""]
+RUN git clone git@github.com:alex1075/Preprocessing.git
+RUN cd Preprocessing && pip3 install -r requirements.txt
+RUN mkdir -p /Volumes/PHD
+RUN rm -rf /root/.ssh/id_rsa
+CMD ["cd Preprocessing", "python3 -c "from code.convert import *; iterateBlur()""]
