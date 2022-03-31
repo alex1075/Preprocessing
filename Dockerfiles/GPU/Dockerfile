@@ -50,8 +50,9 @@ RUN cd opencv-4.5.5 && cd build && cmake --build . --target install --parallel $
 RUN cd && rm -rf opencv-4.5.5.zip  4.5.5.tar.gz 
 
 RUN apt install python3-pip -y
-RUN git clone git@github.com:alex1075/Preprocessing.git
-RUN cd Preprocessing && pip3 install -r requirements.txt
+COPY code.py /root/code.py
+COPY requirements.txt /root/requirements.txt
+RUN touch __innit__.py
+RUN cd /root && pip3 install -r requirements.txt
 RUN mkdir -p /Volumes/PHD
-RUN rm -rf /root/.ssh/id_rsa
-CMD ["cd Preprocessing", "python3 -c "from code.convert import *; iterateBlur()""]
+CMD ["cd root", "python3 -c "from code import *; iterateBlur()""]
