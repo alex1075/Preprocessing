@@ -147,7 +147,7 @@ def detectAndMoveBlurr(path_to_folder='/Volumes/PHD/', threshold=100.0):
     file = open(path_to_folder + 'recap.txt', "w")
     file.write('Threshold: ' + str(threshold) + '\n')
     print('Detecting blurr')
-    os.makedirs(path_to_folder + 'threshold_' + str(threshold))
+    os.makedirs(path_to_folder + 'threshold_' + str(threshold), exist_ok=True)
    # loop over the input images
     for imagePath in paths.list_images(path_to_folder):
         # load the image, convert it to grayscale, and compute the
