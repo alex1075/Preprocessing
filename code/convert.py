@@ -4,8 +4,7 @@ from PIL import Image
 from imutils import paths
 from code.helper.utils import *
 from code.helper.imageTools import *
-
-
+import shutil
 
 def convert(path_to_folder='/Volumes/PhD/PhD/Data/'):
     for infile in os.listdir(path_to_folder):
@@ -163,7 +162,8 @@ def detectAndMoveBlurr(path_to_folder='/Volumes/PHD/', threshold=100.0):
             print(imagePath)
             # file.write(fm + "<" + threshold + '\n')
             file.write('Below threshold' + imagePath + '\n')
-            shutil.move(imagePath, path_to_folder + 'threshold_' + str(threshold))
+            shutil.copy(imagePath, path_to_folder + 'threshold_' + str(threshold))
+            os.rmtree(imagePath)
             print("Moved " + imagePath)
             file.write('Moved ' + imagePath + ' to folder' + '\n')
     file.close()
