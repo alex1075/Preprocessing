@@ -10,5 +10,5 @@ COPY code.py /root/code.py
 COPY requirements.txt /root/requirements.txt
 RUN touch __innit__.py
 RUN cd /root && pip3 install -r requirements.txt
-RUN mkdir -p /Volumes/PHD
-CMD ["cd root", "python3 -c "from code import *; iterateBlur()""]
+RUN mkdir -p /mnt/
+CMD ['cd root', 'python3 -c "from code import *; iterateBlurMove('/mnt/', 0, 100, 5)"']
