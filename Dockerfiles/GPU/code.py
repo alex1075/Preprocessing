@@ -1,6 +1,8 @@
+import shutil
 import cv2
 import glob, os, datetime
 from imutils import paths
+import shutil
 
 def variance_of_laplacian(image):
 	# compute the Laplacian of the image and then return the focus

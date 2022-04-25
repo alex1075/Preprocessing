@@ -55,4 +55,4 @@ COPY requirements.txt /root/requirements.txt
 RUN touch __innit__.py
 RUN cd /root && pip3 install -r requirements.txt
 RUN mkdir -p /Volumes/PHD
-CMD ["cd root", "python3 -c "from code import *; iterateBlur()""]
+CMD ["python3 -c "from code import *; iterateBlur()""]
