@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 
-image = cv2.imread('test_4.jpeg')
+image = cv2.imread('/Users/alexanderhunt/Preprocessing/functions - WIP/sobelx.jpg')
 
 alpha = 1.5 # Contrast control (1.0-3.0)
 beta = 0 # Brightness control (0-100)
