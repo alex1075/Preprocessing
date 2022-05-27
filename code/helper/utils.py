@@ -47,3 +47,11 @@ def get_size(bytes, suffix="B"):
 def rgb2gray(img):
     img = cv2.imread(img,0)
     return img
+
+def merge_contours(cnts):
+    # merge bounding boxes
+    merged_cnts = []
+    for cnt in cnts:
+        x,y,w,h = cv2.boundingRect(cnt)
+        merged_cnts.append(cnt)
+    return merged_cnts
