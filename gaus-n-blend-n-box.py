@@ -3,7 +3,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 
-imag = cv2.imread('functions - WIP/test_1.jpg',0)
+imag = cv2.imread('functions - WIP/test_4.jpeg',0)
 Blu = cv2.medianBlur(imag,5)
 
 sob = cv2.adaptiveThreshold(Blu,255,cv2.ADAPTIVE_THRESH_MEAN_C,\
