@@ -175,3 +175,6 @@ def iterateBlurMove(path_to_folder='/Volumes/PHD/', outfolder='/Volumes/PHD/sort
         print('Threshold: ' + str(i))
         currentstep = str(range) + str(step)
         detectAndMoveBlurr(path_to_folder, threshold=i, currentstep=currentstep, outfolder=outfolder)
+
+def selectIMG(path_to_folder='/Volumes/PHD/sorted/', outfolder='/Volumes/PHD/sorted/', number=200):
+    randomSelect(path_to_folder, outfolder, number)

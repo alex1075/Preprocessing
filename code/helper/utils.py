@@ -2,6 +2,8 @@ import cv2
 import glob, os
 from PIL import Image
 import numpy as np
+import random
+import shutil
 
 #Grabs biggest dimension and scales the photo so that max dim is now 1280
 def resizeTo(image, newhigh=1280, newwid=1280, inter=cv2.INTER_AREA):
@@ -55,3 +57,10 @@ def merge_contours(cnts):
         x,y,w,h = cv2.boundingRect(cnt)
         merged_cnts.append(cnt)
     return merged_cnts
+
+def randomSelect(pathtofolder, destfolder, num):
+    file_list = os.listdir(pathtofolder)
+    for i in range(num):
+        a = random.choice(file_list)
+        #file_list.remove(a)
+        shutil.copy(pathtofolder + a, destfolder + a)
