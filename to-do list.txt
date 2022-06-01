@@ -1,0 +1,2 @@
+add rename script
+sort automatically x number of images into test train validation folders 
