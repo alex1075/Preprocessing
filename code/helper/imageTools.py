@@ -84,3 +84,10 @@ def unsharp_mask(image, kernel_size=(5, 5), sigma=1.0, amount=1.0, threshold=0):
         low_contrast_mask = np.absolute(image - blurred) < threshold
         np.copyto(sharpened, image, where=low_contrast_mask)
     return sharpened
+
+def sobel_img(image, kernel_size=5):
+    sobelx = cv2.Sobel(image,cv2.CV_64F,1,0,ksize=kernel_size)
+    sobely = cv2.Sobel(image,cv2.CV_64F,0,1,ksize=kernel_size)
+    sa = cv2.addWeighted(sobelx,1,sobely,1,0)
+    sar = np.uint8(sa)
+    return sar
