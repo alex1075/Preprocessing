@@ -1,3 +1,3 @@
 #! /bin/sh
 
-./build_release/darknet detector map train data/train/_darknet.labels cfg/yolov4.cfg weights.file -json_port 8070 -mjpeg_port 8090 
+./darknet/darknet detector train data/obj.data cfg/yolov4.cfg cfg/yolov4.conv.137 -json_port 8070 -mjpeg_port 8090 -clear -map | tee -a train.txt
