@@ -15,17 +15,17 @@ def change_annotation(i, j, x, y, height, width, path, image, save_name, save_pa
         line = line.split(' ')
         # get coordinates
         classes = int(line[0])
-    print("Class: " + str(classes))
-    x1 = decimal.Decimal(line[1])
-    print("X1: " + str(x1))
-    y1 = decimal.Decimal(line[2])
-    print("Y1: " + str(y1))
-    x2 = decimal.Decimal(line[3])
-    print("X2: " + str(x2))
-    y2 = decimal.Decimal(line[4])
-    print("Y2: " + str(y2))
-    if int(x2 * width) in range(j, width, 1):
-                if int(y2 * height) in range(i, height, 1):
+        print("Class: " + str(classes))
+        x1 = decimal.Decimal(line[1]) #centre x
+        print("X1: " + str(x1))
+        y1 = decimal.Decimal(line[2]) #centre y
+        print("Y1: " + str(y1))
+        x2 = decimal.Decimal(line[3]) #width
+        print("X2: " + str(x2))
+        y2 = decimal.Decimal(line[4]) #height
+        print("Y2: " + str(y2))
+        if int(x1 * width) in range(j, j + x, 1):
+                if int(y1 * height) in range(i, i + y, 1):
                         # get new coordinates
                         x1 = decimal.Decimal(((x1 * height) - x ) / x)
                         y1 = decimal.Decimal(((y1 * width) - y) / y)
@@ -42,10 +42,11 @@ def change_annotation(i, j, x, y, height, width, path, image, save_name, save_pa
                             f.write(str(round(y2, 6)))
                             f.write('\n')
                 else:
-                        pass    
-    else:
-            with open(save_path + image[:-4] + '.txt', 'a') as f:
-                f.write('\n')
+                    pass
+        else:
+            pass
+    with open(save_path + save_name + '.txt', 'a') as f:
+        f.write('\n')
 
 
 
