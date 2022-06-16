@@ -26,3 +26,6 @@ python -c "from code.convert import *; iterateBlur()"
 python -c "from code.convert import *; detectBlurr()"
 
 ```
+``` bash
+python -c "from code.convert import *; chopUpDataset()"
+```
