@@ -3,6 +3,7 @@ import cv2
 import numpy as np
 import imgaug as ia
 import imgaug.augmenters as iaa
+from code.helper.utils import *
 
 # Changes the images by cropping randomly through them
 def getRandomCrop(self, img, crop_height, crop_width):
@@ -91,3 +92,73 @@ def sobel_img(image, kernel_size=5):
     sa = cv2.addWeighted(sobelx,1,sobely,1,0)
     sar = np.uint8(sa)
     return sar
+
+def imgSizeCheck(image, path, x, y):
+    img = cv2.imread(path + image)
+    # get image dimensions
+    height, width, channels = img.shape
+    # cv2.imshow('Original', img)
+    # cv2.waitKey(0)
+    if height << y:
+        diff = y - height
+        difftoo = x - width
+        corrected_img = cv2.copyMakeBorder(img, 0, diff, 0, difftoo,  cv2.BORDER_CONSTANT, value=[0,0,0])
+        print("Added black border to image.")
+        # cv2.imshow('Corrected', corrected_img)
+        # cv2.waitKey(0)
+        cv2.imwrite(path + image[:-4] + ".jpg", corrected_img)
+    elif width << x:
+        diff = y - height
+        difftoo = x - width
+        corrected_img = cv2.copyMakeBorder(img, 0, diff, 0, difftoo,  cv2.BORDER_CONSTANT, value=[0,0,0])
+        print("Added black border to image.")
+        cv2.imshow(corrected_img)
+        cv2.imwrite(path + image[:-4] + ".jpg", corrected_img)
+    else:
+        print("No change to image.")
+        # pass
+
+# crop images in chunks of size (x,y) and adapt annotations
+def crop_images(x, y, path, save_path):
+    shutil.copy(path + "classes.txt", save_path)
+    # get all images in path
+    images = os.listdir(path)
+    # print(images)
+        # loop over images
+    for image in images:
+        # read image
+        if image.endswith(".jpg"):
+            img = cv2.imread(path + image)
+            # get image dimensions
+            height, width, channels = img.shape
+            # loop over image
+            for i in range(0, height, y):
+                for j in range(0, width, x):
+                    # crop image
+                    crop_img = img[i:i+y, j:j+x]
+                    # set new name
+                    new_name = image[:-4] + '_' + str(i) + '_' + str(j)
+                    # save image
+                    cv2.imwrite(save_path + new_name + ".jpg", crop_img)
+                    # adapt annotation
+                    change_annotation(i, j, x, y, height, width, path, image, new_name, save_path)
+                img = cv2.imread(path + image)
+                # print(img)
+            # get image dimensions
+            height, width, channels = img.shape
+            # loop over height
+            for i in range(0, height, y):
+              # loop over width
+                 for j in range(0, width, x):
+                    # crop image
+                    crop = img[i:i+y, j:j+x]
+                   # save image
+                    cv2.imwrite(save_path + image[:-4] + '_' + str(i) + '_' + str(j) + '.jpg', crop)
+        else:
+            pass
+
+def checkAllImg(path, x, y):
+    images = os.listdir(path)
+    for image in images:
+        if image.endswith(".jpg"):
+            imgSizeCheck(image, path, x, y)

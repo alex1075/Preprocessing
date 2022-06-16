@@ -178,3 +178,8 @@ def iterateBlurMove(path_to_folder='/Volumes/PHD/', outfolder='/Volumes/PHD/sort
 
 def selectIMG(path_to_folder='/Volumes/PHD/sorted/', outfolder='/Volumes/PHD/sorted/', number=200):
     randomSelect(path_to_folder, outfolder, number)
+
+def chopUpDataset(path_to_folder='/Users/alexanderhunt/Preprocessing/test_dataset/', outfolder='/Users/alexanderhunt/Preprocessing/output/', x=416, y=416):
+    crop_images(x, y, path_to_folder, outfolder)
+    remove_non_annotated(outfolder)
+    checkAllImg(outfolder, x, y)
