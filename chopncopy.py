@@ -27,8 +27,10 @@ def change_annotation(i, j, x, y, height, width, path, image, save_name, save_pa
         if int(x1 * width) in range(j, j + x, 1):
                 if int(y1 * height) in range(i, i + y, 1):
                         # get new coordinates
-                        x1 = decimal.Decimal(((x1 * height) - x ) / x)
-                        y1 = decimal.Decimal(((y1 * width) - y) / y)
+                        x1 = decimal.Decimal(((x1 * width) - j ) / x)
+                        y1 = decimal.Decimal(((y1 * height) - i) / y)
+                        x2 = decimal.Decimal(str((x2 * width) / x))
+                        y2 = decimal.Decimal(str((y2 * height) / y))
                         # write new coordinates
                         with open(save_path + save_name + '.txt', 'a') as f:
                             f.write(str(classes))
@@ -45,8 +47,35 @@ def change_annotation(i, j, x, y, height, width, path, image, save_name, save_pa
                     pass
         else:
             pass
-    with open(save_path + save_name + '.txt', 'a') as f:
-        f.write('\n')
+    
+
+def imgSizeCheck(image, path, x, y):
+    img = cv2.imread(path + image)
+    # get image dimensions
+    height, width, channels = img.shape
+    # cv2.imshow('Original', img)
+    # cv2.waitKey(0)
+    if height << y:
+        diff = y - height
+        difftoo = x - width
+        corrected_img = cv2.copyMakeBorder(img, 0, diff, 0, difftoo,  cv2.BORDER_CONSTANT, value=[0,0,0])
+        print("Added black border to image.")
+        # cv2.imshow('Corrected', corrected_img)
+        # cv2.waitKey(0)
+        cv2.imwrite(path + image[:-4] + ".jpg", corrected_img)
+    elif width << x:
+        diff = y - height
+        difftoo = x - width
+        corrected_img = cv2.copyMakeBorder(img, 0, diff, 0, difftoo,  cv2.BORDER_CONSTANT, value=[0,0,0])
+        print("Added black border to image.")
+        cv2.imshow(corrected_img)
+        cv2.imwrite(path + image[:-4] + ".jpg", corrected_img)
+    else:
+        print("No change to image.")
+        # pass
+
+#cv2.copyMakeBorder(src, top, bottom, left, right, bordertype, )
+
 
 
 
@@ -89,8 +118,28 @@ def crop_images(x, y, path, save_path):
         else:
             pass
     
+    
+    
+def remove_non_annotated(pathtofolder):
+    images = os.listdir(pathtofolder)
+    for image in images:    
+        if image.endswith(".jpg"):
+            # check file exists
+            if os.path.isfile(pathtofolder + image[:-4] + '.txt'):
+               print("Annotation file exists")
+            else:
+                os.remove(pathtofolder + image[:-4] + '.jpg')
+                print("Annotation file does not exist")
+                print("Image removed: " + image)
+                
 
-crop_images(416, 416, 'test_dataset/', 'output/')
+def checkAllImg(path, x, y):
+    images = os.listdir(path)
+    for image in images:
+        if image.endswith(".jpg"):
+            imgSizeCheck(image, path, x, y)
 
-
-
+# crop_images(416, 416, 'test_dataset/', 'output/')
+# remove_non_annotated('output/')
+checkAllImg('output/', 416, 416)
+# imgSizeCheck('test_1_0_2912.jpg', 'output/', 416, 416)
