@@ -3,7 +3,7 @@ LABEL maintainer="Alexander Hunt <alexander.hunt@ed.ac.uk>"
 RUN apt-get update && apt-get upgrade -y
 
 # Set the locale and timezone
-RUN apt-get -y install locales
+RUN apt-get -y install locales python2 python2-numpy python2-progressbar python2-scikit-learn
 RUN ln -fs /usr/share/zoneinfo/Europe/London /etc/localtime
 RUN apt-get install -y tzdata
 RUN dpkg-reconfigure --frontend noninteractive tzdata
@@ -34,7 +34,7 @@ RUN cd opencv-4.5.5 && cd build && cmake -D CMAKE_BUILD_TYPE=RELEASE \
  -D BUILD_opencv_cudacodec=OFF \
  -D WITH_CUDNN=ON \
  -D OPENCV_DNN_CUDA=ON \
- -D CUDA_ARCH_BIN=5.2 \
+ -D CUDA_ARCH_BIN=8.6 \
  -D WITH_V4L=ON \
  -D WITH_QT=OFF \
  -D WITH_OPENGL=ON \
@@ -49,10 +49,7 @@ RUN cd opencv-4.5.5 && cd build && cmake -D CMAKE_BUILD_TYPE=RELEASE \
 RUN cd opencv-4.5.5 && cd build && cmake --build . --target install --parallel $(nproc)
 RUN cd && rm -rf opencv-4.5.5.zip  4.5.5.tar.gz 
 
-RUN apt install python3-pip -y
-COPY code.py /root/code.py
-COPY requirements.txt /root/requirements.txt
-RUN touch __innit__.py
-RUN cd /root && pip3 install -r requirements.txt
-RUN mkdir -p /Volumes/PHD
-CMD ["python3 -c "from code import *; iterateBlur()""]
+RUN git clone https://github.com/whynotw/YOLO_metric.git
+RUN cd YOLO_metric/ && make clean && make
+ENTRYPOINT [ "bash" ]
+# CMD ["python3 -c "from code import *; iterateBlur()""]
