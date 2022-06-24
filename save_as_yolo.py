@@ -6,12 +6,12 @@ import time
 import YOLO_module, data_manager_module
 
 
-# FILE_CFG = "cfg/yolov4.cfg"
-FILE_CFG = "darknet/cfg/yolov4.cfg"
-FILE_WEIGHTS = "darknet/yolov4_new_data_1.weights"
+FILE_CFG = "/mnt/c/Users/alexa/cfg/yolov4.cfg"
+# FILE_CFG = "darknet/cfg/yolov4.cfg"
+FILE_WEIGHTS = "/mnt/c/Users/alexa/yolov4_new_data_1.weights"
 # FILE_WEIGHTS = "/Saved_weights/yolov4_new_data_1.weights"
-# FILE_DATA = "/data/obj.data"
-FILE_DATA = "darknet/data/obj.data"
+FILE_DATA = "/mnt/c/Users/alexa/data/obj.data"
+# FILE_DATA = "darknet/data/obj.data"
 
 # settings
 THRESH_YOLO = 0.1
@@ -20,8 +20,8 @@ LETTER_BOX = True
 
 WHITELIST = []
 
-# DIRNAME_TEST = "data/test/"
-DIRNAME_TEST = "darknet/data/test/"
+DIRNAME_TEST = "/mnt/c/Users/alexa/data/test/"
+# DIRNAME_TEST = "darknet/data/test/"
 TEXTNAME_TEST_SOURCE = os.path.join(DIRNAME_TEST,"test.txt")
 dirnames_mkdir = []
 dirname_test_parent = DIRNAME_TEST
@@ -30,7 +30,7 @@ while len(dirname_test_parent) != 0:
         dirnames_mkdir.insert(0,dirname_test_parent)
     dirname_test_parent = os.path.dirname(dirname_test_parent)
 for dirname in dirnames_mkdir:
-    os.makedirs(dirname)
+    os.mkdir(dirname,0o777)
 os.system("cp "+TEXTNAME_TEST_SOURCE+" "+DIRNAME_TEST)
 
 TEXTNAME_TEST = os.path.join(DIRNAME_TEST, os.path.basename(TEXTNAME_TEST_SOURCE))
