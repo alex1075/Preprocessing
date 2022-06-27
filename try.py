@@ -1,23 +1,27 @@
-from pycm import *
-import numpy
+# make confusion matrix from ground truth and prediction   file 
 
-y_actu = numpy.array([2, 0, 2, 2, 0, 1, 1, 2, 2, 0, 1, 2])
-y_pred = numpy.array([0, 0, 2, 1, 0, 2, 1, 0, 2, 0, 2, 2])
+import os
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
 
-cm = ConfusionMatrix(actual_vector=y_actu, predict_vector=y_pred) # Create CM From Data
-print(cm.classes) # Print Classes
-print(cm.table) # Print Confusion Matrix
-print(cm)
 
-cm.print_matrix() # Print Confusion Matrix
-cm.print_normalized_matrix()
 
-cm.print_matrix(one_vs_all=True,class_name=0)   # One-Vs-All, new in version 1.4
 
-cm = ConfusionMatrix(y_actu, y_pred, classes=[1,0,2])  # classes, new in version 3.2
-cm.print_matrix()
-
-cm = ConfusionMatrix(y_actu, y_pred, classes=[1,0,4]) # classes, new in version 3.2
-cm.print_matrix()
+def get_confusion_matrix(ground_truth_file, prediction_file):
+    ground_truth = pd.read_csv(ground_truth_file, sep=' ', header=None)
+    prediction = pd.read_csv(prediction_file, sep=' ', header=None)
+    ground_truth.columns = ['image', 'classes', 'x1', 'y1', 'x2', 'y2']
+    prediction.columns = ['image', 'classes', 'x1', 'y1', 'x2', 'y2']
+    ground_truth_df = pd.DataFrame(columns=['image', 'classes', 'x1', 'y1', 'x2', 'y2'])
+    prediction_df = pd.DataFrame(columns=['image', 'classes', 'x1', 'y1', 'x2', 'y2'])
+    for i in range(len(ground_truth)):
+        ground_truth_df = ground_truth_df.append(ground_truth.iloc[i])
+    for i in range(len(prediction)):
+        prediction_df = prediction_df.append(prediction.iloc[i])
+    ground_truth_df = ground_truth_df.reset_index(drop=True)
+    prediction_df = prediction_df.reset_index(drop=True)
+    
 
 
