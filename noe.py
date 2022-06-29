@@ -158,4 +158,4 @@ def get_pr_auc_score(ground_truth_file, prediction_file):
     pr_auc_score = pr_auc_score(ground_truth_df['classes'], prediction_df['classes'])
     return pr_auc_score
 
-get_confusion_matrix('ground_truth.txt', 'predicitons.txt')
+get_confusion_matrix('ground_truth.txt', 'predictons.txt')

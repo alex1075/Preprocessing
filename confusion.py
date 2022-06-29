@@ -44,6 +44,7 @@ def get_coordonates_from_pt_txt(file, path):
         y1 = round(decimal.Decimal(lin[3]), 6)
         x2 = round(decimal.Decimal(lin[4]), 6)
         y2 = round(decimal.Decimal(lin[5]), 6)
+        confidence = str(decimal.Decimal(lin[6]))
         # yolo_pt.append([str(x1), str(y1), str(x2), str(y2)])
         yolo_pt.append([confidence, str(x1)])
     return yolo_pt
@@ -52,7 +53,17 @@ n_labels = 5 # we have 4 labels from 0 to 3
 # gt = np.loadtxt('ground_truth.txt', delimiter=' ', usecols=[2, 3])
 # pred_output = np.loadtxt('predicitons.txt', delimiter=' ', usecols=[2, 3])
 gt = get_coordonates_from_gt_txt('ground_truth.txt', './')
-pred_output = get_coordonates_from_pt_txt('predicitons.txt', './')
+pred_output = get_coordonates_from_pt_txt('predictons.txt', './')
 confusion_matrix(pred_output, gt, n_labels)
 print(confusion_matrix(pred_output, gt, n_labels))
 # print(gt)
+
+# check if two bounding boxes overlap (i.e. if they have any common area)
+def overlap(bbox1, bbox2):
+    x1 = max(bbox1.x1, bbox2.x1)
+    y1 = max(bbox1.y1, bbox2.y1)
+    x2 = min(bbox1.x2, bbox2.x2)
+    y2 = min(bbox1.y2, bbox2.y2)
+    if x2 - x1 <= 0 or y2 - y1 <= 0:
+        return 0
+    return (x2 - x1) * (y2 - y1) / (bbox1.area + bbox2.area - (x2 - x1) * (y2 - y1))

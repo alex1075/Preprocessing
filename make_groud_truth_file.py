@@ -13,7 +13,7 @@ def remove_empty_lines(filename):
         filehandle.writelines(lines) 
 
 gt_file = open('ground_truth.txt', 'w')
-test_folder = '/mnt/c/Users/alexa/data/test/'
+test_folder = '/mnt/c/Users/Alexander Hunt/data/test/'
 for file in os.listdir(test_folder):
     if file.endswith('.txt'):
         if file == 'test.txt':
@@ -24,7 +24,7 @@ for file in os.listdir(test_folder):
             print(img_name)
             annot = open(test_folder + file, 'r')
             for line in annot:
-                gt_file.write(img_name + ' ' + line + '\n')
+                gt_file.write(img_name[:-4] + ' ' + line + '\n')
                 count += 1
                 print('Line ' + str(count) + ': ' + line)
                 # print(annotation)    
