@@ -2,7 +2,7 @@ import os
 import decimal
 
 file_weights = 'yolov4_new_data_1.weights'
-# os.system('cd .. && ./darknet/darknet detector valid data-old/obj.data cfg/yolov4.cfg Saved_weights/'+file_weights)
+os.system('cd .. && ./darknet/darknet detector valid data/obj.data cfg/yolov4.cfg Saved_weights/'+file_weights)
 
 p_file = open('predictons.txt', 'w')
 results_folder = '/mnt/c/Users/Alexander Hunt/results/'
