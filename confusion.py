@@ -1,4 +1,4 @@
-import os
+import io
 import numpy as np
 import pybboxes as pbx
 import decimal
@@ -24,7 +24,7 @@ def get_coordonates_from_gt_txt_as_voc(file, path):
         # print(line)
         lin = line.split(' ')
         # print(lin)
-        image = lin[0]
+        image = float(lin[0])
         classes = lin[1]
         cent_x = float(lin[2])
         cent_y = float(lin[3])
@@ -48,7 +48,7 @@ def get_coordonates_from_pt_txt_as_voc(file, path):
         # print(line)
         lin = line.split(' ')
         # print(lin)
-        image = lin[0]
+        image = float(lin[0])
         classes = lin[1]
         cent_x = float(lin[2])
         cent_y = float(lin[3])
@@ -70,15 +70,15 @@ def get_coordonates_from_pt_txt_as_voc(file, path):
             pass
     return yolo_pt
 
-n_labels = 5 # we have 4 labels from 0 to 3
+# n_labels = 5 # we have 4 labels from 0 to 3
 # gt = np.loadtxt('ground_truth.txt', delimiter=' ', usecols=[2, 3])
 # pred_output = np.loadtxt('predicitons.txt', delimiter=' ', usecols=[2, 3])
-gt = get_coordonates_from_gt_txt_as_voc('ground_truth.txt', './')
+# gt = get_coordonates_from_gt_txt_as_voc('ground_truth.txt', './')
 # print(gt)
-pred_output = get_coordonates_from_pt_txt_as_voc('predictons.txt', './')
+# pred_output = get_coordonates_from_pt_txt_as_voc('predictons.txt', './')
 # print(pred_output)
-print(len(gt))
-print(len(pred_output))
+# print(len(gt))
+# print(len(pred_output))
 # confusion_matrix(pred_output, gt, n_labels)
 # print(confusion_matrix(pred_output, gt, n_labels))
 # print(gt)
@@ -139,10 +139,10 @@ def keep_only_overlapping_bboxes(gt, pred_output):
                     pass
     #
 
-keep_only_overlapping_bboxes(gt, pred_output)
-print(len(gt))
-print(len(pred_output))
-# f = open('ground_truth.csv', 'w')
+# keep_only_overlapping_bboxes(gt, pred_output)
+# print(len(gt))
+# print(len(pred_output))
+# # f = open('ground_truth.csv', 'w')
 # for item in gt:
 #     f.write("%s,%s,%s,%s,%s,%s\n" % (item[0], item[1], item[2], item[3], item[4], item[5]))
 # f.close()
@@ -151,63 +151,63 @@ print(len(pred_output))
 #     f.write("%s,%s,%s,%s,%s,%s\n" % (item[0], item[1], item[2], item[3], item[4], item[5]))
 # f.close()
 
-def remove_umnatched_gt(gt, pred_output):
-     for entry in pred_output:
-        for entry2 in gt:
-            if entry[0] == entry2[0]:
-                if overlap((entry[2], entry[3], entry[4], entry[5]), (entry2[2], entry2[3], entry2[4], entry2[5])) is False:
-                    # print('Error: bboxs are not overlapping')
-                    # print(entry)
-                    # print(entry2)
-                    gt.remove(entry2)
-                else:
-                    # print('Bboxs are overlapping')
-                    # print(entry)
-                    # print(entry2)
-                    pass
+# def remove_umnatched_gt(gt, pred_output):
+#      for entry in pred_output:
+#         for entry2 in gt:
+#             if entry[0] == entry2[0]:
+#                 if overlap((entry[2], entry[3], entry[4], entry[5]), (entry2[2], entry2[3], entry2[4], entry2[5])) is False:
+#                     # print('Error: bboxs are not overlapping')
+#                     # print(entry)
+#                     # print(entry2)
+#                     gt.remove(entry2)
+#                 else:
+#                     # print('Bboxs are overlapping')
+#                     # print(entry)
+#                     # print(entry2)
+#                     pass
 
-remove_umnatched_gt(gt, pred_output)
-print(len(gt))
-print(len(pred_output))
+# remove_umnatched_gt(gt, pred_output)
+# print(len(gt))
+# print(len(pred_output))
 
 # test which bboxs are overlapping the most and keep them from teh two lists
-def keep_best_overlapping_bboxes(gt, pred_output):
-    for entry in gt: 
-        box_area_1 = 0
-        entry2_minus_1 = 0
-        for entry2 in pred_output:
-            box_area_2 = 0
-            if entry[0] == entry2[0]:
-                if overlap((entry[2], entry[3], entry[4], entry[5]), (entry2[2], entry2[3], entry2[4], entry2[5])) is False:
-                    pass        
-                else:
-                    overlap_area((entry[2], entry[3], entry[4], entry[5]), (entry2[2], entry2[3], entry2[4], entry2[5]))
-                    box_area_1 = overlap_area((entry[2], entry[3], entry[4], entry[5]), (entry2[2], entry2[3], entry2[4], entry2[5]))
-                    if box_area_1 > box_area_2:
-                        try:
-                            pred_output.remove(entry2_minus_1)
-                        except:
-                            pass
-                        entry2 = entry2_minus_1
-                        box_area_2 = box_area_1
-                    elif box_area_1 == box_area_2:
-                        if entry[1] == entry2[1]:
-                            try:
-                                pred_output.remove(entry2_minus_1)
-                            except:
-                                pass
-                            entry2 = entry2_minus_1
-                            box_area_2 = box_area_1
-                        else:
-                            pred_output.remove(entry2)
-                    elif box_area_1 < box_area_2:
-                        pred_output.remove(entry2)
+# def keep_only_best_overlapping_bboxes(gt, pred_output):
+#     for entry in gt: 
+#         box_area_1 = 0
+#         entry2_minus_1 = 0
+#         for entry2 in pred_output:
+#             box_area_2 = 0
+#             if entry[0] == entry2[0]:
+#                 if overlap((entry[2], entry[3], entry[4], entry[5]), (entry2[2], entry2[3], entry2[4], entry2[5])) is False:
+#                     pass        
+#                 else:
+#                     overlap_area((entry[2], entry[3], entry[4], entry[5]), (entry2[2], entry2[3], entry2[4], entry2[5]))
+#                     box_area_1 = overlap_area((entry[2], entry[3], entry[4], entry[5]), (entry2[2], entry2[3], entry2[4], entry2[5]))
+#                     if box_area_1 > box_area_2:
+#                         try:
+#                             pred_output.remove(entry2_minus_1)
+#                         except:
+#                             pass
+#                         entry2 = entry2_minus_1
+#                         box_area_2 = box_area_1
+#                     elif box_area_1 == box_area_2:
+#                         if entry[1] == entry2[1]:
+#                             try:
+#                                 pred_output.remove(entry2_minus_1)
+#                             except:
+#                                 pass
+#                             entry2 = entry2_minus_1
+#                             box_area_2 = box_area_1
+#                         else:
+#                             pred_output.remove(entry2)
+#                     elif box_area_1 < box_area_2:
+#                         pred_output.remove(entry2)
 
 
-keep_best_overlapping_bboxes(gt, pred_output)
+# keep_only_best_overlapping_bboxes(gt, pred_output)
 
-print(len(gt))
-print(len(pred_output))
+# print(len(gt))
+# print(len(pred_output))
 
 
 # def remove_unmatched_bboxes(gt, pred_output):
@@ -219,6 +219,81 @@ print(len(pred_output))
 #             pred_output.remove(item)
 
         
-# remove_unmatched_bboxes(gt, pred_output)
-print(len(gt))
-print(len(pred_output))
+# # remove_unmatched_bboxes(gt, pred_output)
+# print(len(gt))
+# print(len(pred_output))
+
+
+def letstrythis(gt, pred_output):
+    new_pred_list = []
+    first_run = True
+    for instance in gt:
+        if first_run is True:
+            instance_1 = instance[0]
+            first_run = False
+        else:
+            for pred in pred_output:
+                while instance[0] == instance_1:
+                    compare_areas = []
+                
+                    if instance[0] == pred[0]:
+                        ov_aread = overlap_area((instance[2], instance[3], instance[4], instance[5]), (pred[2], pred[3], pred[4], pred[5]))
+                        compare_areas.append([ov_aread, pred])
+                    compare_areas.sort(key=lambda x: x[0], reverse=True)
+                    item = compare_areas[0]
+                    new_pred_list.append(item[:1])
+    print("Ground truth length:" + len(gt))
+    print("Prediction length:" + len(pred_output))
+    print("New prediction length:" + len(new_pred_list))
+    return new_pred_list
+
+# letstrythis(gt, pred_output)
+
+# compare area of overlapp with bboxs and keep the best one from two lists using first item in list as comparator
+def keep_only_best_overlapping_bboxes(gt, pred_output):
+    compare_areas = []
+    new_pred_list = []
+    for instance in gt:
+        for pred in pred_output:
+            if instance[0] == pred[0]:
+                ov_aread = overlap_area((instance[2], instance[3], instance[4], instance[5]), (pred[2], pred[3], pred[4], pred[5]))
+                compare_areas.append([ov_aread, pred])
+            else:
+                # print(compare_areas)
+                if any(compare_areas) is True:
+                    # print('True')
+                    compare_areas.sort(key=lambda x: x[0], reverse=True)
+                    item = compare_areas[0]
+                    print(item[1:])
+                    new_pred_list.append(item[:1])
+                # compare_areas.sort(key=lambda x: x[0], reverse=True)
+                # item = compare_areas[0]
+                # new_pred_list.append(item[:1])
+                compare_areas.clear()
+    print("Ground truth length:" + str(len(gt)))
+    print("Prediction length:" + str(len(pred_output)))
+    print("New prediction length:" + str(len(new_pred_list)))
+    return pred_output
+
+# keep_only_best_overlapping_bboxes(gt, pred_output)
+
+def make_individual_prediciton_txt(file, path):
+    yolo_pt = []
+    filoo = open(path + file, 'r')
+    for line in filoo:
+        # print(file)
+        # print(line)
+        lin = line.split(' ')
+        # print(lin)
+        image = lin[0]
+        classes = lin[1]
+        cent_x = float(lin[2])
+        cent_y = float(lin[3])
+        width = float(lin[4])
+        height = float(lin[5][:-2])
+        bbox = (cent_x, cent_y, width, height)
+        f = io.open(image + '.txt', 'w')
+        f.write(str(classes) + " " + str(cent_x) + " " + str(cent_y) + " " + str(width) + " " + str(height) +  '\n')
+        f.close()
+
+make_individual_prediciton_txt('predictons.txt', './')
