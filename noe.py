@@ -1,6 +1,6 @@
 # make confusion matrix from ground_truth.txt and prediction.txt
-
-
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -24,8 +24,8 @@ from sklearn.metrics import precision_recall_fscore_support
 
 
 def get_confusion_matrix(ground_truth_file, prediction_file):
-    ground_truth = pd.read_csv(ground_truth_file, sep=' ', header=None)
-    prediction = pd.read_csv(prediction_file, sep=' ', header=None)
+    ground_truth = pd.read_csv(ground_truth_file, sep=',', header=None)
+    prediction = pd.read_csv(prediction_file, sep=',', header=None)
     ground_truth.columns = ['image', 'classes', 'x1', 'y1', 'x2', 'y2']
     prediction.columns = ['image', 'classes', 'x1', 'y1', 'x2', 'y2']
     ground_truth_df = pd.DataFrame(columns=['image', 'classes', 'x1', 'y1', 'x2', 'y2'])
@@ -36,13 +36,13 @@ def get_confusion_matrix(ground_truth_file, prediction_file):
         prediction_df = prediction_df.append(prediction.iloc[i])
     ground_truth_df = ground_truth_df.reset_index(drop=True)
     prediction_df = prediction_df.reset_index(drop=True)
-    confusion_matrix = pd.crosstab(ground_truth_df['classes'], prediction_df['classes'])
-    return confusion_matrix
+    confusionMatrix = pd.crosstab(ground_truth_df['classes'], prediction_df['classes'], rownames=['Actual'], colnames=['Predicted'])
+    return confusionMatrix
 
-
+# make classification report from ground_truth.csv and prediction.csv using sklearn.classification_report
 def get_classification_report(ground_truth_file, prediction_file):
-    ground_truth = pd.read_csv(ground_truth_file, sep=' ', header=None)
-    prediction = pd.read_csv(prediction_file, sep=' ', header=None)
+    ground_truth = pd.read_csv(ground_truth_file, sep=',', header=None)
+    prediction = pd.read_csv(prediction_file, sep=',', header=None)
     ground_truth.columns = ['image', 'classes', 'x1', 'y1', 'x2', 'y2']
     prediction.columns = ['image', 'classes', 'x1', 'y1', 'x2', 'y2']
     ground_truth_df = pd.DataFrame(columns=['image', 'classes', 'x1', 'y1', 'x2', 'y2'])
@@ -53,109 +53,29 @@ def get_classification_report(ground_truth_file, prediction_file):
         prediction_df = prediction_df.append(prediction.iloc[i])
     ground_truth_df = ground_truth_df.reset_index(drop=True)
     prediction_df = prediction_df.reset_index(drop=True)
-    classification_report = classification_report(ground_truth_df['classes'], prediction_df['classes'])
-    return classification_report
+    classificationReport = classification_report(ground_truth_df['classes'], prediction_df['classes'])
+    return classificationReport
 
-
-def get_accuracy_score(ground_truth_file, prediction_file):
-    ground_truth = pd.read_csv(ground_truth_file, sep=' ', header=None)
-    prediction = pd.read_csv(prediction_file, sep=' ', header=None)
-    ground_truth.columns = ['image', 'classes', 'x1', 'y1', 'x2', 'y2']
-    prediction.columns = ['image', 'classes', 'x1', 'y1', 'x2', 'y2']
-    ground_truth_df = pd.DataFrame(columns=['image', 'classes', 'x1', 'y1', 'x2', 'y2'])
-    prediction_df = pd.DataFrame(columns=['image', 'classes', 'x1', 'y1', 'x2', 'y2'])
-    for i in range(len(ground_truth)):
-        ground_truth_df = ground_truth_df.append(ground_truth.iloc[i])
-    for i in range(len(prediction)):
-        prediction_df = prediction_df.append(prediction.iloc[i])
-    ground_truth_df = ground_truth_df.reset_index(drop=True)
-    prediction_df = prediction_df.reset_index(drop=True)
-    accuracy_score = accuracy_score(ground_truth_df['classes'], prediction_df['classes'])
-    return accuracy_score
-
-
-def get_precision_score(ground_truth_file, prediction_file):
-    ground_truth = pd.read_csv(ground_truth_file, sep=' ', header=None)
-    prediction = pd.read_csv(prediction_file, sep=' ', header=None)
-    ground_truth.columns = ['image', 'classes', 'x1', 'y1', 'x2', 'y2']
-    prediction.columns = ['image', 'classes', 'x1', 'y1', 'x2', 'y2']
-    ground_truth_df = pd.DataFrame(columns=['image', 'classes', 'x1', 'y1', 'x2', 'y2'])
-    prediction_df = pd.DataFrame(columns=['image', 'classes', 'x1', 'y1', 'x2', 'y2'])
-    for i in range(len(ground_truth)):
-        ground_truth_df = ground_truth_df.append(ground_truth.iloc[i])
-    for i in range(len(prediction)):
-        prediction_df = prediction_df.append(prediction.iloc[i])
-    ground_truth_df = ground_truth_df.reset_index(drop=True)
-    prediction_df = prediction_df.reset_index(drop=True)
-    precision_score = precision_score(ground_truth_df['classes'], prediction_df['classes'])
-    return precision_score
-
-
-def get_recall_score(ground_truth_file, prediction_file):
-    ground_truth = pd.read_csv(ground_truth_file, sep=' ', header=None)
-    prediction = pd.read_csv(prediction_file, sep=' ', header=None)
-    ground_truth.columns = ['image', 'classes', 'x1', 'y1', 'x2', 'y2']
-    prediction.columns = ['image', 'classes', 'x1', 'y1', 'x2', 'y2']
-    ground_truth_df = pd.DataFrame(columns=['image', 'classes', 'x1', 'y1', 'x2', 'y2'])
-    prediction_df = pd.DataFrame(columns=['image', 'classes', 'x1', 'y1', 'x2', 'y2'])
-    for i in range(len(ground_truth)):
-        ground_truth_df = ground_truth_df.append(ground_truth.iloc[i])
-    for i in range(len(prediction)):
-        prediction_df = prediction_df.append(prediction.iloc[i])
-    ground_truth_df = ground_truth_df.reset_index(drop=True)
-    prediction_df = prediction_df.reset_index(drop=True)
-    recall_score = recall_score(ground_truth_df['classes'], prediction_df['classes'])
-    return recall_score
-
-
+# f1 score from ground_truth.csv and prediction.csv using sklearn.f1_score
 def get_f1_score(ground_truth_file, prediction_file):
-    ground_truth = pd.read_csv(ground_truth_file, sep=' ', header=None)
-    prediction = pd.read_csv(prediction_file, sep=' ', header=None)
+    ground_truth = pd.read_csv(ground_truth_file, sep=',', header=None)
+    prediction = pd.read_csv(prediction_file, sep=',', header=None)
     ground_truth.columns = ['image', 'classes', 'x1', 'y1', 'x2', 'y2']
     prediction.columns = ['image', 'classes', 'x1', 'y1', 'x2', 'y2']
     ground_truth_df = pd.DataFrame(columns=['image', 'classes', 'x1', 'y1', 'x2', 'y2'])
-    prediction_df = pd.DataFrame(columns=['image', 'classes', 'x1', 'y1', 'x2', 'y2'])
+    prediction_df = pd.DataFrame(columns=['image', 'classes', 'x1', 'y1', 'x2', 'y2'])            
     for i in range(len(ground_truth)):
         ground_truth_df = ground_truth_df.append(ground_truth.iloc[i])
     for i in range(len(prediction)):
         prediction_df = prediction_df.append(prediction.iloc[i])
     ground_truth_df = ground_truth_df.reset_index(drop=True)
     prediction_df = prediction_df.reset_index(drop=True)
-    f1_score = f1_score(ground_truth_df['classes'], prediction_df['classes'])
-    return f1_score
+    f1Score = f1_score(ground_truth_df['classes'], prediction_df['classes'], average='weighted')
+    return f1Score
 
-
-def get_roc_auc_score(ground_truth_file, prediction_file):
-    ground_truth = pd.read_csv(ground_truth_file, sep=' ', header=None)
-    prediction = pd.read_csv(prediction_file, sep=' ', header=None)
-    ground_truth.columns = ['image', 'classes', 'x1', 'y1', 'x2', 'y2']
-    prediction.columns = ['image', 'classes', 'x1', 'y1', 'x2', 'y2']
-    ground_truth_df = pd.DataFrame(columns=['image', 'classes', 'x1', 'y1', 'x2', 'y2'])
-    prediction_df = pd.DataFrame(columns=['image', 'classes', 'x1', 'y1', 'x2', 'y2'])
-    for i in range(len(ground_truth)):
-        ground_truth_df = ground_truth_df.append(ground_truth.iloc[i])
-    for i in range(len(prediction)):
-        prediction_df = prediction_df.append(prediction.iloc[i])
-    ground_truth_df = ground_truth_df.reset_index(drop=True)
-    prediction_df = prediction_df.reset_index(drop=True)
-    roc_auc_score = roc_auc_score(ground_truth_df['classes'], prediction_df['classes'])
-    return roc_auc_score
-
-
-def get_pr_auc_score(ground_truth_file, prediction_file):
-    ground_truth = pd.read_csv(ground_truth_file, sep=' ', header=None)
-    prediction = pd.read_csv(prediction_file, sep=' ', header=None)
-    ground_truth.columns = ['image', 'classes', 'x1', 'y1', 'x2', 'y2']
-    prediction.columns = ['image', 'classes', 'x1', 'y1', 'x2', 'y2']
-    ground_truth_df = pd.DataFrame(columns=['image', 'classes', 'x1', 'y1', 'x2', 'y2'])
-    prediction_df = pd.DataFrame(columns=['image', 'classes', 'x1', 'y1', 'x2', 'y2'])
-    for i in range(len(ground_truth)):
-        ground_truth_df = ground_truth_df.append(ground_truth.iloc[i])
-    for i in range(len(prediction)):
-        prediction_df = prediction_df.append(prediction.iloc[i])
-    ground_truth_df = ground_truth_df.reset_index(drop=True)
-    prediction_df = prediction_df.reset_index(drop=True)
-    pr_auc_score = pr_auc_score(ground_truth_df['classes'], prediction_df['classes'])
-    return pr_auc_score
-
-get_confusion_matrix('ground_truth.txt', 'predictons.txt')
+print("Confusion Matrix:")
+print(get_confusion_matrix('ground_truth.csv', 'predictions.csv'))
+print("Classification report:")
+print(get_classification_report('ground_truth.csv', 'predictions.csv'))
+# print("F1 score:")
+# print(get_f1_score('ground_truth.csv', 'predictions.csv'))

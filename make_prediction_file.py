@@ -2,7 +2,7 @@ import os
 import decimal
 
 file_weights = 'yolov4_new_data_1.weights'
-os.system('cd .. && ./darknet/darknet detector valid data/obj.data cfg/yolov4.cfg Saved_weights/'+file_weights)
+# os.system('cd .. && ./darknet/darknet detector valid data-old/obj.data cfg/yolov4.cfg Saved_weights/'+file_weights)
 
 p_file = open('predictons.txt', 'w')
 results_folder = '/mnt/c/Users/Alexander Hunt/results/'
@@ -10,13 +10,14 @@ for file in os.listdir(results_folder):
     if file.endswith('.txt'):
         count = 0
         filoo = open(results_folder + file, 'r')
-        if "OTH" in file:
+        if "OTR" in file:
                 classes = 0
                 for line in filoo:
-                        print(file)
-                        print(line)
+                        print("OTR")
+                        # print(file)
+                        # print(line)
                         lin = line.split(' ')
-                        print(lin)
+                        # print(lin)
                         image = lin[0]
                         confidence = str(lin[1])
                         x1 = decimal.Decimal(lin[2])
@@ -34,10 +35,11 @@ for file in os.listdir(results_folder):
         elif "PLT" in file:
                 classes = 1
                 for line in filoo:
-                        print(file)
-                        print(line)
+                        print("PLT")
+                        # print(file)
+                        # print(line)
                         lin = line.split(' ')
-                        print(lin)
+                        # print(lin)
                         image = lin[0]
                         confidence = decimal.Decimal(lin[1])
                         x1 = decimal.Decimal(lin[2])
@@ -55,10 +57,11 @@ for file in os.listdir(results_folder):
         elif "RBC.txt" in file:
                 classes = 2
                 for line in filoo:
-                        print(file)
-                        print(line)
+                        print("RBC")
+                        # print(file)
+                        # print(line)
                         lin = line.split(' ')
-                        print(lin)
+                        # print(lin)
                         image = lin[0]
                         confidence = str(lin[1])
                         x1 = decimal.Decimal(lin[2])
@@ -76,10 +79,11 @@ for file in os.listdir(results_folder):
         elif "RBC_overlap" in file:
                 classes = 3
                 for line in filoo:
-                        print(file)
-                        print(line)
+                        print("RBC_overlap")
+                        # print(file)
+                        # print(line)
                         lin = line.split(' ')
-                        print(lin)
+                        # print(lin)
                         image = lin[0]
                         confidence = str(lin[1])
                         x1 = decimal.Decimal(lin[2])
@@ -97,10 +101,11 @@ for file in os.listdir(results_folder):
         elif "RBC_sidew" in file:
                 classes = 4
                 for line in filoo:
-                        print(file)
-                        print(line)
+                        print("RBC_sidew")
+                        # print(file)
+                        # print(line)
                         lin = line.split(' ')
-                        print(lin)
+                        # print(lin)
                         image = lin[0]
                         confidence = str(lin[1])
                         x1 = decimal.Decimal(lin[2])
