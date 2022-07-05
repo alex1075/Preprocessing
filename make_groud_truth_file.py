@@ -13,7 +13,7 @@ def remove_empty_lines(filename):
         filehandle.writelines(lines) 
 
 gt_file = open('ground_truth.txt', 'w')
-test_folder = '/mnt/c/Users/Alexander Hunt/data-old/test/'
+test_folder = 'mini_valdi/'
 for file in os.listdir(test_folder):
     if file.endswith('.txt'):
         if file == 'test.txt':
