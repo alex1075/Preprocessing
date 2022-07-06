@@ -1,16 +1,7 @@
 import os
 import numpy as np 
 
-def remove_empty_lines(filename):
-    if not os.path.isfile(filename):
-        print("{} does not exist ".format(filename))
-        return
-    with open(filename) as filehandle:
-        lines = filehandle.readlines()
 
-    with open(filename, 'w') as filehandle:
-        lines = filter(lambda x: x.strip(), lines)
-        filehandle.writelines(lines) 
 
 gt_file = open('ground_truth.txt', 'w')
 test_folder = 'mini_valdi/'

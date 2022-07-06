@@ -121,3 +121,44 @@ def change_annotation(i, j, x, y, height, width, path, image, save_name, save_pa
                     pass
         else:
             pass
+    
+def remove_empty_lines(filename):
+    if not os.path.isfile(filename):
+        print("{} does not exist ".format(filename))
+        return
+    with open(filename) as filehandle:
+        lines = filehandle.readlines()
+    with open(filename, 'w') as filehandle:
+        lines = filter(lambda x: x.strip(), lines)
+        filehandle.writelines(lines) 
+
+def make_ground_truth_file(path, gtfile):
+    gt_file = open(gtfile, 'w')
+    for file in os.listdir(path):
+        if file.endswith('.txt'):
+            if file == 'test.txt':
+                pass
+            elif file == 'train.txt':
+                pass
+            elif file == 'valid.txt':
+                pass
+            else:
+                img_name = file[:-4] + '.jpg'
+                count = 0
+                print(img_name)
+                annot = open(test_folder + file, 'r')
+                for line in annot:
+                    gt_file.write(img_name[:-4] + ' ' + line + '\n')
+                    count += 1
+                    print('Line ' + str(count) + ': ' + line)
+                    # print(annotation)    
+                annot.close()
+    remove_empty_lines(gtfile)
+    gt_file.close()
+
+def save_arrya_to_csv(array, path, file):
+    f = open(file, 'w')
+    for item in array:
+        print(item)
+        f.write("%s,%s,%s,%s,%s,%s\n" % (item[0], item[1], item[2], item[3], item[4], item[5]))
+    f.close()
