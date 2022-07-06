@@ -5,6 +5,9 @@ import numpy as np
 import random
 import shutil
 import decimal
+import socket
+import tqdm
+
 
 #Grabs biggest dimension and scales the photo so that max dim is now 1280
 def resizeTo(image, newhigh=1280, newwid=1280, inter=cv2.INTER_AREA):
@@ -162,3 +165,35 @@ def save_arrya_to_csv(array, path, file):
         print(item)
         f.write("%s,%s,%s,%s,%s,%s\n" % (item[0], item[1], item[2], item[3], item[4], item[5]))
     f.close()
+
+def send_file(path, file, server, port):
+    """
+    Send a file to a server.
+    """
+    # get the file size
+    filesize = os.path.getsize(path)
+    # create the client socket
+    s = socket.socket()
+    print(f"[+] Connecting to {server}:{port}")
+    
+    # connect to the server
+    s.connect((server, port))
+    print("[+] Connected.")
+    # send the filename and filesize
+    # start sending the file
+    progress = tqdm.tqdm(range(filesize), f"Sending {filename}", unit="B", unit_scale=True, unit_divisor=1024)
+    with open(filename, "rb") as f:
+        while True:
+            # read the bytes from the file
+            bytes_read = f.read(BUFFER_SIZE)
+            if not bytes_read:
+                # file transmitting is done
+                break
+            # we use sendall to assure transimission in 
+            # busy networks
+            s.sendall(bytes_read)
+            # update the progress bar
+            progress.update(len(bytes_read))
+    # close the socket
+    s.close()
+    print(f"[+] File {file} sent to {server}:{port}")
