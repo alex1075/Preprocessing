@@ -75,7 +75,7 @@ def get_f1_score(ground_truth_file, prediction_file):
 
 print("Confusion Matrix:")
 print(get_confusion_matrix('ground_truth.csv', 'predictions.csv'))
-print("Classification report:")
-print(get_classification_report('ground_truth.csv', 'predictions.csv'))
+# print("Classification report:")
+# print(f1_score('ground_truth.csv', 'predictions.csv'))
 # print("F1 score:")
 # print(get_f1_score('ground_truth.csv', 'predictions.csv'))
