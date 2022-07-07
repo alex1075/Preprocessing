@@ -27,9 +27,9 @@ def convert(path_to_folder='/Volumes/PhD/PhD/Data/'):
             os.remove(path_to_folder + infile)
         elif infile[-3:] == "png":
             print ("is png")
-            outfile = infile[:-4] + "jpg"
+            outfile = infile[:-3] + "jpg"
             img = cv2.imread(path_to_folder + infile)
-            cv2.imwrite(path_to_folder + outfile +'jpeg', img)
+            cv2.imwrite(path_to_folder + outfile, img)
             os.remove(path_to_folder + infile)
         elif infile[-3:] == "jpg" or infile[-3:] == "jpeg":
             print ("is jpg, no change")
@@ -179,7 +179,10 @@ def iterateBlurMove(path_to_folder='/Volumes/PHD/', outfolder='/Volumes/PHD/sort
 def selectIMG(path_to_folder='/Volumes/PHD/sorted/', outfolder='/Volumes/PHD/sorted/', number=200):
     randomSelect(path_to_folder, outfolder, number)
 
-def chopUpDataset(path_to_folder='/Users/alexanderhunt/Preprocessing/test_dataset/', outfolder='/Users/alexanderhunt/Preprocessing/output/', x=416, y=416):
-    crop_images(x, y, path_to_folder, outfolder)
-    remove_non_annotated(outfolder)
+def chopUpDataset(path_to_folder='/Users/alexanderhunt/Preprocessing/test_dataset/', outfolder='/Users/alexanderhunt/Preprocessing/output/', x=416, y=416, annotations=True):
+    crop_images(x, y, path_to_folder, outfolder, annotations)
+    if annotations == True:
+        remove_non_annotated(outfolder)
+    else:
+        pass
     checkAllImg(outfolder, x, y)

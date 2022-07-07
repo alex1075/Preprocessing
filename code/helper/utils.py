@@ -171,7 +171,7 @@ def send_file(path, file, server, port):
     Send a file to a server.
     """
     # get the file size
-    filesize = os.path.getsize(path)
+    filesize = os.path.getsize(path + file)
     # create the client socket
     s = socket.socket()
     print(f"[+] Connecting to {server}:{port}")
