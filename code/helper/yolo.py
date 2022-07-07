@@ -2,6 +2,7 @@ import os
 import tqdm
 from multiprocessing import Process
 
+cwd = os.getcwd()
 
 #         self.results_folder = '/mnt/c/Users/Alexander Hunt/results/'
 #         self.result_OTH = '/mnt/C/Users/Alexander Hunt/results/comp4_det_test_OTR.txt'
@@ -19,7 +20,7 @@ def yolo_train(weights_file='cfg/yolov4.conv.137', config_file='cfg/yolov4.cfg',
         args = ' --map'
     else:
         pass
-    cfg = open(config_file, 'r')
+    cfg = open(cwd + config_file, 'r')
     for line in cfg:
         if 'max_batches' in line:
             lin = line.split(' = ')
