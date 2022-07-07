@@ -1,9 +1,10 @@
 import os
 import decimal
+import tempfile
 
 def modify_OTH_to_PLT_txt(file, path): 
-    filoo = open(path + file, 'r+')
-    lnb = 0
+    filoo = open(path + file, 'r')
+    filetmp = tempfile.TemporaryFile()
     for line in filoo:
         lin = line.split(' ')
         classes = str(lin[0])
@@ -14,15 +15,18 @@ def modify_OTH_to_PLT_txt(file, path):
         if classes == '0':
             print('Changed OTH to PLT')
             classic = str('1')
-            # delete current line from file
-            filoo.seek(lnb)
-            filoo.truncate()
             # write new line
             # sys.stdout.write(lnb)
-            filoo.write(classic + ' ' + str(x1) + ' ' + str(y1) + ' ' + str(x2) + ' ' + str(y2)+ '\n')
+            filetmp.write(classic + ' ' + str(x1) + ' ' + str(y1) + ' ' + str(x2) + ' ' + str(y2)+ '\n')
         elif classes != '0':
             print('No change')
+            filetmp.write(classes + ' ' + str(x1) + ' ' + str(y1) + ' ' + str(x2) + ' ' + str(y2)+ '\n')
             pass
+    filoo.close()
+    filoo = open(path + file, 'w')
+    for line in filetmp:
+        filoo.write(line)
+    filetmp.close()
     filoo.close()
 
 
