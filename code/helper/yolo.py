@@ -1,8 +1,8 @@
 import os
 import tqdm
-from multiprocessing import Process
+import subprocess
 
-cwd = os.getcwd()
+cwd = os.getcwd() + '/'
 
 #         self.results_folder = '/mnt/c/Users/Alexander Hunt/results/'
 #         self.result_OTH = '/mnt/C/Users/Alexander Hunt/results/comp4_det_test_OTR.txt'
@@ -26,7 +26,7 @@ def yolo_train(weights_file='cfg/yolov4.conv.137', config_file='cfg/yolov4.cfg',
             lin = line.split(' = ')
             max_batches = int(lin[1])
     step = 0
-    output = os.system('cd .. && ./darknet/darknet detector train ' + data_file + ' ' + config_file + ' ' + weights_file + args)
+    output = subprocess.check_output( cwd + 'darknet/darknet detector train ' + cwd + data_file + ' ' + cwd + config_file + ' ' + cwd + weights_file + args)
     progress = tqdm.tqdm(range(max_batches), f"Training, currently on step {step} of {max_batches}", unit="B", unit_scale=True, unit_divisor=1024)
     for line in output:
         if line[1:].isnumeric() == True:
