@@ -119,16 +119,11 @@ def imgSizeCheck(image, path, x, y):
         # pass
 
 # crop images in chunks of size (x,y) and adapt annotations
-<<<<<<< HEAD
-def crop_images(x, y, path, save_path):
-    shutil.copy(path + "classes.txt", save_path)
-=======
 def crop_images(x, y, path, save_path, annotations=True):
     if annotations == True:
         shutil.copy(path + "classes.txt", save_path)
     else:
         pass
->>>>>>> 4b5b89feece59f47395b6c9e3b56a1948a26ea49
     # get all images in path
     images = os.listdir(path)
     # print(images)
@@ -149,14 +144,10 @@ def crop_images(x, y, path, save_path, annotations=True):
                     # save image
                     cv2.imwrite(save_path + new_name + ".jpg", crop_img)
                     # adapt annotation
-<<<<<<< HEAD
-                    change_annotation(i, j, x, y, height, width, path, image, new_name, save_path)
-=======
                     if annotations == True:
                         change_annotation(i, j, x, y, height, width, path, image, new_name, save_path)
                     else:
                         pass
->>>>>>> 4b5b89feece59f47395b6c9e3b56a1948a26ea49
                 img = cv2.imread(path + image)
                 # print(img)
             # get image dimensions
@@ -177,3 +168,30 @@ def checkAllImg(path, x, y):
     for image in images:
         if image.endswith(".jpg"):
             imgSizeCheck(image, path, x, y)
+
+def del_top_n_bottom_parts(path, save_path, annotations=True):
+    if annotations == True:
+        try:
+            shutil.copy(path + "classes.txt", save_path)
+        except:
+            pass
+    else:
+        pass
+    # get all images in path
+    images = os.listdir(path)
+    # print(images)
+        # loop over images
+    for image in images:
+        # read image
+        if image.endswith("_416_0.jpg"):
+            pass
+        elif image.endswith("_1664_2912.jpg"):
+            pass
+        else:
+            if image.endswith(".jpg"):
+                shutil.move(path + image, save_path)
+                if annotations == True:
+                    try:
+                        shutil.move(path + image[:-4] + ".txt", save_path)
+                    except:
+                        pass
