@@ -7,3 +7,8 @@ id_rsa*
 .DS_Store
 nohup.ou
 output/*
+data/
+ground_truth*
+predictions*
+test_*
+result.txt
