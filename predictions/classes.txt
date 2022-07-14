@@ -1,5 +1,0 @@
-OTR
-PLT
-RBC
-RBC_overlap
-RBC_sidew
