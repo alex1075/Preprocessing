@@ -149,7 +149,7 @@ def make_ground_truth_file(path, gtfile):
                 img_name = file[:-4] + '.jpg'
                 count = 0
                 print(img_name)
-                annot = open(test_folder + file, 'r')
+                annot = open(path + file, 'r')
                 for line in annot:
                     gt_file.write(img_name[:-4] + ' ' + line + '\n')
                     count += 1
