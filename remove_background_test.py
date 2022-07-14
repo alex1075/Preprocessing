@@ -1,38 +1,15 @@
 import cv2
 import numpy as np
+from code.helper.imageTools import increase_brightness
 
 # Read image
-img = cv2.imread('predictions/test_1_416_416bd0627650bc1953369b0e2bf0703fd55.jpg')
-hh, ww = img.shape[:2]
+img = cv2.imread('data/test_1_416_0.jpg')
+bacground = increase_brightness(cv2.imread('backgrounds/background_416_416.jpg'), 1000)
+# revome background from img
+img = cv2.absdiff(img, bacground)
+# convert to uint8
 
-# threshold on white
-# Define lower and uppper limits
-lower = np.array([200, 200, 200])
-upper = np.array([255, 255, 255])
-
-# Create mask to only select black
-thresh = cv2.inRange(img, lower, upper)
-
-# apply morphology
-kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (20,20))
-morph = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, kernel)
-
-# invert morp image
-mask = 255 - morph
-
-# apply mask to image
-result = cv2.bitwise_and(img, img, mask=mask)
-
-
-# save results
-cv2.imwrite('test_thresh.jpg', thresh)
-cv2.imwrite('test_morph.jpg', morph)
-cv2.imwrite('test_mask.jpg', mask)
-cv2.imwrite('test_result.jpg', result)
-
-# cv2.imshow('thresh', thresh)
-# cv2.imshow('morph', morph)
-# cv2.imshow('mask', mask)
-# cv2.imshow('result', result)
-# cv2.waitKey(0)
-# cv2.destroyAllWindows()
+# save image
+# cv2.imwrite('predictions/test_1_416_416bd0627650bc1953369b0e2bf0703fd55.jpg', img)
+cv2.imshow('img', img)
+cv2.waitKey(0)

@@ -183,15 +183,26 @@ def del_top_n_bottom_parts(path, save_path, annotations=True):
         # loop over images
     for image in images:
         # read image
-        if image.endswith("_416_0.jpg"):
+        if image.__contains__("_0_" + ".jpg"):
             pass
-        elif image.endswith("_1664_2912.jpg"):
+        elif image.__contains__("_1664_" + ".jpg"):
             pass
-        else:
-            if image.endswith(".jpg"):
+        elif image.endswith(".jpg"):
                 shutil.move(path + image, save_path)
                 if annotations == True:
                     try:
                         shutil.move(path + image[:-4] + ".txt", save_path)
                     except:
                         pass
+
+def increase_brightness(img, value=30):
+    hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    h, s, v = cv2.split(hsv)
+
+    lim = 255 - value
+    v[v > lim] = 255
+    v[v <= lim] += value
+
+    final_hsv = cv2.merge((h, s, v))
+    img = cv2.cvtColor(final_hsv, cv2.COLOR_HSV2BGR)
+    return img

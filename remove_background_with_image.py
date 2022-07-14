@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+from code.helper.imageTools import increase_brightness
 
 # remove backgroun of image using image of background
 def background_removal_with_img(original_img, bacground_img):
@@ -9,6 +10,6 @@ def background_removal_with_img(original_img, bacground_img):
     img = cv2.subtract(img, background)
     return img
 
-img = background_removal_with_img('mini_valdi/test_1_416_416bd0627650bc1953369b0e2bf0703fd55.jpg', 'backgrounds/Image__2022-07-07__09-45-20_0_1248.jpg')
+img = background_removal_with_img('data/test_1_416_0.jpg', 'backgrounds/background_416_416.jpg')
 cv2.imwrite('test_background_removed.jpg', img)
     

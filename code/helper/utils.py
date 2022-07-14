@@ -5,12 +5,9 @@ import numpy as np
 import random
 import shutil
 import decimal
-<<<<<<< HEAD
-=======
 import socket
 import tqdm
 
->>>>>>> 4b5b89feece59f47395b6c9e3b56a1948a26ea49
 
 #Grabs biggest dimension and scales the photo so that max dim is now 1280
 def resizeTo(image, newhigh=1280, newwid=1280, inter=cv2.INTER_AREA):
@@ -167,9 +164,6 @@ def save_arrya_to_csv(array, path, file):
     for item in array:
         print(item)
         f.write("%s,%s,%s,%s,%s,%s\n" % (item[0], item[1], item[2], item[3], item[4], item[5]))
-<<<<<<< HEAD
-    f.close()
-=======
     f.close()
 
 def send_file(path, file, server, port):
@@ -178,6 +172,9 @@ def send_file(path, file, server, port):
     """
     # get the file size
     filesize = os.path.getsize(path + file)
+    filename = file
+    SEPARATOR = "<SEPARATOR>"
+    BUFFER_SIZE = 4096 # send 4096 bytes each time step
     # create the client socket
     s = socket.socket()
     print(f"[+] Connecting to {server}:{port}")
@@ -203,4 +200,3 @@ def send_file(path, file, server, port):
     # close the socket
     s.close()
     print(f"[+] File {file} sent to {server}:{port}")
->>>>>>> 4b5b89feece59f47395b6c9e3b56a1948a26ea49
