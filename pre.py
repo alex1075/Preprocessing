@@ -5,44 +5,44 @@ import glob
 # dirs = os.listdir("/darknet/data/train/")
 
 
-def train_prep(file="/mnt/c/Users/Alexander Hunt/data/train/train.txt", dir="/mnt/c/Users/Alexander Hunt/data/train/"):
-    filoo = open(file, 'w')
+def train_prep(file="train.txt", path="/mnt/c/Users/Alexander Hunt/data/train/"):
+    filoo = open(path + file, 'w')
     for image in os.listdir(dir):
         if image.endswith(".jpg"):
             print(image)
-            filoo.write("/mnt/c/Users/Alexander Hunt/data/train/" + image + "\n")
+            filoo.write(path + image + "\n")
     filoo.close()
 
-def test_prep(file="/mnt/c/Users/Alexander Hunt/data/test/test.txt", dir="/mnt/c/Users/Alexander Hunt/data/test/"):
-    filoo = open(file, 'w')
+def test_prep(file="test.txt", path="/mnt/c/Users/Alexander Hunt/data/test/"):
+    filoo = open(path + file, 'w')
     for image in os.listdir(dir):
         if image.endswith(".jpg"):
             print(image)
-            filoo.write("/mnt/c/Users/Alexander Hunt/data/test/" + image + "\n")
+            filoo.write(path + image + "\n")
     filoo.close()
 
-def val_prep(file="/mnt/c/Users/Alexander Hunt/data/valid/valid.txt", dir="/mnt/c/Users/Alexander Hunt/data/valid/"):
-    filoo = open(file, 'w')
+def val_prep(file="valid.txt", path="/mnt/c/Users/Alexander Hunt/data/valid/"):
+    filoo = open(path + file, 'w')
     for image in os.listdir(dir):
         if image.endswith(".jpg"):
             print(image)
-            filoo.write("/mnt/c/Users/Alexander Hunt/data/valid/" + image + "\n")
+            filoo.write(paht + image + "\n")
     filoo.close()
 
-def more_prep(file="mini_valdi/valid.txt", dir="mini_valdi/"):
-    filoo = open(file, 'w')
-    for image in os.listdir(dir):
-        if image.endswith(".jpg"):
-            print(image)
-            filoo.write("mini_valdi/" + image + "\n")
-    filoo.close()
+# def more_prep(file="mini_valdi/valid.txt", dir="mini_valdi/"):
+#     filoo = open(file, 'w')
+#     for image in os.listdir(dir):
+#         if image.endswith(".jpg"):
+#             print(image)
+#             filoo.write("mini_valdi/" + image + "\n")
+#     filoo.close()
 
 
 def allDaPrep():
-    train_prep()
-    test_prep()
-    val_prep()
+    train_prep('train.txt', '/mnt/c/Users/Alexander Hunt/Preprocessing/data_2/train')
+    test_prep('test.txt', '/mnt/c/Users/Alexander Hunt/Preprocessing/data_2/test')
+    # val_prep()
 
 if __name__ == "__main__":
     # allDaPrep()
-    more_prep()
+    allDaPrep()
