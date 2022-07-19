@@ -187,3 +187,14 @@ def increase_brightness(img, value=30):
     final_hsv = cv2.merge((h, s, v))
     img = cv2.cvtColor(final_hsv, cv2.COLOR_HSV2BGR)
     return img
+
+# remove backgroun of image using image of background
+def background_removal_with_alpha(original_img, bacground_img, alpha=0.5):
+    img = cv2.imread(original_img)
+    background = cv2.imread(bacground_img)
+    img = img.astype('f')
+    background = background.astype('f')
+    out = (alpha * ( img -  background ) + 128).clip(0, 255)
+    out = np.around(out, decimals=0)
+    out = out.astype(np.uint8)
+    return out
