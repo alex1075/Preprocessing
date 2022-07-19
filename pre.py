@@ -39,8 +39,8 @@ def val_prep(file="valid.txt", path="/mnt/c/Users/Alexander Hunt/data/valid/"):
 
 
 def allDaPrep():
-    train_prep('train.txt', '/mnt/c/Users/Alexander Hunt/Preprocessing/data_2/train')
-    test_prep('test.txt', '/mnt/c/Users/Alexander Hunt/Preprocessing/data_2/test')
+    train_prep('train.txt', '/mnt/c/Users/Alexander Hunt/Preprocessing/data_2/train/')
+    test_prep('test.txt', '/mnt/c/Users/Alexander Hunt/Preprocessing/data_2/test/')
     # val_prep()
 
 if __name__ == "__main__":
