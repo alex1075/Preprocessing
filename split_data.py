@@ -3,7 +3,7 @@ import tqdm
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-PATH = './data_2/'
+PATH = './output/'
 
 def split_img_label(data_train,data_test,folder_train,folder_test):
     

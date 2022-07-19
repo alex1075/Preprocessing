@@ -170,30 +170,11 @@ def checkAllImg(path, x, y):
             imgSizeCheck(image, path, x, y)
 
 def del_top_n_bottom_parts(path, save_path, annotations=True):
-    if annotations == True:
-        try:
-            shutil.copy(path + "classes.txt", save_path)
-        except:
-            pass
+    if annotations==True:
+        os.system('cd' + path + ' && rm *_1248_*.txt *_1664_*.txt *_0_*.txt *_0_*.jpg *_1248_*.jpg *_1664_*.jpg')
     else:
-        pass
-    # get all images in path
-    images = os.listdir(path)
-    # print(images)
-        # loop over images
-    for image in images:
-        # read image
-        if image.__contains__("_0_" + ".jpg"):
-            pass
-        elif image.__contains__("_1664_" + ".jpg"):
-            pass
-        elif image.endswith(".jpg"):
-                shutil.move(path + image, save_path)
-                if annotations == True:
-                    try:
-                        shutil.move(path + image[:-4] + ".txt", save_path)
-                    except:
-                        pass
+        os.system('cd' + path + ' && rm *_0_*.jpg *_1248_*.jpg *_1664_*.jpg')
+
 
 def increase_brightness(img, value=30):
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
