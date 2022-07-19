@@ -10,5 +10,5 @@ output/*
 
 ground_truth*
 predictions*
-test_*
+
 result.txt
