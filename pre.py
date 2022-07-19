@@ -7,7 +7,7 @@ import glob
 
 def train_prep(file="train.txt", path="/mnt/c/Users/Alexander Hunt/data/train/"):
     filoo = open(path + file, 'w')
-    for image in os.listdir(dir):
+    for image in os.listdir(path):
         if image.endswith(".jpg"):
             print(image)
             filoo.write(path + image + "\n")
@@ -15,7 +15,7 @@ def train_prep(file="train.txt", path="/mnt/c/Users/Alexander Hunt/data/train/")
 
 def test_prep(file="test.txt", path="/mnt/c/Users/Alexander Hunt/data/test/"):
     filoo = open(path + file, 'w')
-    for image in os.listdir(dir):
+    for image in os.listdir(path):
         if image.endswith(".jpg"):
             print(image)
             filoo.write(path + image + "\n")
@@ -23,7 +23,7 @@ def test_prep(file="test.txt", path="/mnt/c/Users/Alexander Hunt/data/test/"):
 
 def val_prep(file="valid.txt", path="/mnt/c/Users/Alexander Hunt/data/valid/"):
     filoo = open(path + file, 'w')
-    for image in os.listdir(dir):
+    for image in os.listdir(path):
         if image.endswith(".jpg"):
             print(image)
             filoo.write(paht + image + "\n")
