@@ -51,4 +51,4 @@ df=pd.DataFrame(path_img)
 data_train, data_test, labels_train, labels_test = train_test_split(df[0], df.index, test_size=0.20, random_state=42)
 
 # Function split 
-split_img_label(data_train,data_test,'data_2/train/','data_2/test/')
+split_img_label(data_train,data_test,'data_3/train/','data_3/test/')
