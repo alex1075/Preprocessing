@@ -6,6 +6,9 @@ from imutils import paths
 from code.helper.utils import *
 from code.helper.imageTools import *
 import shutil
+import pandas as pd
+from sklearn.model_selection import train_test_split
+
 
 def convert(path_to_folder='/Volumes/PhD/PhD/Data/'):
     for infile in os.listdir(path_to_folder):
@@ -214,3 +217,18 @@ def batchBackgroundRemove(path_to_folder='output/', background_folder='backgroun
     classes_file = [x for x in list_txt if x=='classes.txt']
     classes = str(classes_file[0])
     os.system('cp ' + path_to_folder + classes + ' ' + outfolder + classes)
+
+
+def splitDataset(path_to_folder, outfolder):
+    list_img=[img for img in os.listdir(path_to_folder) if img.endswith('.jpg')==True]
+    list_txt=[img for img in os.listdir(path_to_folder) if img.endswith('.txt')==True]
+    path_img=[]
+    for i in range (len(list_img)):
+        path_img.append(path_to_folder+list_img[i])
+    df=pd.DataFrame(path_img)
+    # split 
+    data_train, data_test, labels_train, labels_test = train_test_split(df[0], df.index, test_size=0.20, random_state=42)
+    # Function split 
+    split_img_label(data_train, data_test, outfolder+'train/', outfolder+'test/')
+    os.system('cp' + ' ./'+ path_to_folder + '/'  +'classes.txt' + ' ./'+ outfolder + 'train/')
+    os.system('cp' + ' ./'+ path_to_folder + '/'  +'classes.txt' + ' ./'+ outfolder + 'test/')
