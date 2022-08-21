@@ -42,8 +42,9 @@ RUN cd opencv-4.6.0 && cd build && cmake --build . --target install --parallel $
 RUN apt install tmux -y
 RUN rm -rf opencv-4.6.0 opencv_contrib-4.6.0
 
-RUN git clone https://github.com/AlexeyAB/darknet && cd darknet && mkdir build_release && cd build_release
-RUN cd darknet/build_release && cmake .. && make -j$(nproc)
+RUN git clone https://github.com/AlexeyAB/darknet 
+COPY Makefile-docker darknet/Makefile
+RUN cd darknet && make -j$(nproc)
 CMD ["bash"]
 
 
