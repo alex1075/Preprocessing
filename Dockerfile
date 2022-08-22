@@ -41,10 +41,12 @@ RUN cd opencv-4.6.0 && cd build && cmake --build . --target install --parallel $
 
 RUN apt install tmux -y
 RUN rm -rf opencv-4.6.0 opencv_contrib-4.6.0
-
+COPY matrix.sh matrix.sh
+RUN chmod +x matrix.sh
 RUN git clone https://github.com/AlexeyAB/darknet 
 COPY Makefile-docker darknet/Makefile
 RUN cd darknet && make -j$(nproc)
-CMD ["bash"]
+RUN apt install curl jq -y
+ENTRYPOINT ["bash"]
 
 
