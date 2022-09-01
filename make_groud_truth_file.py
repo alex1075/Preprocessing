@@ -4,10 +4,12 @@ import numpy as np
 
 
 gt_file = open('ground_truth.txt', 'w')
-test_folder = 'mini_valdi/'
+test_folder = 'image_bboxes/'
 for file in os.listdir(test_folder):
     if file.endswith('.txt'):
         if file == 'test.txt':
+            pass
+        elif file == 'classes.txt':
             pass
         else:
             img_name = file[:-4] + '.jpg'
