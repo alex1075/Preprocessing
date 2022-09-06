@@ -1,7 +1,7 @@
 import os
 import decimal
 
-file_weights = 'NoSidesNoBG_3.weights'
+file_weights = 'NoSidesNoBG_4.weights'
 # os.system('cd .. && ./darknet/darknet detector valid /home/as-hunt/Etra-Space/obj.data /home/as-hunt/Etra-Space/cfg/yolov4.cfg Saved_weights/'+file_weights+' -gpus 0')
 
 p_file = open('predictons.txt', 'w')
