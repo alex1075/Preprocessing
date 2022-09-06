@@ -1,5 +1,0 @@
-classes = 5
-train = data_4/train/train.txt
-valid = data_4/test/test.txt
-names = data_4/train/train.txt
-backup = data/backup/ 
