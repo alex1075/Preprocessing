@@ -51,14 +51,14 @@ def iterate_over_images(list, path_to_images, save_directory):
         y1 = decimal.Decimal(lin[3])
         x2 = decimal.Decimal(lin[4])
         y2 = decimal.Decimal(lin[5])
-        x1 = decimal.Decimal(x1 * 416)
-        y1 = decimal.Decimal(y1 * 416)
-        x2 = decimal.Decimal(x2 * 416)
-        y2 = decimal.Decimal(y2 * 416)
-        x1 = round(x1)
-        y1 = round(y1)
-        x2 = round(x2)
-        y2 = round(y2)
+        # x1 = decimal.Decimal(x1 * 416)
+        # y1 = decimal.Decimal(y1 * 416)
+        # x2 = decimal.Decimal(x2 * 416)
+        # y2 = decimal.Decimal(y2 * 416)
+        # x1 = round(x1)
+        # y1 = round(y1)
+        # x2 = round(x2)
+        # y2 = round(y2)
         print(image)
         print(confidence)
         bbox_coordinates = [x1, y1, x2, y2]  
@@ -67,4 +67,4 @@ def iterate_over_images(list, path_to_images, save_directory):
         cv2.imwrite(save_directory + image + '.jpg', img)
 
 
-iterate_over_images('/home/as-hunt/Preprocessing/predictons.txt', '/home/as-hunt/Preprocessing/image_bboxes/', '/home/as-hunt/Preprocessing/image_bboxes/')
+iterate_over_images('/home/as-hunt/Preprocessing/best_bbox.txt', '/home/as-hunt/Preprocessing/image_bboxes/', '/home/as-hunt/Preprocessing/image_bboxes/')

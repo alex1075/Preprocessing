@@ -19,7 +19,7 @@ def del_edge_bbox_train(results_folder):
                 y1 = float(lin[2])
                 x2 = float(lin[3])
                 y2 = float(lin[4])
-                if x1 == 0 or y1 == 0 or x2 == 1 or y2 == 1:
+                if x1 <= 0.005 or y1 <= 0.005 or x1 >= 0.995 or y1 >= 0.995:
                     pass
                 else:
                     filoo.write(line)
@@ -44,4 +44,4 @@ def del_edge_bbox_test(results_folder):
                     filoo.write(line)
             filoo.close()
 
-del_edge_bbox_train('data_4 copy/test/')
+del_edge_bbox_train('data_4 copy/train/')
