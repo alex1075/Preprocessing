@@ -101,6 +101,7 @@ def change_annotation(i, j, x, y, height, width, path, image, save_name, save_pa
         print("X2: " + str(x2))
         y2 = decimal.Decimal(line[4]) #height
         print("Y2: " + str(y2))
+        print(range(j, j + x, 1))
         if int(x1 * width) in range(j, j + x, 1):
                 if int(y1 * height) in range(i, i + y, 1):
                         # get new coordinates

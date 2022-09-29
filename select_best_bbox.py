@@ -50,7 +50,7 @@ def select_best_bbox(list_file, width=416, height=416):
 
 
 if __name__ == '__main__':
-    list_file = 'predictons.txt'
+    list_file = 'predictions.txt'
     select_best_bbox(list_file)
 
 # use cv2.dnn.NMSBoxes to select the best bounding box
