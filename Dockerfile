@@ -22,10 +22,10 @@ RUN apt-get install libgphoto2-dev libeigen3-dev libhdf5-dev doxygen -y
 RUN apt-get install libgtkglext1 libgtkglext1-dev -y
 RUN apt-get install libopenblas-dev liblapacke-dev libva-dev libopenjp2-tools libopenjpip-dec-server libopenjpip-server libqt5opengl5-dev libtesseract-dev -y
 
-RUN wget https://github.com/Kitware/CMake/releases/download/v3.22.2/cmake-3.22.2.tar.gz
-RUN tar -xzf cmake-3.22.2.tar.gz
-RUN cd cmake-3.22.2 && ./bootstrap && make -j$(nproc) && make install
-RUN cd && rm -rf cmake-3.22.2.tar.gz
+RUN wget https://github.com/Kitware/CMake/releases/download/v3.24.2/cmake-3.24.2.tar.gz
+RUN tar -xzf cmake-3.24.2.tar.gz 
+RUN cd cmake-3.24.2 && ./bootstrap && make -j$(nproc) && make install
+RUN cd && rm -rf cmake-3.24.2.tar.gz
 # RUN git clone https://ceres-solver.googlesource.com/ceres-solver && cd ceres-solver && mkdir build && cd build
 # RUN cd ceres-solver/build && cmake .. && make -j$(nporc) && make test && make install
 # RUN cd 

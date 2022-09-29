@@ -1,5 +1,6 @@
 from turtle import st
 import cv2
+import re
 import glob, os, datetime
 from PIL import Image
 from imutils import paths
@@ -232,3 +233,50 @@ def splitDataset(path_to_folder, outfolder):
     split_img_label(data_train, data_test, outfolder+'train/', outfolder+'test/')
     os.system('cp' + ' ./'+ path_to_folder + '/'  +'classes.txt' + ' ./'+ outfolder + 'train/')
     os.system('cp' + ' ./'+ path_to_folder + '/'  +'classes.txt' + ' ./'+ outfolder + 'test/')
+
+def import_results(input_file='result.txt', results_file='results.txt'):
+    res = open(results_file, 'w')
+    with open(input_file, 'r') as f:
+        for line in f:
+            if line[0:4] == '/hom':
+                lin = re.split('/| ', line)
+                li = filter(lambda a: '.jpg' in a, lin)
+                l = list(li)[0][:-5]
+                print(l)
+                image_name = l
+            elif line[0:4] == 'ERY:':
+                lin = re.split(':|%|t|w|h', line)
+                # print(lin)
+                classes = 1
+                confidence = int((lin[1]))
+                if int(lin[4]) < 0:
+                    left_x = 0
+                else:
+                    left_x = int(lin[4])
+                if int(lin[6]) < 0:
+                    top_y = 0
+                else:
+                    top_y = int(lin[6])
+                width = int(lin[10])
+                height = int(lin[14][:-2])
+                # print(res)
+                res.write(image_name + ' ' + str(classes) + ' ' + str(left_x) + ' ' + str(top_y) + ' ' + str(width) + ' ' + str(height) + ' ' + str(confidence / 100) + ' \n')
+            elif line[0:4] == 'ECHY':
+                lin = re.split(':|%|t|w|h', line)
+                # print(lin)
+                classes = 0
+                confidence = int((lin[1]))
+                if int(lin[4]) < 0:
+                    left_x = 0
+                else:
+                    left_x = int(lin[4])
+                if int(lin[6]) < 0:
+                    top_y = 0
+                else:
+                    top_y = int(lin[6])
+                width = int(lin[10])
+                height = int(lin[14][:-2])
+                res.write(image_name + ' ' + str(classes) + ' ' + str(left_x) + ' ' + str(top_y) + ' ' + str(width) + ' ' + str(height) + ' ' + str(confidence / 100) + ' \n')
+                # print(res)
+            else:
+                pass
