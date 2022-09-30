@@ -109,18 +109,27 @@ def change_annotation(i, j, x, y, height, width, path, image, save_name, save_pa
                         y1 = decimal.Decimal(((y1 * height) - i) / y)
                         x2 = decimal.Decimal(str((x2 * width) / x))
                         y2 = decimal.Decimal(str((y2 * height) / y))
+                        x1 = float(x1)
+                        y1 = float(y1)
+                        x2 = float(x2)
+                        y2 = float(y2)
+                        min = float(0.05)
+                        max = float(0.95)
                         # write new coordinates
-                        with open(save_path + save_name + '.txt', 'a') as f:
-                            f.write(str(classes))
-                            f.write(' ')
-                            f.write(str(round(x1, 6)))
-                            f.write(' ')
-                            f.write(str(round(y1, 6)))
-                            f.write(' ')
-                            f.write(str(round(x2, 6)))
-                            f.write(' ')
-                            f.write(str(round(y2, 6)))
-                            f.write('\n')
+                        if x1 <= min or y1 <= min or x1 >=max or y1 >= max  or x2 <= min or y2 <= min or x2 >= max or y2 >= max:
+                            print("Out of bounds")
+                        else:
+                            with open(save_path + save_name + '.txt', 'a') as f:
+                                f.write(str(classes))
+                                f.write(' ')
+                                f.write(str(round(x1, 6)))
+                                f.write(' ')
+                                f.write(str(round(y1, 6)))
+                                f.write(' ')
+                                f.write(str(round(x2, 6)))
+                                f.write(' ')
+                                f.write(str(round(y2, 6)))
+                                f.write('\n')
                 else:
                     pass
         else:
