@@ -17,7 +17,7 @@ def add_bbox_to_image(image_path, classes, bbox_coordinates, confidence):
     if classes == 0:
         color = (0, 0, 255)
     elif classes == 1:
-        color = (0, 255, 255)
+        color = (0, 255, 0)
     # elif classes == 2:
     #     color = (255, 0, 0)
     # elif classes == 3:
@@ -28,18 +28,18 @@ def add_bbox_to_image(image_path, classes, bbox_coordinates, confidence):
     #     color = (0, 255, 255)
     # else:
     #     color = (255, 255, 255)
-    x = bbox_coordinates[0]
-    y = bbox_coordinates[1]
-    w = bbox_coordinates[2]
-    h = bbox_coordinates[3]
-    # x1 = int(x-(w/2))
-    # y1 = int(y+(h/2))
-    # x2 = int(x+(w/2))
-    # y2 = int(y-(h/2))
-    x1 = int(x)
-    y1 = int(y)
-    x2 = int(w)
-    y2 = int(y)
+    x = bbox_coordinates[0]*416
+    y = bbox_coordinates[1]*416
+    w = bbox_coordinates[2]*416
+    h = bbox_coordinates[3]*416
+    x1 = int(x-(w/2))
+    y1 = int(y+(h/2))
+    x2 = int(x+(w/2))
+    y2 = int(y-(h/2))
+    # x1 = int(x)
+    # y1 = int(y)
+    # x2 = int(w)
+    # y2 = int(y)
     # x1 = int(x)
     # y1 = int(y)
     # x2 = int(x+(w))
@@ -50,12 +50,12 @@ def add_bbox_to_image(image_path, classes, bbox_coordinates, confidence):
     print(y2)
     image = cv2.rectangle(image, (x1, y1), (x2,y2), color, 2)
     print(confidence)
-    cv2.putText(image, str(confidence), (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.9, color, 2)
+    # cv2.putText(image, str(confidence), (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.9, color, 2)
     # cv2.putText(image, '.', (x2, y2), cv2.FONT_HERSHEY_SIMPLEX, 1, color, 2)
-    # cv2.imshow('image', image)
-    # cv2.waitKey(0)
+    cv2.imshow('image', image)
+    cv2.waitKey(0)
     # cv2.destroyAllWindows()
-    return image
+    # return image
 
 def iterate_over_images(list, path_to_images, save_directory):
     fill = open(list, 'r')
@@ -88,4 +88,15 @@ def iterate_over_images(list, path_to_images, save_directory):
 
 
 # iterate_over_images('/home/as-hunt/test_pd.txt', '/home/as-hunt/', '/home/as-hunt/')
-iterate_over_images('/home/as-hunt/test_gt.txt', '/home/as-hunt/', '/home/as-hunt/')
+# iterate_over_images('/home/as-hunt/test_gt.txt', '/home/as-hunt/', '/home/as-hunt/')
+# add_bbox_to_image('/Users/alexanderhunt/Preprocessing/output/test_2_832_1248.jpg', 0, [0.109378,0.034854,0.098556,0.079325], 2)
+
+with open('/Users/alexanderhunt/Preprocessing/output/test_2_832_1248.txt', 'r') as f:
+    for line in f:
+        line = line.split(' ')
+        x1 = line[1]
+        x2 = line[2]
+        x3 = line[3]
+        x4 = line[4]
+     
+        
