@@ -1,8 +1,8 @@
 import os
 import decimal
 
-file_weights = 'RBC_ECHY_v4_2.weights'
-os.system('cd .. && ./darknet/darknet detector valid /home/as-hunt/Etra-Space/new_data/obj.data /home/as-hunt/Etra-Space/new_data/yolov4.cfg Saved_weights/'+file_weights+' -gpu 0')
+file_weights = 'ERY_ECHY_sidless.weights'
+os.system('cd .. && ./darknet/darknet detector valid /home/as-hunt/Etra-Space/new_data_sidless/obj.data /home/as-hunt/Etra-Space/new_data_sidless/yolov4.cfg Saved_weights/'+file_weights+' -gpu 0')
 
 p_file = open('predictions.txt', 'w')
 results_folder = '/home/as-hunt/results/'

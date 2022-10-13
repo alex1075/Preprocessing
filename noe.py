@@ -24,14 +24,14 @@ from sklearn.metrics import precision_recall_fscore_support
   
 # reading the given csv file 
 # and creating dataframe
-ground_truth = pd.read_csv("/home/as-hunt/ground_truth.txt",
+ground_truth = pd.read_csv("/home/as-hunt/gt.txt",
                       delimiter = ' ')
   
 # store dataframe into csv file
 ground_truth.to_csv('/home/as-hunt/ground_truth.csv',
                index = None)
 
-prediction = pd.read_csv("/home/as-hunt/results.txt",
+prediction = pd.read_csv("/home/as-hunt/filtered_results.txt",
                         delimiter = ' ')
 
 prediction.to_csv('/home/as-hunt/predictions.csv',
