@@ -4,8 +4,8 @@ import decimal
 import re
 
 
-gt_file = open('ground_truth.txt', 'w')
-test_folder = '/home/as-hunt/Etra-Space/new_data/valid/'
+gt_file = open('gt.txt', 'w')
+test_folder = '/home/as-hunt/Etra-Space/new_data_sidless/valid/'
 for file in os.listdir(test_folder):
     if file.endswith('.txt'):
         if file == 'test.txt':
