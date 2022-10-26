@@ -1,28 +1,35 @@
 import os
+import re
 import cv2
 import decimal
 
 """
 Classes:
-0 - Blue
+0 - Red
 1 - Green
-2 - Red
+2 - Blue
 3 - Purple
-4 - 
+4 - Yellow
+5 - Cyan
+6 - Orange
 """
 
 def add_bbox(image, bbox, classes):
     image = cv2.imread(image)
     if classes == 0:
-        colour = (0,0,255)
+        colour = (0,0,255) #red
     elif classes == 1:
-        colour = (0,255,0)
+        colour = (0,255,0) #green
     elif classes == 2:
-        colour = (255,0,0)
+        colour = (255,0,0) #blue
     elif classes == 3:
-        colour = (255,0,255)
+        colour = (255,0,255) #fushia 
     elif classes == 4:
-        colour = (255,255,0)
+        colour = (255,255,0) #yellow
+    elif classes == 5:
+        colour = (0,255,255) #cyan
+    elif classes == 6:
+        colour = (255,172,28) #orange
     else:
         print('We dont have a colour setup for that class')
     left_x = bbox[0]
@@ -80,12 +87,13 @@ def iterate_over_images(list, path_to_images, save_directory):
             elif classes == 1:
                 classes == 3
         bbox_coordinates = [x1, y1, x2, y2]  
+        print(bbox_coordinates)
         img = add_bbox(path_to_images + image+ '.jpg', bbox_coordinates, int(classes))
         cv2.imwrite(save_directory + image + '.jpg', img)
 
 
-# iterate_over_images('/home/as-hunt/test_pd.txt', '/home/as-hunt/', '/home/as-hunt/')
-# iterate_over_images('/home/as-hunt/test_gt.txt', '/home/as-hunt/', '/home/as-hunt/')
+# iterate_over_images('/home/as-hunt/results.txt', '/home/as-hunt/ni/', '/home/as-hunt/')
+# iterate_over_images('/home/as-hunt/results.txt', '/home/as-hunt/', '/home/as-hunt/')
 
 
 def get_prediction_mistakes(gt_file, pd_file, path_to_images, save_directory):
@@ -161,7 +169,7 @@ def get_prediction_mistakes_iterative(gt_file, pd_file, path_to_images, save_dir
                 print("Found")
                 place = gt_array.index(thing)
 #                 print("Place is :" + str(place))
-                if iou(bbox, bbax) >= 0.5:
+                if iou(bbox, bbax) >= 0.4:
                         print("overlap")
                         print(iou(bbox,bbax))
                         if classes == clisses:
@@ -181,3 +189,14 @@ def get_prediction_mistakes_iterative(gt_file, pd_file, path_to_images, save_dir
                         classes = 4
                     img = add_bbox(path_to_images + name+ '.jpg', bbox, int(classes))
                     cv2.imwrite(save_directory + name + '.jpg', img)
+    for item in gt_array:
+        print(item)
+        name = item[0]
+        bbox = item[1]
+        classes = item[2]
+        if classes== 0:
+            classes = 5
+        elif classes == 1:
+            classes = 6
+        img = add_bbox(path_to_images + name+ '.jpg', bbox, int(classes))
+        cv2.imwrite(save_directory + name + '.jpg', img)
