@@ -21,20 +21,17 @@ from sklearn.metrics import precision_recall_curve
 from sklearn.metrics import average_precision_score
 from sklearn.metrics import precision_recall_fscore_support
 
-  
-# reading the given csv file 
-# and creating dataframe
-ground_truth = pd.read_csv("/home/as-hunt/gt.txt",
+def get_the_csv(ground_truth_file, prediction_file):
+    # reading the given csv file 
+    # and creating dataframe
+    ground_truth = pd.read_csv(ground_truth_file,
                       delimiter = ' ')
-  
-# store dataframe into csv file
-ground_truth.to_csv('/home/as-hunt/ground_truth.csv',
-               index = None)
-
-prediction = pd.read_csv("/home/as-hunt/filtered_results.txt",
+    # store dataframe into csv file
+    ground_truth.to_csv(ground_truth_file[:-3]+'.csv',
+               index = None)    
+    prediction = pd.read_csv(prediction_file,
                         delimiter = ' ')
-
-prediction.to_csv('/home/as-hunt/predictions.csv',
+    prediction.to_csv(prediction_file[:-3]+'.csv',
                 index = None)
     
 
