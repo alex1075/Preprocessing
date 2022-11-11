@@ -97,3 +97,14 @@ python -c "from confusion import *; plot_normalised_confusion_matrix('/home/as-h
 mv Confusion_matrix* /home/as-hunt/Original_sidless/
 mv Normalised_Confusion_matrix* /home/as-hunt/Original_sidless/
 rm /home/as-hunt/Original_sidless/*.csv
+
+python -c "from confusion import *; do_math('Original_sidless/gt.txt', 'Original_sidless/results_1000.txt')" > Original_sidless/details_1000.txt
+python -c "from confusion import *; do_math('Original_sidless/gt.txt', 'Original_sidless/results_2000.txt')" > Original_sidless/details_2000.txt
+python -c "from confusion import *; do_math('Original_sidless/gt.txt', 'Original_sidless/results_3000.txt')" > Original_sidless/details_3000.txt
+python -c "from confusion import *; do_math('Original_sidless/gt.txt', 'Original_sidless/results_4000.txt')" > Original_sidless/details_4000.txt
+python -c "from confusion import *; do_math('Original_sidless/gt.txt', 'Original_sidless/results_5000.txt')" > Original_sidless/details_5000.txt
+python -c "from confusion import *; do_math('Original_sidless/gt.txt', 'Original_sidless/results_6000.txt')" > Original_sidless/details_6000.txt
+python -c "from confusion import *; do_math('Original_sidless/gt.txt', 'Original_sidless/results_7000.txt')" > Original_sidless/details_7000.txt
+python -c "from confusion import *; do_math('Original_sidless/gt.txt', 'Original_sidless/results_8000.txt')" > Original_sidless/details_8000.txt
+python -c "from confusion import *; do_math('Original_sidless/gt.txt', 'Original_sidless/results_9000.txt')" > Original_sidless/details_9000.txt
+python -c "from confusion import *; do_math('Original_sidless/gt.txt', 'Original_sidless/results_10000.txt')" > Original_sidless/details_10000.txt

@@ -17,3 +17,6 @@ python -c "from confusion import *; plot_normalised_confusion_matrix('/home/as-h
 mv Confusion_matrix* /home/as-hunt/Fake/
 mv Normalised_Confusion_matrix* /home/as-hunt/Fake/
 rm /home/as-hunt/Fake/*.csv
+
+
+python -c "from confusion import *; do_math('Fake/gt.txt', 'Fake/results.txt')" > Fake/details.txt
