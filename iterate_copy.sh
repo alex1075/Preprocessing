@@ -97,3 +97,14 @@ python -c "from confusion import *; plot_normalised_confusion_matrix('/home/as-h
 mv Confusion_matrix* /home/as-hunt/Original/
 mv Normalised_Confusion_matrix* /home/as-hunt/Original/
 rm /home/as-hunt/Original/*.csv
+
+python -c "from confusion import *; do_math('Original/gt.txt', 'Original/results_1000.txt')" > Original/details_1000.txt
+python -c "from confusion import *; do_math('Original/gt.txt', 'Original/results_2000.txt')" > Original/details_2000.txt
+python -c "from confusion import *; do_math('Original/gt.txt', 'Original/results_3000.txt')" > Original/details_3000.txt
+python -c "from confusion import *; do_math('Original/gt.txt', 'Original/results_4000.txt')" > Original/details_4000.txt
+python -c "from confusion import *; do_math('Original/gt.txt', 'Original/results_5000.txt')" > Original/details_5000.txt
+python -c "from confusion import *; do_math('Original/gt.txt', 'Original/results_6000.txt')" > Original/details_6000.txt
+python -c "from confusion import *; do_math('Original/gt.txt', 'Original/results_7000.txt')" > Original/details_7000.txt
+python -c "from confusion import *; do_math('Original/gt.txt', 'Original/results_8000.txt')" > Original/details_8000.txt
+python -c "from confusion import *; do_math('Original/gt.txt', 'Original/results_9000.txt')" > Original/details_9000.txt
+python -c "from confusion import *; do_math('Original/gt.txt', 'Original/results_10000.txt')" > Original/details_10000.txt

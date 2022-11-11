@@ -3,6 +3,7 @@ import re
 import cv2
 import numpy as np
 import decimal
+from add_bbox import *
 
 # Import the results from the results.txt file
 def import_results(input_file='result.txt', results_file='results.txt'):
@@ -73,7 +74,7 @@ def make_groud_truth(ground_truth_file='gt.txt', test_folder='/home/as-hunt/Etra
             else:
                 img_name = file[:-4] 
                 count = 0
-                annot = open(test_folder + file, 'r')
+                annot = open(test_folder + file, 'r+')
                 for line in annot:
                     lin = re.split(' ', line)
                     print(lin[1])
@@ -122,8 +123,17 @@ def make_groud_truth(ground_truth_file='gt.txt', test_folder='/home/as-hunt/Etra
                                         gt_file.write(img_name + ' ' + str(classes) + ' ' + str(left_x) + ' ' + str(top_y) + ' ' + str(right_x) + ' ' + str(bottom_y) + ' \n')
                                         count += 1
                                         print('Line ' + str(count) + ': ' + img_name + ' ' + str(classes) + ' ' + str(left_x) + ' ' + str(top_y) + ' ' + str(right_x) + ' ' + str(bottom_y))   
-                annot.close()
-    gt_file.close()
+
+def cleanup(file):
+    lines_seen = set() # holds lines already seen
+    with open(file, 'r+') as f:
+        d = f.readlines()
+        f.seek(0)
+        for i in d:
+            if i not in lines_seen:
+                f.write(i)
+                lines_seen.add(i)
+        f.truncate()
 
 def import_and_filder_results(input_file='/home/as-hunt/result.txt', results_file='results.txt'):
     res = open(results_file, 'w')
@@ -137,16 +147,16 @@ def import_and_filder_results(input_file='/home/as-hunt/result.txt', results_fil
                 image_name = l
             elif line[0:4] == 'ERY:':
                 lin = re.split(':|%|t|w|h', line)
-                if int(lin[4]) <= 6:
+                if int(lin[4]) < 4:
                     # pass
-                    print('Error: left_x (' + str(lin[4]) + ') is less than 6')
-                elif int(lin[4]) >= 410:
-                    print('Error: left_x (' + str(lin[4]) + ') is greater than 410')
+                    print(image_name + 'Error: left_x (' + str(lin[4]) + ') is less than 6')
+                elif int(lin[4]) > 412:
+                    print(image_name + 'Error: left_x (' + str(lin[4]) + ') is greater than 410')
                 else:
-                    if int(lin[6]) <= 6:
-                        print('Error: top_y (' + str(lin[6]) + ') is less than 6')
-                    elif int(lin[6]) >= 410:
-                        print('Error: top_y (' + str(lin[6]) + ') is greater than 410')
+                    if int(lin[6]) < 4:
+                        print(image_name + 'Error: top_y (' + str(lin[6]) + ') is less than 6')
+                    elif int(lin[6]) > 412:
+                        print(image_name + 'Error: top_y (' + str(lin[6]) + ') is greater than 410')
                     else:
                         # print(lin)
                         classes = 1
@@ -167,30 +177,30 @@ def import_and_filder_results(input_file='/home/as-hunt/result.txt', results_fil
                             bottom_y = 0
                         if right_x > 416:
                             right_x = 416
-                        if bottom_y <= 6:
-                            print('Error : bottom_y (' + str(bottom_y) + ') is less than 6')
-                        elif bottom_y >= 410:
-                            print('Error : bottom_y (' + str(bottom_y) + ') is greater than 410')
+                        if bottom_y < 4:
+                            print(image_name + 'Error : bottom_y (' + str(bottom_y) + ') is less than 6')
+                        elif bottom_y > 412:
+                            print(image_name + 'Error : bottom_y (' + str(bottom_y) + ') is greater than 410')
                         else:
-                            if right_x >= 410:
-                                print('Error : right_x (' + str(right_x) + ') is greater than 410')
-                            elif right_x <= 6:
-                                print('Error : right_x (' + str(right_x) + ') is less than 6')
+                            if right_x > 412:
+                                print(image_name + 'Error : right_x (' + str(right_x) + ') is greater than 410')
+                            elif right_x < 4:
+                                print(image_name + 'Error : right_x (' + str(right_x) + ') is less than 6')
                             else:
                                 print(image_name + ' ' + str(classes) + ' ' + str(left_x) + ' ' + str(top_y) + ' ' + str(right_x) + ' ' + str(bottom_y) + ' ' + str(confidence / 100))
                                 res.write(image_name + ' ' + str(classes) + ' ' + str(left_x) + ' ' + str(top_y) + ' ' + str(right_x) + ' ' + str(bottom_y) + ' ' + str(confidence / 100) + ' \n')
             elif line[0:4] == 'ECHY':
                 lin = re.split(':|%|t|w|h', line)
-                if int(lin[4]) <= 6:
+                if int(lin[4]) < 4:
                     # pass
-                    print('Error: left_x (' + str(lin[4]) + ') is less than 6')
-                elif int(lin[4]) >= 410:
-                    print('Error: left_x (' + str(lin[4]) + ') is greater than 410')
+                    print(image_name + 'Error: left_x (' + str(lin[4]) + ') is less than 6')
+                elif int(lin[4]) > 412:
+                    print(image_name + 'Error: left_x (' + str(lin[4]) + ') is greater than 410')
                 else:
-                    if int(lin[6]) <= 6:
-                        print('Error: top_y (' + str(lin[6]) + ') is less than 6')
-                    elif int(lin[6]) >= 416:
-                        print('Error: top_y (' + str(lin[6]) + ') is greater than 410')
+                    if int(lin[6]) < 4:
+                        print(image_name + 'Error: top_y (' + str(lin[6]) + ') is less than 6')
+                    elif int(lin[6]) > 412:
+                        print(image_name + 'Error: top_y (' + str(lin[6]) + ') is greater than 410')
                     else:
                         # print(lin)
                         classes = 0
@@ -211,15 +221,15 @@ def import_and_filder_results(input_file='/home/as-hunt/result.txt', results_fil
                             bottom_y = 0
                         if right_x > 416:
                             right_x = 416
-                        if bottom_y <= 6:
-                            print('Error : bottom_y (' + str(bottom_y) + ') is less than 6')
-                        elif bottom_y >= 410:
-                            print('Error : bottom_y (' + str(bottom_y) + ') is greater than 410')
+                        if bottom_y < 4:
+                            print(image_name + 'Error : bottom_y (' + str(bottom_y) + ') is less than 6')
+                        elif bottom_y > 412:
+                            print(image_name + 'Error : bottom_y (' + str(bottom_y) + ') is greater than 410')
                         else:
-                            if right_x >= 410:
-                                print('Error : right_x (' + str(right_x) + ') is greater than 410')
-                            elif right_x <= 6:
-                                print('Error : right_x (' + str(right_x) + ') is less than 0')
+                            if right_x > 412:
+                                print(image_name + 'Error : right_x (' + str(right_x) + ') is greater than 410')
+                            elif right_x < 4:
+                                print(image_name + 'Error : right_x (' + str(right_x) + ') is less than 0')
                             else:
                                 print(image_name + ' ' + str(classes) + ' ' + str(left_x) + ' ' + str(top_y) + ' ' + str(right_x) + ' ' + str(bottom_y) + ' ' + str(confidence / 100))
                                 res.write(image_name + ' ' + str(classes) + ' ' + str(left_x) + ' ' + str(top_y) + ' ' + str(right_x) + ' ' + str(bottom_y) + ' ' + str(confidence / 100) + ' \n')
@@ -228,3 +238,44 @@ def import_and_filder_results(input_file='/home/as-hunt/result.txt', results_fil
 
 # Run the import_and_filder_results function
 # import_and_filder_results()
+
+def second_stage_NMS(predictions_file):
+    comparators = []
+    save = []
+    with open(predictions_file, 'r') as file:
+        for line in file:
+            li = line.split(' ')
+            image = li[0]
+            classes = str(li[1])
+            x1 = str(li[2])
+            y1 = str(li[3])
+            x2 = str(li[4])
+            y2 = str(li[5])
+            confidence = li[6]
+            comparators.append([image + ',' + classes +',' + str(x1) +',' +str(y1) +',' + str(x2) +',' + str(y2) + ',' +confidence])
+    print(comparators)
+    for item in comparators:
+        print(item)
+        with open(predictions_file, 'r+') as file:
+            for line in file:
+                li = line.split(' ')
+                image = li[0]
+                classes = str(li[1])
+                x1 = str(li[2])
+                y1 = str(li[3])
+                x2 = str(li[4])
+                y2 = str(li[5])
+                confidence = li[6]
+                if item[0] == image:
+                    bbox1 = item[2:5]
+                    bbox2 = li[2:5]
+                    if iou(bbox1, bbox2) <= 0.9:
+                        if confidence > item[6]:
+                            save.append(image + ' ' + classes + ' ' + x1 + ' ' + y1 + ' ' + x2 + ' ' + y2 + ' ' + confidence)
+                        elif confidence < item[6]:
+                            save.append(item[0] + ' ' + item[1] + ' ' + item[2] + ' ' + item[3] + ' ' + item[4] + ' ' + item[5] + ' ' + item[6])
+                        elif confidence == item[6]:
+                            save.append(item[0] + ' ' + item[1] + ' ' + item[2] + ' ' + item[3] + ' ' + item[4] + ' ' + item[5] + ' ' + item[6])
+                    else:
+                        pass
+    print(save)

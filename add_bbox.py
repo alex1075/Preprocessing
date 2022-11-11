@@ -1,7 +1,10 @@
 import os
 import re
+import random
+import string
 import cv2
 import decimal
+import numpy as np
 
 """
 Classes:
@@ -39,7 +42,7 @@ def add_bbox(image, bbox, classes):
     img = cv2.rectangle(image, (left_x,top_y), (right_x,bottom_y), colour, 2)
     return img
 
-def iou(boxA, boxB):
+def iou_1(boxA, boxB):
     # determine the (x, y)-coordinates of the intersection rectangle
     xA = max(boxA[0], boxB[0])
     yA = max(boxA[1], boxB[1])
@@ -47,8 +50,10 @@ def iou(boxA, boxB):
     yB = min(boxA[3], boxB[3])
 
     # compute the area of intersection rectangle
-    interArea = (xB - xA) * (yB - yA)
-    interArea = abs(interArea)
+    if xA < xB and yA < yB:
+        I = (xB - xA) * (yB - yA)
+    else:
+        I = 0
     # compute the area of both the prediction and ground-truth
     # rectangles
     boxAArea = (boxA[2] - boxA[0]) * (boxA[3] - boxA[1])
@@ -58,18 +63,38 @@ def iou(boxA, boxB):
     # compute the intersection over union by taking the intersection
     # area and dividing it by the sum of prediction + ground-truth
     # areas - the interesection area
-    if float(boxAArea + boxBArea - interArea) <= 0:
+    if float(boxAArea + boxBArea - I) <= 0:
         iou = 0
-    elif float(boxAArea + boxBArea - interArea) >= 1:
+    elif float(boxAArea + boxBArea - I) >= 1:
         iou = 1
     else:
-        iou = interArea / float(boxAArea + boxBArea - interArea)
+        iou = interArea / float(boxAArea + boxBArea - I)
         iou = abs(iou)
 
     # return the intersection over union value
     return iou
 
-def iterate_over_images(list, path_to_images, save_directory):
+def iou_2(boxG, boxP):
+    boxA = (min(boxG[0], boxG[2]), min(boxG[1], boxG[3]), max(boxG[0], boxG[2]), max(boxG[1], boxG[3]))
+    boxB = (min(boxP[0], boxP[2]), min(boxP[1], boxP[3]), max(boxP[0], boxP[2]), max(boxP[1], boxP[3]))
+    Bg = (boxA[2] - boxA[0]) * (boxA[3] - boxA[1])
+    Bp = (boxB[2] - boxB[0]) * (boxB[3] - boxB[1])
+    xA = max(boxA[0], boxB[0])
+    yA = max(boxA[1], boxB[1])
+    xB = min(boxA[2], boxB[2])
+    yB = min(boxA[3], boxB[3])
+    if xA < xB and yA < yB:
+        I = (xB - xA) * (yB - yA)
+    else:
+        I = 0
+    U = Bg + Bp - I
+    return I/U
+
+def iou(bbox1, bbox2):
+    return iou_1(bbox1, bbox2)
+
+
+def iterate_over_images(list, path_to_images, save_directory, name):
     fill = open(list, 'r')
     for line in fill:
         lin = line.split(' ')
@@ -83,14 +108,47 @@ def iterate_over_images(list, path_to_images, save_directory):
         if list == 'pd.txt':
             print('pd file')
             if classes == 0:
-                classes == 2
+                classes == 4
             elif classes == 1:
-                classes == 3
+                classes == 5
+        elif list[0] == 'r':
+            if classes == 0:
+                classes == 4
+            elif classes == 1:
+                classes == 5
+
         bbox_coordinates = [x1, y1, x2, y2]  
         print(bbox_coordinates)
-        img = add_bbox(path_to_images + image+ '.jpg', bbox_coordinates, int(classes))
-        cv2.imwrite(save_directory + image + '.jpg', img)
+        img = add_bbox(path_to_images + image + '.jpg', bbox_coordinates, int(classes))
+        cv2.imwrite(save_directory + image + '_' + name + '.jpg', img)
 
+def reiterate_over_images(list, path_to_images, save_directory, name):
+    fill = open(list, 'r')
+    for line in fill:
+        lin = line.split(' ')
+        image = lin[0]
+        classes = str(lin[1])
+        x1 = int(lin[2])
+        y1 = int(lin[3])
+        x2 = int(lin[4])
+        y2 = int(lin[5])
+        confidence = lin[6]
+        if list == 'pd.txt':
+            print('pd file')
+            if classes == 0:
+                classes == 4
+            elif classes == 1:
+                classes == 5
+        elif list[0] == 'r':
+            if classes == 0:
+                classes == 4
+            elif classes == 1:
+                classes == 5
+
+        bbox_coordinates = [x1, y1, x2, y2]  
+        print(bbox_coordinates)
+        img = add_bbox(path_to_images + image + '_' + name + '.jpg', bbox_coordinates, int(classes))
+        cv2.imwrite(save_directory + image + '_' + name + '.jpg', img)
 
 # iterate_over_images('/home/as-hunt/results.txt', '/home/as-hunt/ni/', '/home/as-hunt/')
 # iterate_over_images('/home/as-hunt/results.txt', '/home/as-hunt/', '/home/as-hunt/')
@@ -141,6 +199,7 @@ def get_prediction_mistakes_iterative(gt_file, pd_file, path_to_images, save_dir
     gt_array = []
     pd = open(pd_file)
     pd_array = []
+    matches = []
     for line in pd:
         li = line.split(' ')
         name = li[0]
@@ -154,6 +213,7 @@ def get_prediction_mistakes_iterative(gt_file, pd_file, path_to_images, save_dir
         clisses = lu[1]
         bbax = [int(lu[2]), int(lu[3]), int(lu[4]), int(lu[5])]
         gt_array.append([nome, bbax, clisses])
+    length = len(gt_array)    
     for item in pd_array:
         print(item[0])
         name = item[0]
@@ -168,14 +228,16 @@ def get_prediction_mistakes_iterative(gt_file, pd_file, path_to_images, save_dir
             if name in thing[0]:
                 print("Found")
                 place = gt_array.index(thing)
-#                 print("Place is :" + str(place))
+                print("Place is :" + str(place))
                 if iou(bbox, bbax) >= 0.4:
                         print("overlap")
                         print(iou(bbox,bbax))
+                        matches.append([name, bbox, classes])
                         if classes == clisses:
                             print("Classes match! Success!")
-                            gt_array.pop(place)
                             print("item removed")
+                            print(gt_array[place])
+                            gt_array.remove(thing)
                         else:
                             print("Classes do not match, detection error")
                             classes = 2
@@ -189,14 +251,17 @@ def get_prediction_mistakes_iterative(gt_file, pd_file, path_to_images, save_dir
                         classes = 4
                     img = add_bbox(path_to_images + name+ '.jpg', bbox, int(classes))
                     cv2.imwrite(save_directory + name + '.jpg', img)
+    print("length of gt array is " + str(len(gt_array)))
+    print(length)                        
     for item in gt_array:
-        print(item)
-        name = item[0]
-        bbox = item[1]
-        classes = item[2]
-        if classes== 0:
-            classes = 5
-        elif classes == 1:
-            classes = 6
-        img = add_bbox(path_to_images + name+ '.jpg', bbox, int(classes))
-        cv2.imwrite(save_directory + name + '.jpg', img)
+        if item[0] not in matches:
+            print('No matches for '+ item[0])
+            name = item[0]
+            bbox = item[1]
+            classes = item[2]
+            if classes== 0:
+                classes = 5
+            elif classes == 1:
+                classes = 6
+            img = add_bbox(path_to_images + name+ '.jpg', bbox, int(classes))
+            cv2.imwrite(save_directory + name + '.jpg', img)
