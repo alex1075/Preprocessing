@@ -44,4 +44,4 @@ def del_edge_bbox_test(results_folder):
                     filoo.write(line)
             filoo.close()
 
-del_edge_bbox_train('data_4 copy/train/')
+del_edge_bbox_train('/home/as-hunt/Etra-Space/3-class-sideless/valid/')
