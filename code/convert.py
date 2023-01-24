@@ -33,6 +33,7 @@ def convert(path_to_folder='/Volumes/PhD/PhD/Data/'):
             print ("is png")
             outfile = infile[:-3] + "jpg"
             img = cv2.imread(path_to_folder + infile)
+            print(path_to_folder + outfile)
             cv2.imwrite(path_to_folder + outfile, img)
             os.remove(path_to_folder + infile)
         elif infile[-3:] == "jpg" or infile[-3:] == "jpeg":
@@ -191,10 +192,10 @@ def chopUpDataset(path_to_folder='/Users/alexanderhunt/Preprocessing/test_datase
         pass
     checkAllImg(outfolder, x, y)
 
-def batchBackgroundRemove(path_to_folder='output/', background_folder='background/', outfolder='/Volumes/PHD/removed/'):
-    return print('Not implemented yet')
+# def batchBackgroundRemove(path_to_folder='output/', background_folder='background/', outfolder='/Volumes/PHD/removed/'):
+#     return print('Not implemented yet')
 
-def batchBackgroundRemove(path_to_folder='output/', background_folder='backgrounds/', outfolder='data_2/', alpha=2):
+def batchBackgroundRemove(path_to_folder='output/', background_folder='backgrounds/', outfolder='data_4/', alpha=2):
     list_img=[img for img in os.listdir(path_to_folder) if img.endswith('.jpg')==True]
     list_background=[img for img in os.listdir(background_folder) if img.endswith('.jpg')==True]
     list_txt=[img for img in os.listdir(path_to_folder) if img.endswith('.txt')==True]

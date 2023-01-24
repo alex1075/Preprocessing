@@ -126,7 +126,7 @@ def crop_images(x, y, path, save_path, annotations=True):
         pass
     # get all images in path
     images = os.listdir(path)
-    # print(images)
+    print(images)
         # loop over images
     for image in images:
         # read image
@@ -189,7 +189,7 @@ def increase_brightness(img, value=30):
     return img
 
 # remove backgroun of image using image of background
-def background_removal_with_alpha(original_img, bacground_img, alpha=0.5):
+def background_removal_with_alpha_sub(original_img, bacground_img, alpha=0.5):
     img = cv2.imread(original_img)
     background = cv2.imread(bacground_img)
     img = img.astype('f')
@@ -197,4 +197,18 @@ def background_removal_with_alpha(original_img, bacground_img, alpha=0.5):
     out = (alpha * ( img -  background ) + 128).clip(0, 255)
     out = np.around(out, decimals=0)
     out = out.astype(np.uint8)
+    return out
+
+def background_removal_with_alpha_div(original_img, bacground_img, alpha=0.5):
+    img = cv2.imread(original_img)
+    background = cv2.imread(bacground_img)
+    img = img.astype('f')
+    background = background.astype('f')
+    out =  ((( img /  background ) * 125)).clip(0, 255)
+    out = np.around(out, decimals=0)
+    out = out.astype(np.uint8)
+    return out
+
+def background_removal_with_alpha(original_img, bacground_img, alpha=0.5):
+    out = background_removal_with_alpha_sub(original_img, bacground_img, alpha)
     return out
