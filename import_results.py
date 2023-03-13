@@ -50,6 +50,57 @@ def import_results(input_file='result.txt', results_file='results.txt'):
                 height = int(lin[14][:-2])
                 res.write(image_name + ' ' + str(classes) + ' ' + str(left_x) + ' ' + str(top_y) + ' ' + str(width) + ' ' + str(height) + ' ' + str(confidence / 100) + ' \n')
                 # print(res)
+            elif line[0:4] == 'PLT:':
+                lin = re.split(':|%|t|w|h', line)
+                # print(lin)
+                classes = 2
+                confidence = int((lin[1]))
+                if int(lin[4]) < 0:
+                    left_x = 0
+                else:
+                    left_x = int(lin[4])
+                if int(lin[6]) < 0:
+                    top_y = 0
+                else:
+                    top_y = int(lin[6])
+                width = int(lin[10])
+                height = int(lin[14][:-2])
+                res.write(image_name + ' ' + str(classes) + ' ' + str(left_x) + ' ' + str(top_y) + ' ' + str(width) + ' ' + str(height) + ' ' + str(confidence / 100) + ' \n')
+                # print(res)    
+            elif line[0:4] == 'SIDE':
+                lin = re.split(':|%|t|w|h', line)
+                # print(lin)
+                classes = 3
+                confidence = int((lin[1]))
+                if int(lin[4]) < 0:
+                    left_x = 0
+                else:
+                    left_x = int(lin[4])
+                if int(lin[6]) < 0:
+                    top_y = 0
+                else:
+                    top_y = int(lin[6])
+                width = int(lin[10])
+                height = int(lin[14][:-2])
+                res.write(image_name + ' ' + str(classes) + ' ' + str(left_x) + ' ' + str(top_y) + ' ' + str(width) + ' ' + str(height) + ' ' + str(confidence / 100) + ' \n')
+                # print(res)    
+            elif line[0:4] == 'WBC:':
+                lin = re.split(':|%|t|w|h', line)
+                # print(lin)
+                classes = 4
+                confidence = int((lin[1]))
+                if int(lin[4]) < 0:
+                    left_x = 0
+                else:
+                    left_x = int(lin[4])
+                if int(lin[6]) < 0:
+                    top_y = 0
+                else:
+                    top_y = int(lin[6])
+                width = int(lin[10])
+                height = int(lin[14][:-2])
+                res.write(image_name + ' ' + str(classes) + ' ' + str(left_x) + ' ' + str(top_y) + ' ' + str(width) + ' ' + str(height) + ' ' + str(confidence / 100) + ' \n')
+                # print(res)
             else:
                 pass
 
@@ -146,17 +197,18 @@ def import_and_filder_results(input_file='/home/as-hunt/result.txt', results_fil
                 # print(l)
                 image_name = l
             elif line[0:4] == 'ERY:':
+                print('ERY')
                 lin = re.split(':|%|t|w|h', line)
                 if int(lin[4]) < 4:
                     # pass
-                    print(image_name + 'Error: left_x (' + str(lin[4]) + ') is less than 6')
+                    print(image_name + 'Error ERY: left_x (' + str(lin[4]) + ') is less than 6')
                 elif int(lin[4]) > 412:
-                    print(image_name + 'Error: left_x (' + str(lin[4]) + ') is greater than 410')
+                    print(image_name + 'Error ERY: left_x (' + str(lin[4]) + ') is greater than 410')
                 else:
                     if int(lin[6]) < 4:
-                        print(image_name + 'Error: top_y (' + str(lin[6]) + ') is less than 6')
+                        print(image_name + 'Error ERY: top_y (' + str(lin[6]) + ') is less than 6')
                     elif int(lin[6]) > 412:
-                        print(image_name + 'Error: top_y (' + str(lin[6]) + ') is greater than 410')
+                        print(image_name + 'Error ERY: top_y (' + str(lin[6]) + ') is greater than 410')
                     else:
                         # print(lin)
                         classes = 1
@@ -178,29 +230,30 @@ def import_and_filder_results(input_file='/home/as-hunt/result.txt', results_fil
                         if right_x > 416:
                             right_x = 416
                         if bottom_y < 4:
-                            print(image_name + 'Error : bottom_y (' + str(bottom_y) + ') is less than 6')
+                            print(image_name + 'Error ERY: bottom_y (' + str(bottom_y) + ') is less than 6')
                         elif bottom_y > 412:
-                            print(image_name + 'Error : bottom_y (' + str(bottom_y) + ') is greater than 410')
+                            print(image_name + 'Error ERY: bottom_y (' + str(bottom_y) + ') is greater than 410')
                         else:
                             if right_x > 412:
-                                print(image_name + 'Error : right_x (' + str(right_x) + ') is greater than 410')
+                                print(image_name + 'Error ERY: right_x (' + str(right_x) + ') is greater than 410')
                             elif right_x < 4:
-                                print(image_name + 'Error : right_x (' + str(right_x) + ') is less than 6')
+                                print(image_name + 'Error ERY: right_x (' + str(right_x) + ') is less than 6')
                             else:
                                 print(image_name + ' ' + str(classes) + ' ' + str(left_x) + ' ' + str(top_y) + ' ' + str(right_x) + ' ' + str(bottom_y) + ' ' + str(confidence / 100))
                                 res.write(image_name + ' ' + str(classes) + ' ' + str(left_x) + ' ' + str(top_y) + ' ' + str(right_x) + ' ' + str(bottom_y) + ' ' + str(confidence / 100) + ' \n')
             elif line[0:4] == 'ECHY':
+                print('ECHY')
                 lin = re.split(':|%|t|w|h', line)
                 if int(lin[4]) < 4:
                     # pass
-                    print(image_name + 'Error: left_x (' + str(lin[4]) + ') is less than 6')
+                    print(image_name + 'Error ECHY: left_x (' + str(lin[4]) + ') is less than 6')
                 elif int(lin[4]) > 412:
-                    print(image_name + 'Error: left_x (' + str(lin[4]) + ') is greater than 410')
+                    print(image_name + 'Error ECHY: left_x (' + str(lin[4]) + ') is greater than 410')
                 else:
                     if int(lin[6]) < 4:
-                        print(image_name + 'Error: top_y (' + str(lin[6]) + ') is less than 6')
+                        print(image_name + 'Error ECHY: top_y (' + str(lin[6]) + ') is less than 6')
                     elif int(lin[6]) > 412:
-                        print(image_name + 'Error: top_y (' + str(lin[6]) + ') is greater than 410')
+                        print(image_name + 'Error ECHY: top_y (' + str(lin[6]) + ') is greater than 410')
                     else:
                         # print(lin)
                         classes = 0
@@ -222,19 +275,155 @@ def import_and_filder_results(input_file='/home/as-hunt/result.txt', results_fil
                         if right_x > 416:
                             right_x = 416
                         if bottom_y < 4:
-                            print(image_name + 'Error : bottom_y (' + str(bottom_y) + ') is less than 6')
+                            print(image_name + 'Error ECHY: bottom_y (' + str(bottom_y) + ') is less than 6')
                         elif bottom_y > 412:
-                            print(image_name + 'Error : bottom_y (' + str(bottom_y) + ') is greater than 410')
+                            print(image_name + 'Error ECHY: bottom_y (' + str(bottom_y) + ') is greater than 410')
                         else:
                             if right_x > 412:
-                                print(image_name + 'Error : right_x (' + str(right_x) + ') is greater than 410')
+                                print(image_name + 'Error ECHY: right_x (' + str(right_x) + ') is greater than 410')
                             elif right_x < 4:
-                                print(image_name + 'Error : right_x (' + str(right_x) + ') is less than 0')
+                                print(image_name + 'Error ECHY: right_x (' + str(right_x) + ') is less than 0')
                             else:
                                 print(image_name + ' ' + str(classes) + ' ' + str(left_x) + ' ' + str(top_y) + ' ' + str(right_x) + ' ' + str(bottom_y) + ' ' + str(confidence / 100))
                                 res.write(image_name + ' ' + str(classes) + ' ' + str(left_x) + ' ' + str(top_y) + ' ' + str(right_x) + ' ' + str(bottom_y) + ' ' + str(confidence / 100) + ' \n')
+            elif line[0:4] == 'PLT:':
+                print('PLT')
+                lin = re.split(':|%|t|w|h', line)
+                if int(lin[4]) < 4:
+                    # pass
+                    print(image_name + 'Error PLT: left_x (' + str(lin[4]) + ') is less than 6')
+                elif int(lin[4]) > 412:
+                    print(image_name + 'Error PLT: left_x (' + str(lin[4]) + ') is greater than 410')
+                else:
+                    if int(lin[6]) < 4:
+                        print(image_name + 'Error PLT: top_y (' + str(lin[6]) + ') is less than 6')
+                    elif int(lin[6]) > 412:
+                        print(image_name + 'Error PLT: top_y (' + str(lin[6]) + ') is greater than 410')
+                    else:
+                        # print(lin)
+                        classes = 2
+                        confidence = int((lin[1]))
+                        if int(lin[4]) < 0:
+                            left_x = 0
+                        else:
+                            left_x = int(lin[4])
+                        if int(lin[6]) < 0:
+                            top_y = 0
+                        else:
+                            top_y = int(lin[6])
+                        width = int(lin[10])
+                        height = int(lin[14][:-2])
+                        bottom_y = top_y + height
+                        right_x = left_x + width
+                        if bottom_y < 0:
+                            bottom_y = 0
+                        if right_x > 416:
+                            right_x = 416
+                        if bottom_y < 4:
+                            print(image_name + 'Error PLT: bottom_y (' + str(bottom_y) + ') is less than 6')
+                        elif bottom_y > 412:
+                            print(image_name + 'Error PLT: bottom_y (' + str(bottom_y) + ') is greater than 410')
+                        else:
+                            if right_x > 412:
+                                print(image_name + 'Error PLT: right_x (' + str(right_x) + ') is greater than 410')
+                            elif right_x < 4:
+                                print(image_name + 'Error PLT: right_x (' + str(right_x) + ') is less than 0')
+                            else:
+                                print(image_name + ' ' + str(classes) + ' ' + str(left_x) + ' ' + str(top_y) + ' ' + str(right_x) + ' ' + str(bottom_y) + ' ' + str(confidence / 100))
+                                res.write(image_name + ' ' + str(classes) + ' ' + str(left_x) + ' ' + str(top_y) + ' ' + str(right_x) + ' ' + str(bottom_y) + ' ' + str(confidence / 100) + ' \n')                    
+            elif line[0:4] == 'SIDE':
+                print('SIDE')
+                lin = re.split(':|%|t|w|h', line)
+                if int(lin[4]) < 4:
+                    # pass
+                    print(image_name + 'Error SIDE: left_x (' + str(lin[4]) + ') is less than 6')
+                elif int(lin[4]) > 412:
+                    print(image_name + 'Error SIDE: left_x (' + str(lin[4]) + ') is greater than 410')
+                else:
+                    if int(lin[6]) < 4:
+                        print(image_name + 'Error SIDE: top_y (' + str(lin[6]) + ') is less than 6')
+                    elif int(lin[6]) > 412:
+                        print(image_name + 'Error SIDE: top_y (' + str(lin[6]) + ') is greater than 410')
+                    else:
+                        # print(lin)
+                        classes = 3
+                        confidence = int((lin[1]))
+                        if int(lin[4]) < 0:
+                            left_x = 0
+                        else:
+                            left_x = int(lin[4])
+                        if int(lin[6]) < 0:
+                            top_y = 0
+                        else:
+                            top_y = int(lin[6])
+                        width = int(lin[10])
+                        height = int(lin[14][:-2])
+                        bottom_y = top_y + height
+                        right_x = left_x + width
+                        if bottom_y < 0:
+                            bottom_y = 0
+                        if right_x > 416:
+                            right_x = 416
+                        if bottom_y < 4:
+                            print(image_name + 'Error SIDE: bottom_y (' + str(bottom_y) + ') is less than 6')
+                        elif bottom_y > 412:
+                            print(image_name + 'Error SIDE: bottom_y (' + str(bottom_y) + ') is greater than 410')
+                        else:
+                            if right_x > 412:
+                                print(image_name + 'Error SIDE: right_x (' + str(right_x) + ') is greater than 410')
+                            elif right_x < 4:
+                                print(image_name + 'Error SIDE: right_x (' + str(right_x) + ') is less than 0')
+                            else:
+                                print(image_name + ' ' + str(classes) + ' ' + str(left_x) + ' ' + str(top_y) + ' ' + str(right_x) + ' ' + str(bottom_y) + ' ' + str(confidence / 100))
+                                res.write(image_name + ' ' + str(classes) + ' ' + str(left_x) + ' ' + str(top_y) + ' ' + str(right_x) + ' ' + str(bottom_y) + ' ' + str(confidence / 100) + ' \n')                    
+            elif line[0:4] == 'WBC:':
+                print('WBC')
+                lin = re.split(':|%|t|w|h', line)
+                if int(lin[4]) < 4:
+                    # pass
+                    print(image_name + 'Error WBC: left_x (' + str(lin[4]) + ') is less than 6')
+                elif int(lin[4]) > 412:
+                    print(image_name + 'Error WBC: left_x (' + str(lin[4]) + ') is greater than 410')
+                else:
+                    if int(lin[6]) < 4:
+                        print(image_name + 'Error WBC: top_y (' + str(lin[6]) + ') is less than 6')
+                    elif int(lin[6]) > 412:
+                        print(image_name + 'Error WBC: top_y (' + str(lin[6]) + ') is greater than 410')
+                    else:
+                        # print(lin)
+                        classes = 4
+                        confidence = int((lin[1]))
+                        if int(lin[4]) < 0:
+                            left_x = 0
+                        else:
+                            left_x = int(lin[4])
+                        if int(lin[6]) < 0:
+                            top_y = 0
+                        else:
+                            top_y = int(lin[6])
+                        width = int(lin[10])
+                        height = int(lin[14][:-2])
+                        bottom_y = top_y + height
+                        right_x = left_x + width
+                        if bottom_y < 0:
+                            bottom_y = 0
+                        if right_x > 416:
+                            right_x = 416
+                        if bottom_y < 4:
+                            print(image_name + 'Error WBC: bottom_y (' + str(bottom_y) + ') is less than 6')
+                        elif bottom_y > 412:
+                            print(image_name + 'Error WBC: bottom_y (' + str(bottom_y) + ') is greater than 410')
+                        else:
+                            if right_x > 412:
+                                print(image_name + 'Error WBC: right_x (' + str(right_x) + ') is greater than 410')
+                            elif right_x < 4:
+                                print(image_name + 'Error WBC: right_x (' + str(right_x) + ') is less than 0')
+                            else:
+                                print(image_name + ' ' + str(classes) + ' ' + str(left_x) + ' ' + str(top_y) + ' ' + str(right_x) + ' ' + str(bottom_y) + ' ' + str(confidence / 100))
+                                res.write(image_name + ' ' + str(classes) + ' ' + str(left_x) + ' ' + str(top_y) + ' ' + str(right_x) + ' ' + str(bottom_y) + ' ' + str(confidence / 100) + ' \n')                    
             else:
                 pass
+
 
 # Run the import_and_filder_results function
 # import_and_filder_results()
