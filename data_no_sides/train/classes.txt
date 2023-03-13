@@ -1,4 +1,0 @@
-RBC
-RBC_sidew
-PLT
-RBC_overlap

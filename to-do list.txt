@@ -1,4 +1,0 @@
-add rename script
-sort automatically x number of images into test train validation folders 
-
-labelimg test_dataset/test_10.jpg test_dataset/classes.txt
