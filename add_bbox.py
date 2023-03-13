@@ -33,6 +33,18 @@ def add_bbox(image, bbox, classes):
         colour = (0,255,255) #cyan
     elif classes == 6:
         colour = (255,172,28) #orange
+    elif classes == 7:
+        colour = (255,255,255) #white
+    elif classes == 8:
+        colour = (0,0,0) #black
+    elif classes == 9:
+        colour = (235,92,135) #pink
+    elif classes == 10:
+        colour = (91,5,145) #purple
+    elif classes == 11:
+        colour = (173,241,33) #lime
+    elif classes == 12:
+        colour = (137,73,80) #brown 
     else:
         print('We dont have a colour setup for that class')
     left_x = bbox[0]
@@ -48,7 +60,6 @@ def iou_1(boxA, boxB):
     yA = max(boxA[1], boxB[1])
     xB = min(boxA[2], boxB[2])
     yB = min(boxA[3], boxB[3])
-
     # compute the area of intersection rectangle
     if xA < xB and yA < yB:
         I = (xB - xA) * (yB - yA)
@@ -63,6 +74,7 @@ def iou_1(boxA, boxB):
     # compute the intersection over union by taking the intersection
     # area and dividing it by the sum of prediction + ground-truth
     # areas - the interesection area
+    interArea = I
     if float(boxAArea + boxBArea - I) <= 0:
         iou = 0
     elif float(boxAArea + boxBArea - I) >= 1:
@@ -70,7 +82,6 @@ def iou_1(boxA, boxB):
     else:
         iou = interArea / float(boxAArea + boxBArea - I)
         iou = abs(iou)
-
     # return the intersection over union value
     return iou
 
@@ -179,15 +190,17 @@ def get_prediction_mistakes(gt_file, pd_file, path_to_images, save_directory):
                         print("Classes match! Success!")
                     else:
                         print("Classes do not match, detection error")
-                        classes = 2
+                        classes = 3
                         img = add_bbox(path_to_images + name+ '.jpg', bbox, int(classes))
                         cv2.imwrite(save_directory + name + '.jpg', img) 
                 else:
                     print("no overlap")
                     if classes== 0:
-                        classes = 3
-                    elif classes == 1:
                         classes = 4
+                    elif classes == 1:
+                        classes = 5
+                    elif classes == 2:
+                        classes = 6    
                     img = add_bbox(path_to_images + name+ '.jpg', bbox, int(classes))
                     cv2.imwrite(save_directory + name + '.jpg', img)
      
@@ -240,15 +253,19 @@ def get_prediction_mistakes_iterative(gt_file, pd_file, path_to_images, save_dir
                             gt_array.remove(thing)
                         else:
                             print("Classes do not match, detection error")
-                            classes = 2
+                            classes = 4
                             img = add_bbox(path_to_images + name+ '.jpg', bbox, int(classes))
                             cv2.imwrite(save_directory + name + '.jpg', img) 
                 else:
                     print("no overlap")
                     if classes== 0:
-                        classes = 3
+                        classes = 5
                     elif classes == 1:
-                        classes = 4
+                        classes = 6
+                    elif classes == 2:
+                        classes = 7
+                    elif classes == 3:
+                        classes = 8
                     img = add_bbox(path_to_images + name+ '.jpg', bbox, int(classes))
                     cv2.imwrite(save_directory + name + '.jpg', img)
     print("length of gt array is " + str(len(gt_array)))
@@ -260,8 +277,12 @@ def get_prediction_mistakes_iterative(gt_file, pd_file, path_to_images, save_dir
             bbox = item[1]
             classes = item[2]
             if classes== 0:
-                classes = 5
+                classes = 9
             elif classes == 1:
-                classes = 6
+                classes = 10
+            elif classes == 2:
+                classes = 11
+            elif classes == 3:
+                classes = 12
             img = add_bbox(path_to_images + name+ '.jpg', bbox, int(classes))
             cv2.imwrite(save_directory + name + '.jpg', img)

@@ -1,11 +1,7 @@
 import os
 import glob
 
-# file = open("/darknet/data/train/train.txt", "w")
-# dirs = os.listdir("/darknet/data/train/")
-
-
-def train_prep(file="train.txt", path="/mnt/c/Users/Alexander Hunt/data/train/"):
+def train_prep(file="train.txt", path="/home/as-hunt/Etra-Space/5-class/train/"):
     filoo = open(path + file, 'w')
     for image in os.listdir(path):
         if image.endswith(".jpg"):
@@ -13,7 +9,7 @@ def train_prep(file="train.txt", path="/mnt/c/Users/Alexander Hunt/data/train/")
             filoo.write(path + image + "\n")
     filoo.close()
 
-def test_prep(file="test.txt", path="/mnt/c/Users/Alexander Hunt/data/test/"):
+def test_prep(file="test.txt", path="/home/as-hunt/Etra-Space/5-class/test/"):
     filoo = open(path + file, 'w')
     for image in os.listdir(path):
         if image.endswith(".jpg"):
@@ -21,28 +17,19 @@ def test_prep(file="test.txt", path="/mnt/c/Users/Alexander Hunt/data/test/"):
             filoo.write(path + image + "\n")
     filoo.close()
 
-def val_prep(file="valid.txt", path="/mnt/c/Users/Alexander Hunt/data/valid/"):
+def val_prep(file="valid.txt", path="/home/as-hunt/Etra-Space/5-class/valid/"):
     filoo = open(path + file, 'w')
     for image in os.listdir(path):
         if image.endswith(".jpg"):
             print(image)
-            filoo.write(paht + image + "\n")
+            filoo.write(path + image + "\n")
     filoo.close()
-
-# def more_prep(file="mini_valdi/valid.txt", dir="mini_valdi/"):
-#     filoo = open(file, 'w')
-#     for image in os.listdir(dir):
-#         if image.endswith(".jpg"):
-#             print(image)
-#             filoo.write("mini_valdi/" + image + "\n")
-#     filoo.close()
 
 
 def allDaPrep():
-    train_prep('train.txt', '/mnt/c/Users/Alexander Hunt/Preprocessing/data_2/train/')
-    test_prep('test.txt', '/mnt/c/Users/Alexander Hunt/Preprocessing/data_2/test/')
-    # val_prep()
+    train_prep()
+    test_prep()
+    val_prep()
 
 if __name__ == "__main__":
-    # allDaPrep()
     allDaPrep()
