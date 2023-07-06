@@ -1,7 +1,7 @@
 import os
 import glob
 
-def train_prep(file="train.txt", path="/home/as-hunt/Etra-Space/5-class/train/"):
+def train_prep(file="train.txt", path="/home/as-hunt/Etra-Space/white-thirds/train/"):
     filoo = open(path + file, 'w')
     for image in os.listdir(path):
         if image.endswith(".jpg"):
@@ -9,7 +9,7 @@ def train_prep(file="train.txt", path="/home/as-hunt/Etra-Space/5-class/train/")
             filoo.write(path + image + "\n")
     filoo.close()
 
-def test_prep(file="test.txt", path="/home/as-hunt/Etra-Space/5-class/test/"):
+def test_prep(file="test.txt", path="/home/as-hunt/Etra-Space/white-thirds/test/"):
     filoo = open(path + file, 'w')
     for image in os.listdir(path):
         if image.endswith(".jpg"):
@@ -17,7 +17,7 @@ def test_prep(file="test.txt", path="/home/as-hunt/Etra-Space/5-class/test/"):
             filoo.write(path + image + "\n")
     filoo.close()
 
-def val_prep(file="valid.txt", path="/home/as-hunt/Etra-Space/5-class/valid/"):
+def val_prep(file="valid.txt", path="/home/as-hunt/Etra-Space/white-thirds/valid/"):
     filoo = open(path + file, 'w')
     for image in os.listdir(path):
         if image.endswith(".jpg"):
