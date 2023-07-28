@@ -32,17 +32,17 @@ def train_fancy(dir="/home/as-hunt/Etra-Space/white-thirds/", upper_range=10000,
     make_groud_truth(temp + 'gt.txt', test_dir)
     print("Initiating training for " + str(upper_range) + " epochs")
     print("Using starting weights: " + new_weights)
-    for i in tqdm(range(0, upper_range, 5), desc="Training", unit="epochs"):
+    for i in tqdm(range(0, upper_range, 10), desc="Training", unit="epochs"):
         os.system("darknet detector train " + obj_data + ' ' + cfg_10 + ' ' + new_weights + ' ' + args + '> /dev/null 2>&1')
-        epoch = i + 5
+        epoch = i + 10
         subprocess.run(['mv', backup + 'yolov4_10_final.weights', backup + 'yolov4_' + str(epoch) + '.weights'])
         new_weights = backup + "yolov4_" + str(epoch) + ".weights"
         os.system("darknet detector test " + obj_data + " " + cfg_10 + " " + new_weights + " -dont_show -ext_output < " + test_file + " > " + temp_file + " 2>&1")
-        import_results_leuko(temp_file, temp + 'results_' + str(epoch) + '.txt')
-        F1w, F1m, acc, precision_score_weighted, precision_score_macro, recall_score_weighted, recall_score_macro, fbeta05_score_weighted, fbeta05_score_macro, fbeta2_score_weighted, fbeta2_score_macro, = do_math_leuko(temp + 'gt.txt', temp + 'results_' + str(epoch) + '.txt', 'export_' + str(epoch), False)
+        import_results_2(temp_file, temp + 'results_' + str(epoch) + '.txt')
+        F1w, F1m, acc, precision_score_weighted, precision_score_macro, recall_score_weighted, recall_score_macro, fbeta05_score_weighted, fbeta05_score_macro, fbeta2_score_weighted, fbeta2_score_macro, = do_math_leukall(temp + 'gt.txt', temp + 'results_' + str(epoch) + '.txt', 'export_' + str(epoch), False)
         li.append([epoch, F1w, F1m, acc, precision_score_weighted, precision_score_macro, recall_score_weighted, recall_score_macro, fbeta05_score_weighted, fbeta05_score_macro, fbeta2_score_weighted, fbeta2_score_macro])
         os.system("rm " + temp + "results_" + str(epoch) + ".txt")
-        if (epoch-5) % 50 == 0:
+        if (epoch-10) % 50 == 0:
             # print("Saving weights")
             pass
         else:
@@ -86,8 +86,7 @@ def make_the_graphs(csv_file="/home/as-hunt/Etra-Space/white-thirds/output.csv",
 
 
 
-
 if __name__ == "__main__":
-    train_fancy("/home/as-hunt/Etra-Space/white-thirds/", 250, "/home/as-hunt/Etra-Space/cfg/yolov4.conv.137", " -mjpeg_port 8090 -clear -dont_show")
+    train_fancy("/home/as-hunt/Etra-Space/differential/", 10000, "/home/as-hunt/Etra-Space/differential/backup/differential_final.weights", " -mjpeg_port 8090 -clear -dont_show")
     # print("train.py executed directly")
-    make_the_graphs()
+    make_the_graphs("/home/as-hunt/Etra-Space/differential/output.csv","/home/as-hunt/Etra-Space/differential/")
