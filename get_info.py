@@ -2,6 +2,10 @@ import os
 import sys
 import pandas as pd
 import re
+import matplotlib.pyplot as plt
+import seaborn as sns
+from import_results import *
+from add_bbox import *
 
 def get_info(data_path, model_path, model_name):
     cfg = model_path + 'yolov4_10.cfg'
@@ -38,8 +42,6 @@ def get_info(data_path, model_path, model_name):
     df = pd.DataFrame(save, columns=['Cell type', 'Confidence'])    
     # print(df)    
     os.remove(data_path + 'test.txt')
-    os.remove(temp_path + 'result.txt')
-    os.rmdir(temp_path)
     df.to_csv(data_path + 'results.csv', index=False)
     ery = df.loc[df['Cell type'] == 'ERY']
     echy = df.loc[df['Cell type'] == 'ECHY']
@@ -71,7 +73,19 @@ def get_info(data_path, model_path, model_name):
     if len(neu) != 0:
         print('Counted ' + str(len(neu)) + ' neutrophils')
         print('Average confidence: ' + str(round(float(neu['Confidence'].mean()), 2)))
-
+    if len(wbc) != 0:
+        import_and_filder_results(temp_path + 'result.txt', temp_path + 'results.txt')
+    else:
+        import_and_filder_result_2(temp_path + 'result.txt', temp_path + 'results.txt')   
+    with open(temp_path + 'results.txt') as f:
+        for line in f:
+            item = line.split()
+            mv = [float(item[2]), float(item[3]), float(item[4]), float(item[5])]
+            mv = [i / 416 for i in mv]
+            with open(temp_path + item[0] + '.txt', 'a') as g:
+                 g.write(str(item[1]) + ' ' + str(mv[0]) + ' ' + str(mv[1]) + ' ' + str(mv[2]) + ' ' + str(mv[3]) + '\n')
+    os.remove(temp_path + 'results.txt')           
+    os.remove(temp_path + 'result.txt')
 
 if __name__ == "__main__":
     get_info(sys.argv[1], sys.argv[2], sys.argv[3])
