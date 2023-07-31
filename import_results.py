@@ -1216,3 +1216,4 @@ def import_and_filder_result_2(input_file='/home/as-hunt/result.txt', results_fi
             else:
                 pass
 
+import_results_2('/home/as-hunt/Etra-Space/differential/result.txt', '/home/as-hunt/Etra-Space/differential/results.txt')
