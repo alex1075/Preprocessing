@@ -1,5 +1,6 @@
 # Preprocessing
-Preprocessing data for ML analysis
+
+Code snippets from the PhD of Alexander Hunt. New, all intergrated version available at machine-code repository.
 
 ### How to prepare the data for ML analysis
 # 1. Process the data
