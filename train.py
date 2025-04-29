@@ -33,12 +33,12 @@ def train_fancy(dir="/home/as-hunt/Etra-Space/white-thirds/", upper_range=10000,
     print("Initiating training for " + str(upper_range) + " epochs")
     print("Using starting weights: " + new_weights)
     for i in tqdm(range(0, upper_range, 10), desc="Training", unit="epochs"):
-        os.system("darknet detector train " + obj_data + ' ' + cfg_10 + ' ' + new_weights + ' ' + args + '> /dev/null 2>&1')
+        os.system("darknet detector train " + obj_data + ' ' + cfg_10 + ' ' + new_weights + ' ' + args )
         epoch = i + 10
         subprocess.run(['mv', backup + 'yolov4_10_final.weights', backup + 'yolov4_' + str(epoch) + '.weights'])
         new_weights = backup + "yolov4_" + str(epoch) + ".weights"
         os.system("darknet detector test " + obj_data + " " + cfg_10 + " " + new_weights + " -dont_show -ext_output < " + test_file + " > " + temp_file + " 2>&1")
-        import_results_2(temp_file, temp + 'results_' + str(epoch) + '.txt')
+        import_results_neo(temp_file, temp + 'results_' + str(epoch) + '.txt')
         F1w, F1m, acc, precision_score_weighted, precision_score_macro, recall_score_weighted, recall_score_macro, fbeta05_score_weighted, fbeta05_score_macro, fbeta2_score_weighted, fbeta2_score_macro, = do_math_leukall(temp + 'gt.txt', temp + 'results_' + str(epoch) + '.txt', 'export_' + str(epoch), False)
         li.append([epoch, F1w, F1m, acc, precision_score_weighted, precision_score_macro, recall_score_weighted, recall_score_macro, fbeta05_score_weighted, fbeta05_score_macro, fbeta2_score_weighted, fbeta2_score_macro])
         os.system("rm " + temp + "results_" + str(epoch) + ".txt")

@@ -255,6 +255,7 @@ def make_groud_truth_unfiltered(ground_truth_file='gt.txt', test_folder='/home/a
                         count += 1
                         # print('Line ' + str(count) + ': ' + img_name + ' ' + str(classes) + ' ' + str(left_x) + ' ' + str(top_y) + ' ' + str(right_x) + ' ' + str(bottom_y))   
 
+
 def count_classes(test_folder='/home/as-hunt/Etra-Space/new_data_sidless/valid/', chart=False, chart_name='chart.png', labs=['1', '2', '3']):
     class_1 = 0
     class_2 = 0
@@ -331,6 +332,9 @@ def count_classes(test_folder='/home/as-hunt/Etra-Space/new_data_sidless/valid/'
             fig, ax = plt.subplots()
             ax.pie(count, labels=labels, autopct='%1.1f%%', shadow=True, startangle=90)
         plt.savefig(chart_name, bbox_inches='tight')    
+
+count_classes(test_folder='/mnt/archive/new_data_sidless_no_rcc_1/train/', chart=False)
+
 
 def count_classes_file(test_file='/home/as-hunt/Etra-Space/new_data_sidless/gt.txt', chart=False, chart_name='chart.png', labs=['1', '2', '3']):
     class_1 = 0

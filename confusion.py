@@ -116,8 +116,7 @@ def plot_normalised_confusion_matrix(ground_truth_file, prediction_file, title='
 
 # plot_normalised_confusion_matrix('/home/as-hunt/ground_truth.csv', '/home/as-hunt/predictions.csv', title='Normalised Confusion Matrix')
 
-def do_math(gt_file, pd_file, title):
-    do_math_leukall(gt_file, pd_file, title)
+
 
 def do_math_4(gt_file, pd_file, title):
     gt = open(gt_file, 'r')
@@ -373,7 +372,7 @@ def do_math_4(gt_file, pd_file, title):
     #     print("F1 WBC: 0")
     print("MissClass: " + str(MissClass_ECHY_as_ERY + MissClass_ECHY_as_PLT + MissClass_ECHY_as_WBC + MissClass_ERY_as_ECHY + MissClass_ERY_as_PLT + MissClass_ERY_as_WBC + MissClass_PLT_as_ECHY + MissClass_PLT_as_ERY + MissClass_PLT_as_WBC + MissClass_WBC_as_ECHY + MissClass_WBC_as_ERY + MissClass_WBC_as_PLT))
     # name = pd_file.split('/')
-    path = '/home/as-hunt/Etra-Space/5-class-more/'
+    path = '/home/as-hunt/Etra-Space/'
     name = 'Normalised Confusion Matrix ' + title + ' Post bbox matching'
     # print(gt_cm)
     # print(pd_cm)
@@ -559,7 +558,7 @@ def do_math_two(gt_file, pd_file, title):
         print("Recall: " + str(round(recall, 3)))
     print("MissClass: " + str(MissClass_ECHY + MissClass_ERY))
     # name = pd_file.split('/')
-    path = '/home/as-hunt/Etra-Space/neu-mon/'
+    path = '/home/as-hunt/Etra-Space/Mono/'
     name = 'Normalised Confusion Matrix ' + title + ' Post bbox matching'
     # print(gt_cm)
     # print(pd_cm)
@@ -573,7 +572,8 @@ def do_math_two(gt_file, pd_file, title):
     print("F1 none: " + str(F1n))
     acc = accuracy_score(y_actu, y_pred)
     print("Accuracy score sklearn: " + str(acc))
-    target_names = ['Mononuclear cell', 'Neutrophil']
+    target_names = ['Monocyte', 'Monocyte Activated']
+    print(y_actu, y_pred)
     print(classification_report(y_actu, y_pred, target_names=target_names))
     precision_score_weighted = precision_score(y_actu, y_pred, average='weighted')
     print("Precision score weighted: " + str(precision_score_weighted))
@@ -742,7 +742,7 @@ def do_math_three(gt_file, pd_file, title):
         print("Recall: " + str(round(recall, 3)))
     print("MissClass: " + str(MissClass_ECHY + MissClass_ERY))
     # name = pd_file.split('/')
-    path = '/home/as-hunt/Etra-Space/5-class-more/'
+    path = '/home/as-hunt/Etra-Space/'
     name = 'Normalised Confusion Matrix ' + title + ' Post bbox matching'
     # print(gt_cm)
     # print(pd_cm)
@@ -955,116 +955,7 @@ def do_math_all(gt_file, pd_file, title):
             FN_PLT += 1
         elif classes == '3':
             FN_WBC += 1
-    # FNECHY = FN_ECHY + MissClass_ECHY_as_ERY + MissClass_ECHY_as_PLT + MissClass_ECHY_as_WBC + MissClass_ECHY_as_SIDE
-    # MissClass_ECHY = MissClass_ECHY_as_ERY + MissClass_ECHY_as_PLT + MissClass_ECHY_as_WBC + MissClass_ECHY_as_SIDE
-    # FNERY = FN_ERY + MissClass_ERY_as_ECHY + MissClass_ERY_as_PLT + MissClass_ERY_as_WBC + MissClass_ERY_as_SIDE
-    # MissClass_ERY = MissClass_ERY_as_ECHY + MissClass_ERY_as_PLT + MissClass_ERY_as_WBC + MissClass_ERY_as_SIDE
-    # FNPLT = FN_PLT + MissClass_PLT_as_ECHY + MissClass_PLT_as_ERY + MissClass_PLT_as_WBC + MissClass_PLT_as_SIDE
-    # MissClass_PLT = MissClass_PLT_as_ECHY + MissClass_PLT_as_ERY + MissClass_PLT_as_WBC + MissClass_PLT_as_SIDE
-    # FNWBC = FN_WBC + MissClass_WBC_as_ECHY + MissClass_WBC_as_ERY + MissClass_WBC_as_PLT + MissClass_WBC_as_SIDE
-    # MissClass_WBC = MissClass_WBC_as_ECHY + MissClass_WBC_as_ERY + MissClass_WBC_as_PLT + MissClass_WBC_as_SIDE
-    # MissClass_SIDE = MissClass_SIDE_as_ECHY + MissClass_SIDE_as_ERY + MissClass_SIDE_as_PLT + MissClass_SIDE_as_WBC
-    # FNSIDE = FN_SIDE + MissClass_SIDE_as_ECHY + MissClass_SIDE_as_ERY + MissClass_SIDE_as_PLT + MissClass_SIDE_as_WBC
-    # FPERY = FP_ERY + MissClass_ECHY_as_ERY + MissClass_PLT_as_ERY + MissClass_WBC_as_ERY + MissClass_SIDE_as_ERY
-    # FPECHY = FP_ECHY + MissClass_ERY_as_ECHY + MissClass_PLT_as_ECHY + MissClass_WBC_as_ECHY + MissClass_SIDE_as_ECHY
-    # FPPLT = FP_PLT + MissClass_ECHY_as_PLT + MissClass_ERY_as_PLT + MissClass_WBC_as_PLT + MissClass_SIDE_as_PLT
-    # FPWBC = FP_WBC + MissClass_ECHY_as_WBC + MissClass_ERY_as_WBC + MissClass_PLT_as_WBC + MissClass_SIDE_as_WBC
-    # FPSIDE = FP_SIDE + MissClass_ECHY_as_SIDE + MissClass_ERY_as_SIDE + MissClass_PLT_as_SIDE + MissClass_WBC_as_SIDE
-    # print("True Positives ECHY: " + str(TP_ECHY))
-    # print("True Positives ERY: " + str(TP_ERY))
-    # print("True Positives PLT: " + str(TP_PLT))
-    # print("True Positives SIDE: " + str(TP_SIDE))
-    # print("True Positives WBC: " + str(TP_WBC))
-    # TP = TP_ECHY + TP_ERY + TP_WBC + TP_PLT
-    # print("True Positives: " + str(TP))
-    # print("False Positives ECHY: " + str(FP_ECHY))
-    # print("False Positives ERY: " + str(FP_ERY))
-    # print("False Positives PLT: " + str(FP_PLT))
-    # print("False Positives SIDE: " + str(FP_SIDE))
-    # print("False Positives WBC: " + str(FP_WBC))
-    # FP = FPECHY + FPERY + FPWBC + FPPLT
-    # print("False Positives: " + str(FP))
-    # print("False Negatives ECHY: " + str(FN_ECHY))
-    # print("False Negatives ERY: " + str(FN_ERY))
-    # print("False Negatives PLT: " + str(FN_PLT))
-    # print("False Negatives SIDE: " + str(FN_SIDE))
-    # print("False Negatives WBC: " + str(FN_WBC))
-    # FN = FNECHY + FNERY + FNWBC + FNPLT
-    # print("False Negatives: " + str(FN))
-    # print("MissClass ECHY: " + str(MissClass_ECHY))
-    # print("MissClass ERY: " + str(MissClass_ERY))
-    # print("MissClass PLT: " + str(MissClass_PLT))
-    # print("MissClass SIDE: " + str(MissClass_SIDE))
-    # print("MissClass WBC: " + str(MissClass_WBC))
-    # predicted = pd_len
-    # print("Predicted: " + str(predicted))
-    # actual = gt_len
-    # if TP_ECHY + FPECHY != 0:
-    #     precision_ECHY = TP_ECHY / (TP_ECHY + FPECHY)
-    #     print("Precision ECHY: " + str(precision_ECHY))
-    # else:
-    #     print("Precision ECHY: 0")
-    # if TP_ERY + FPERY != 0:
-    #     precision_ERY = TP_ERY / (TP_ERY + FPERY)
-    #     print("Precision ERY: " + str(precision_ERY))
-    # else:
-    #     print("Precision ERY: 0")
-    # if TP_PLT + FPPLT != 0:
-    #     precision_PLT = TP_PLT / (TP_PLT + FPPLT)
-    #     print("Precision PLT: " + str(precision_PLT))
-    # else:
-    #     print("Precision PLT: 0")  
-    # if TP_SIDE + FPSIDE != 0:
-    #     precision_SIDE = TP_SIDE / (TP_SIDE + FPSIDE)
-    # else:
-    #    print("Precision SIDE: 0")          
-    # if TP_WBC + FPWBC != 0:
-    #     precision_WBC = TP_WBC / (TP_WBC + FPWBC)
-    #     print("Precision WBC: " + str(precision_WBC))
-    # else:
-    #     print("Precision WBC: 0")
-    # if TP_ECHY + FNECHY != 0:
-    #     recall_ECHY = TP_ECHY / (TP_ECHY + FNECHY)
-    #     print("Recall ECHY: " + str(recall_ECHY))
-    # else:
-    #     print("Recall ECHY: 0")
-    # if TP_ERY + FNERY != 0:
-    #     recall_ERY = TP_ERY / (TP_ERY + FNERY)
-    #     print("Recall ERY: " + str(recall_ERY))
-    # else:
-    #     print("Recall ERY: 0")
-    # if TP_PLT + FNPLT != 0:
-    #     recall_PLT = TP_PLT / (TP_PLT + FNPLT)
-    #     print("Recall PLT: " + str(recall_PLT))
-    # else:
-    #     print("Recall PLT: 0")    
-    # if TP_SIDE + FNSIDE != 0:
-    #     recall_SIDE = TP_SIDE / (TP_SIDE + FNSIDE)
-    # else:
-    #     print("Recall SIDE: 0")    
-    # if TP_WBC + FNWBC != 0:
-    #     recall_WBC = TP_WBC / (TP_WBC + FNWBC)
-    #     print("Recall WBC: " + str(recall_WBC))
-    # else:
-    #     print("Recall WBC: 0")
-    # accuracy = (TP ) / (TP + FP + FN)
-    # print("Actual: " + str(actual))
-    # print("Accuracy: " + str(round(accuracy, 3)))
-    # if TP + FP + FN != 0:
-    #     F1 = (TP)/(TP+ ((FP + FN)/2))
-    #     print("F1: " + str(round(F1, 3)))
-    # else:
-    #     print("F1: 0")
-    # if TP + FP != 0:
-    #     precision = TP / (TP + FP)
-    #     print("Precision: " + str(round(precision, 3)))
-    # else:
-    #     print("Precision: 0")
-    # if TP + FN != 0:
-    #     recall = TP / (TP + FN)
-    #     print("Recall: " + str(round(recall, 3)))
-    # print("MissClass: " + str((MissClass_ECHY + MissClass_ERY + MissClass_PLT + MissClass_SIDE + MissClass_WBC)))
-    path = '/home/as-hunt/Etra-Space/blood-1/'
+    path = '/home/as-hunt/'
     name = 'Normalised Confusion Matrix ' + title + ' Post bbox matching'
     y_actu = pd.Series(gt_cm, name='Ground Truth')
     y_pred = pd.Series(pd_cm, name='Predicted')
@@ -1088,7 +979,7 @@ def do_math_all(gt_file, pd_file, title):
     except:
         acc = 0
     print("Accuracy score sklearn: " + str(acc))
-    target_names = ['Echinocyte', 'Erythrocyte', 'Platelet', 'SIDE', 'Leukocyte']
+    target_names = ['Lymphocyte', 'Lymphocyte Activated', 'Monocyte', 'Neutrophil']
     print(classification_report(y_actu, y_pred, target_names=target_names))
     precision_score_weighted = precision_score(y_actu, y_pred, average='weighted')
     print("Precision score weighted: " + str(precision_score_weighted))
@@ -1277,7 +1168,7 @@ def do_math_leuko(gt_file, pd_file, title, savefig=True):
     #     pass    
         # print("Recall: " + str(round(recall, 3)))
     # print("MissClass: " + str((MissClass_LYM + MissClass_MON + MissClass_NEU)))
-    path = '/home/as-hunt/Etra-Space/white-thirds/'
+    path = '/home/as-hunt/'
     name = 'Normalised Confusion Matrix ' + title + ' Post bbox matching'
     y_actu = pd.Series(gt_cm, name='Ground Truth')
     y_pred = pd.Series(pd_cm, name='Predicted')
@@ -1289,7 +1180,7 @@ def do_math_leuko(gt_file, pd_file, title, savefig=True):
             F1m =  '0'    
     except:
         F1m =  '0'
-    # print("F1 macro: " + str(F1m))
+    print("F1 macro: " + str(F1m))
     try:
         F1w = f1_score(y_actu, y_pred, average='weighted')
         if math.isnan(F1w)==True:
@@ -1298,7 +1189,7 @@ def do_math_leuko(gt_file, pd_file, title, savefig=True):
             F1w =  '0'
     except:
         F1w =  '0'
-    # print("F1 weighted: " + str(F1w))
+    print("F1 weighted: " + str(F1w))
     F1n = f1_score(y_actu, y_pred, average=None)
     # print("F1 none: " + str(F1n))
     try:
@@ -1309,12 +1200,12 @@ def do_math_leuko(gt_file, pd_file, title, savefig=True):
             acc =  '0'
     except:
         acc =  '0'
-    # print("Accuracy score sklearn: " + str(acc))
-    target_names = ['Lymphocyte', 'Mononuclear cells', 'Neutrophils']
-    # try:
-    #     print(classification_report(y_actu, y_pred, target_names=target_names))
-    # except:
-    #     print("Classification report failed")
+    print("Accuracy score sklearn: " + str(acc))
+    target_names = ['Lymphocyte', 'Lymphocyte activated', 'Monocytes', 'Monocytes activated','Neutrophils', 'Neutrophils activated']
+    try:
+        print(classification_report(y_actu, y_pred, target_names=target_names))
+    except:
+        print("Classification report failed")
     try:
         precision_score_weighted = precision_score(y_actu, y_pred, average='weighted')
         if math.isnan(precision_score_weighted)==True:
@@ -1323,7 +1214,7 @@ def do_math_leuko(gt_file, pd_file, title, savefig=True):
             precision_score_weighted =  '0'    
     except:
         precision_score_weighted =  '0'
-    # print("Precision score weighted: " + str(precision_score_weighted))
+    print("Precision score weighted: " + str(precision_score_weighted))
     try:
         precision_score_macro = precision_score(y_actu, y_pred, average='macro')
         if math.isnan(precision_score_macro)==True:
@@ -1332,9 +1223,9 @@ def do_math_leuko(gt_file, pd_file, title, savefig=True):
             precision_score_macro =  '0'
     except:
         precision_score_macro =  '0'
-    # print("Precision score macro: " + str(precision_score_macro))
+    print("Precision score macro: " + str(precision_score_macro))
     precision_score_none = precision_score(y_actu, y_pred, average=None)
-    # print("Precision score none: " + str(precision_score_none))
+    print("Precision score none: " + str(precision_score_none))
     try:
         recall_score_weighted = recall_score(y_actu, y_pred, average='weighted')
         if math.isnan(recall_score_weighted)==True:
@@ -1343,7 +1234,7 @@ def do_math_leuko(gt_file, pd_file, title, savefig=True):
             recall_score_weighted =  '0'
     except:
         recall_score_weighted =  '0'
-    # print("Recall score weighted: " + str(recall_score_weighted))
+    print("Recall score weighted: " + str(recall_score_weighted))
     try:
         recall_score_macro = recall_score(y_actu, y_pred, average='macro')
         if math.isnan(recall_score_macro)==True:
@@ -1352,9 +1243,9 @@ def do_math_leuko(gt_file, pd_file, title, savefig=True):
             recall_score_macro =  '0'
     except:
         recall_score_macro =  '0'
-    # print("Recall score macro: " + str(recall_score_macro))
+    print("Recall score macro: " + str(recall_score_macro))
     recall_score_none = recall_score(y_actu, y_pred, average=None)
-    # print("Recall score none: " + str(recall_score_none))
+    print("Recall score none: " + str(recall_score_none))
     try:
         fbeta05_score_weighted = fbeta_score(y_actu, y_pred, average='weighted', beta=0.5)
         if math.isnan(fbeta05_score_weighted)==True:
@@ -1363,7 +1254,7 @@ def do_math_leuko(gt_file, pd_file, title, savefig=True):
             fbeta05_score_weighted =  '0'
     except:
         fbeta05_score_weighted =  '0'
-    # print("F0.5 measure weighted: " + str(fbeta05_score_weighted))
+    print("F0.5 measure weighted: " + str(fbeta05_score_weighted))
     try:
         fbeta05_score_macro = fbeta_score(y_actu, y_pred, average='macro', beta=0.5)
         if math.isnan(fbeta05_score_macro)==True:
@@ -1372,9 +1263,9 @@ def do_math_leuko(gt_file, pd_file, title, savefig=True):
             fbeta05_score_macro =  '0'
     except:
         fbeta05_score_macro =  '0'
-    # print("F0.5 measure macro: " + str(fbeta05_score_macro))
+    print("F0.5 measure macro: " + str(fbeta05_score_macro))
     fbeta05_score_none = fbeta_score(y_actu, y_pred, average=None, beta=0.5)
-    # print("F0.5 measure none: " + str(fbeta05_score_none))
+    print("F0.5 measure none: " + str(fbeta05_score_none))
     try:
         fbeta2_score_weighted = fbeta_score(y_actu, y_pred, average='weighted', beta=2)
         if math.isnan(fbeta2_score_weighted)==True:
@@ -1383,7 +1274,7 @@ def do_math_leuko(gt_file, pd_file, title, savefig=True):
             fbeta2_score_weighted =  '0'
     except:
         fbeta2_score_weighted =  '0'
-    # print("F2 measure weighted: " + str(fbeta2_score_weighted))
+    print("F2 measure weighted: " + str(fbeta2_score_weighted))
     try:
         fbeta2_score_macro = fbeta_score(y_actu, y_pred, average='macro', beta=2)
         if math.isnan(fbeta2_score_macro)==True:
@@ -1392,9 +1283,9 @@ def do_math_leuko(gt_file, pd_file, title, savefig=True):
             fbeta2_score_macro =  '0'
     except:
         fbeta2_score_macro =  '0'
-    # print("F2 measure macro: " + str(fbeta2_score_macro))
+    print("F2 measure macro: " + str(fbeta2_score_macro))
     fbeta2_score_none = fbeta_score(y_actu, y_pred, average=None, beta=2)
-    # print("F2 measure none: " + str(fbeta2_score_none))
+    print("F2 measure none: " + str(fbeta2_score_none))
     try:
         df_confusion = pd.crosstab(y_actu, y_pred, dropna=False)
         df_conf_norm = df_confusion.div(df_confusion.sum(axis=1), axis="index")
@@ -1684,7 +1575,7 @@ def do_math_leukall(gt_file, pd_file, title, savefig=False):
     #     recall = TP / (TP + FN)
     #     print("Recall: " + str(round(recall, 3)))
     # print("MissClass: " + str((MissClass_ECHY + MissClass_ERY + MissClass_PLT + MissClass_LYM + MissClass_MON + MissClass_NEU)))
-    path = '/home/as-hunt/Etra-Space/differential/'
+    path = '/home/as-hunt/'
     name = 'Normalised Confusion Matrix ' + title + ' Post bbox matching'
     y_actu = pd.Series(gt_cm, name='Ground Truth')
     y_pred = pd.Series(pd_cm, name='Predicted')
@@ -1696,7 +1587,7 @@ def do_math_leukall(gt_file, pd_file, title, savefig=False):
             F1m =  '0'    
     except:
         F1m =  '0'
-    # print("F1 macro: " + str(F1m))
+    print("F1 macro: " + str(F1m))
     try:
         F1w = f1_score(y_actu, y_pred, average='weighted')
         if math.isnan(F1w)==True:
@@ -1705,9 +1596,9 @@ def do_math_leukall(gt_file, pd_file, title, savefig=False):
             F1w =  '0'
     except:
         F1w =  '0'
-    # print("F1 weighted: " + str(F1w))
+    print("F1 weighted: " + str(F1w))
     F1n = f1_score(y_actu, y_pred, average=None)
-    # print("F1 none: " + str(F1n))
+    print("F1 none: " + str(F1n))
     try:
         acc = accuracy_score(y_actu, y_pred)
         if math.isnan(acc)==True:
@@ -1716,12 +1607,12 @@ def do_math_leukall(gt_file, pd_file, title, savefig=False):
             acc =  '0'
     except:
         acc =  '0'
-    # print("Accuracy score sklearn: " + str(acc))
-    target_names = ['Lymphocyte', 'Mononuclear cells', 'Neutrophils']
-    # try:
-    #     print(classification_report(y_actu, y_pred, target_names=target_names))
-    # except:
-    #     print("Classification report failed")
+    print("Accuracy score sklearn: " + str(acc))
+    target_names = ['Echinocytes', 'Erythorcytes', 'Lymphocyte', 'Monocytes', 'Neutrophils', 'Platelets']
+    try:
+        print(classification_report(y_actu, y_pred, target_names=target_names))
+    except:
+        print("Classification report failed")
     try:
         precision_score_weighted = precision_score(y_actu, y_pred, average='weighted')
         if math.isnan(precision_score_weighted)==True:
@@ -1730,7 +1621,7 @@ def do_math_leukall(gt_file, pd_file, title, savefig=False):
             precision_score_weighted =  '0'    
     except:
         precision_score_weighted =  '0'
-    # print("Precision score weighted: " + str(precision_score_weighted))
+    print("Precision score weighted: " + str(precision_score_weighted))
     try:
         precision_score_macro = precision_score(y_actu, y_pred, average='macro')
         if math.isnan(precision_score_macro)==True:
@@ -1739,9 +1630,9 @@ def do_math_leukall(gt_file, pd_file, title, savefig=False):
             precision_score_macro =  '0'
     except:
         precision_score_macro =  '0'
-    # print("Precision score macro: " + str(precision_score_macro))
+    print("Precision score macro: " + str(precision_score_macro))
     precision_score_none = precision_score(y_actu, y_pred, average=None)
-    # print("Precision score none: " + str(precision_score_none))
+    print("Precision score none: " + str(precision_score_none))
     try:
         recall_score_weighted = recall_score(y_actu, y_pred, average='weighted')
         if math.isnan(recall_score_weighted)==True:
@@ -1750,7 +1641,7 @@ def do_math_leukall(gt_file, pd_file, title, savefig=False):
             recall_score_weighted =  '0'
     except:
         recall_score_weighted =  '0'
-    # print("Recall score weighted: " + str(recall_score_weighted))
+    print("Recall score weighted: " + str(recall_score_weighted))
     try:
         recall_score_macro = recall_score(y_actu, y_pred, average='macro')
         if math.isnan(recall_score_macro)==True:
@@ -1759,9 +1650,9 @@ def do_math_leukall(gt_file, pd_file, title, savefig=False):
             recall_score_macro =  '0'
     except:
         recall_score_macro =  '0'
-    # print("Recall score macro: " + str(recall_score_macro))
+    print("Recall score macro: " + str(recall_score_macro))
     recall_score_none = recall_score(y_actu, y_pred, average=None)
-    # print("Recall score none: " + str(recall_score_none))
+    print("Recall score none: " + str(recall_score_none))
     try:
         fbeta05_score_weighted = fbeta_score(y_actu, y_pred, average='weighted', beta=0.5)
         if math.isnan(fbeta05_score_weighted)==True:
@@ -1770,7 +1661,7 @@ def do_math_leukall(gt_file, pd_file, title, savefig=False):
             fbeta05_score_weighted =  '0'
     except:
         fbeta05_score_weighted =  '0'
-    # print("F0.5 measure weighted: " + str(fbeta05_score_weighted))
+    print("F0.5 measure weighted: " + str(fbeta05_score_weighted))
     try:
         fbeta05_score_macro = fbeta_score(y_actu, y_pred, average='macro', beta=0.5)
         if math.isnan(fbeta05_score_macro)==True:
@@ -1779,9 +1670,9 @@ def do_math_leukall(gt_file, pd_file, title, savefig=False):
             fbeta05_score_macro =  '0'
     except:
         fbeta05_score_macro =  '0'
-    # print("F0.5 measure macro: " + str(fbeta05_score_macro))
+    print("F0.5 measure macro: " + str(fbeta05_score_macro))
     fbeta05_score_none = fbeta_score(y_actu, y_pred, average=None, beta=0.5)
-    # print("F0.5 measure none: " + str(fbeta05_score_none))
+    print("F0.5 measure none: " + str(fbeta05_score_none))
     try:
         fbeta2_score_weighted = fbeta_score(y_actu, y_pred, average='weighted', beta=2)
         if math.isnan(fbeta2_score_weighted)==True:
@@ -1790,7 +1681,7 @@ def do_math_leukall(gt_file, pd_file, title, savefig=False):
             fbeta2_score_weighted =  '0'
     except:
         fbeta2_score_weighted =  '0'
-    # print("F2 measure weighted: " + str(fbeta2_score_weighted))
+    print("F2 measure weighted: " + str(fbeta2_score_weighted))
     try:
         fbeta2_score_macro = fbeta_score(y_actu, y_pred, average='macro', beta=2)
         if math.isnan(fbeta2_score_macro)==True:
@@ -1799,9 +1690,9 @@ def do_math_leukall(gt_file, pd_file, title, savefig=False):
             fbeta2_score_macro =  '0'
     except:
         fbeta2_score_macro =  '0'
-    # print("F2 measure macro: " + str(fbeta2_score_macro))
+    print("F2 measure macro: " + str(fbeta2_score_macro))
     fbeta2_score_none = fbeta_score(y_actu, y_pred, average=None, beta=2)
-    # print("F2 measure none: " + str(fbeta2_score_none))
+    print("F2 measure none: " + str(fbeta2_score_none))
     try:
         df_confusion = pd.crosstab(y_actu, y_pred, dropna=False)
         df_conf_norm = df_confusion.div(df_confusion.sum(axis=1), axis="index")
@@ -2079,3 +1970,232 @@ def do_math_uni(gt_file, pd_file, title):
     tick_marks = np.arange(len(df_confusion.columns))
     plt.savefig(path + name + '.png', bbox_inches='tight')  
     count_classes_file(gt_file, True, title + '_split.png', target_names)
+
+def do_math(gt_file, pd_file, title, path, save_txt=False, obj_name='/home/as-hunt/Etra-Space/white-thirds/obj.names', save_png=False):
+    '''This function takes in a ground truth file and a prediction file and returns AI metrics for the model
+    Optionally, it also outputs a confusion matrix and a text file with the results of the confusion matrix
+    
+    _____________________________________________________________
+    Args:
+
+    gt_file: ground truth file
+    pd_file: prediction file
+    
+    title: title of the output files
+    path: path to save the output files
+    
+    save_txt: boolean, whether or not to save the text file
+    save_png: boolean, whether or not to save the png file
+    
+    obj_name: path to the obj.names file to use for the confusion matrix
+    ______________________________________________________________
+    '''
+    gt = open(gt_file, 'r')
+    gt_array = []
+    gt_len = 0
+    gt_cm = []
+    pud = open(pd_file, 'r')
+    pd_len = 0
+    pd_array = []
+    pd_cm = []
+    target_names = []
+    temp = []
+    with open(obj_name, 'r') as f:
+        for line in f:
+            temp.append(line.strip())
+    for item in temp:
+        if item == 'ECHY':
+            target_names.append('Echinocyte')
+            temp.remove(item)
+        elif item == 'ERY':
+            target_names.append('Erythrocyte')
+            temp.remove(item)
+        elif item == 'LYM':
+            target_names.append('Lymphocyte')
+            temp.remove(item)
+        elif item == 'MON':
+            target_names.append('Monocyte')
+            temp.remove(item)
+        elif item == 'NEU':
+            target_names.append('Neutrophil')
+            temp.remove(item)
+        elif item == 'PLT':
+            target_names.append('Platelet')
+            temp.remove(item)
+        elif item == 'WBC':
+            target_names.append('White Blood Cell')
+            temp.remove(item)            
+    target_names.sort()        
+    for line in pud:
+        li = line.split(' ')
+        name = li[0]
+        classes = li[1]
+        bbox = [int(li[2]), int(li[3]), int(li[4]), int(li[5])]
+        confidence = li[6]
+        pd_array.append([name, bbox, classes, confidence])
+        pd_len += 1
+    for lune in gt:
+        lu = lune.split(' ')
+        nome = lu[0]
+        clisses = lu[1]
+        bbax = [int(lu[2]), int(lu[3]), int(lu[4]), int(lu[5])]
+        gt_array.append([nome, bbax, clisses])
+        gt_len += 1
+    for item in pd_array:
+        name = item[0]
+        bbox = item[1]
+        classes = item[2]
+        confidence = item[3]
+        for thing in gt_array:
+            nome = thing[0]
+            bbax = thing[1]
+            clisses = thing[2]
+            if name in thing[0]:
+                place = gt_array.index(thing)
+                if iou(bbox, bbax) >= 0.5:
+                        gt_cm.append(clisses)
+                        pd_cm.append(classes)
+                        gt_array.pop(place)
+                else:
+                    pass
+    y_actu = pd.Series(gt_cm, name='Ground Truth')
+    y_pred = pd.Series(pd_cm, name='Predicted')
+    try:
+        F1m = f1_score(y_actu, y_pred, average='macro')
+        if math.isnan(F1m)==True:
+            F1m =  '0'
+        elif F1m  == '-0.0':
+            F1m =  '0'    
+    except:
+        F1m =  '0'
+    try:
+        F1w = f1_score(y_actu, y_pred, average='weighted')
+        if math.isnan(F1w)==True:
+            F1w =  '0'
+        elif F1w == '0.0':        
+            F1w =  '0'
+    except:
+        F1w =  '0'
+    F1n = f1_score(y_actu, y_pred, average=None)
+    try:
+        acc = accuracy_score(y_actu, y_pred)
+        if math.isnan(acc)==True:
+            acc =  '0'
+        elif acc  == '-0.0':
+            acc =  '0'
+    except:
+        acc =  '0'
+    try:
+        the_report = classification_report(y_actu, y_pred, target_names=target_names)
+    except:
+        the_report = 'Classification report failed'
+    try:
+        precision_score_weighted = precision_score(y_actu, y_pred, average='weighted')
+        if math.isnan(precision_score_weighted)==True:
+            precision_score_weighted =  '0'
+        elif precision_score_weighted  == '-0.0':
+            precision_score_weighted =  '0'    
+    except:
+        precision_score_weighted =  '0'
+    try:
+        precision_score_macro = precision_score(y_actu, y_pred, average='macro')
+        if math.isnan(precision_score_macro)==True:
+            precision_score_macro =  '0'
+        elif precision_score_macro  == '-0.0':
+            precision_score_macro =  '0'
+    except:
+        precision_score_macro =  '0'
+    precision_score_none = precision_score(y_actu, y_pred, average=None)
+    try:
+        recall_score_weighted = recall_score(y_actu, y_pred, average='weighted')
+        if math.isnan(recall_score_weighted)==True:
+            recall_score_weighted =  '0'
+        elif recall_score_weighted  == '-0.0':
+            recall_score_weighted =  '0'
+    except:
+        recall_score_weighted =  '0'
+    try:
+        recall_score_macro = recall_score(y_actu, y_pred, average='macro')
+        if math.isnan(recall_score_macro)==True:
+            recall_score_macro =  '0'
+        elif recall_score_macro  == '-0.0': 
+            recall_score_macro =  '0'
+    except:
+        recall_score_macro =  '0'
+    recall_score_none = recall_score(y_actu, y_pred, average=None)
+    try:
+        fbeta05_score_weighted = fbeta_score(y_actu, y_pred, average='weighted', beta=0.5)
+        if math.isnan(fbeta05_score_weighted)==True:
+            fbeta05_score_weighted =  '0'
+        elif fbeta05_score_weighted  == '-0.0':
+            fbeta05_score_weighted =  '0'
+    except:
+        fbeta05_score_weighted =  '0'
+    try:
+        fbeta05_score_macro = fbeta_score(y_actu, y_pred, average='macro', beta=0.5)
+        if math.isnan(fbeta05_score_macro)==True:
+            fbeta05_score_macro =  '0'
+        elif fbeta05_score_macro  == '-0.0':
+            fbeta05_score_macro =  '0'
+    except:
+        fbeta05_score_macro =  '0'
+    fbeta05_score_none = fbeta_score(y_actu, y_pred, average=None, beta=0.5)
+    try:
+        fbeta2_score_weighted = fbeta_score(y_actu, y_pred, average='weighted', beta=2)
+        if math.isnan(fbeta2_score_weighted)==True:
+            fbeta2_score_weighted =  '0'
+        elif fbeta2_score_weighted  == '-0.0':
+            fbeta2_score_weighted =  '0'
+    except:
+        fbeta2_score_weighted =  '0'
+    try:
+        fbeta2_score_macro = fbeta_score(y_actu, y_pred, average='macro', beta=2)
+        if math.isnan(fbeta2_score_macro)==True:
+            fbeta2_score_macro =  '0'
+        elif fbeta2_score_macro  == '-0.0':
+            fbeta2_score_macro =  '0'
+    except:
+        fbeta2_score_macro =  '0'
+    fbeta2_score_none = fbeta_score(y_actu, y_pred, average=None, beta=2)
+    try:
+        name = 'Normalise Confusion Matrix ' + title + ' Post bbox matching normalised'
+        df_confusion = pd.crosstab(y_actu, y_pred, dropna=False)
+        df_conf_norm = df_confusion.div(df_confusion.sum(axis=1), axis="index")
+        plt.title(title)
+        sns.set(font_scale=1.4) # for label size
+        sns.heatmap(df_conf_norm, cmap='coolwarm', annot=True, annot_kws={"size": 16}, xticklabels=target_names, yticklabels=target_names) # font size
+        tick_marks = np.arange(len(df_conf_norm.columns))
+        if save_png == True:
+            plt.savefig(path + name + '.png', bbox_inches='tight')
+        plt.clf()
+        name = 'Confusion Matrix ' + title + ' Post bbox matching'
+        plt.title(title)
+        sns.set(font_scale=1.4) # for label size
+        sns.heatmap(df_confusion, cmap='coolwarm', annot=True, annot_kws={"size": 16}, xticklabels=target_names, yticklabels=target_names) # font size
+        tick_marks = np.arange(len(df_confusion.columns))
+        if save_png == True:
+            plt.savefig(path + name + '.png', bbox_inches='tight')
+            count_classes_file(gt_file, True, title + '_split.png', target_names)
+    except:
+        pass
+    if save_txt == True:
+        file = open(path + title + '.txt', 'w')
+        file.write("F1 macro: " + str(F1m) + '\n')
+        file.write("F1 weighted: " + str(F1w) + '\n')
+        file.write("F1 none: " + str(F1n) + '\n')
+        file.write("Accuracy score sklearn: " + str(acc) + '\n')
+        file.write(the_report + '\n')
+        file.write("Precision score weighted: " + str(precision_score_weighted) + '\n')
+        file.write("Precision score macro: " + str(precision_score_macro) + '\n')
+        file.write("Precision score none: " + str(precision_score_none) + '\n')
+        file.write("Recall score weighted: " + str(recall_score_weighted) + '\n')
+        file.write("Recall score macro: " + str(recall_score_macro) + '\n')
+        file.write("Recall score none: " + str(recall_score_none) + '\n')
+        file.write("Fbeta05 score weighted: " + str(fbeta05_score_weighted) + '\n')
+        file.write("Fbeta05 score macro: " + str(fbeta05_score_macro) + '\n')
+        file.write("Fbeta05 score none: " + str(fbeta05_score_none) + '\n')
+        file.write("Fbeta2 score weighted: " + str(fbeta2_score_weighted) + '\n')
+        file.write("Fbeta2 score macro: " + str(fbeta2_score_macro) + '\n')
+        file.write("Fbeta2 score none: " + str(fbeta2_score_none) + '\n')
+        file.close()
+    return F1w, F1m, acc, precision_score_weighted, precision_score_macro, recall_score_weighted, recall_score_macro, fbeta05_score_weighted, fbeta05_score_macro, fbeta2_score_weighted, fbeta2_score_macro    

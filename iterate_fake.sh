@@ -7,12 +7,12 @@ python -c "from import_results import *; import_and_filder_results('Fake/result.
 rm /home/as-hunt/Fake/result.txt
 
 python -c "from import_results import *; make_groud_truth('/home/as-hunt/Fake/gt.txt', '/home/as-hunt/Fake/in/')"
-python -c "from confusion import *; get_the_csv('Fake/gt.txt', 'Fake/results.txt')"
+python -c "from confusion import *; get_the_csv('Etra-Space/Diffy-10k/1/gt.txt', 'Etra-Space/Diffy-10k/1/results.txt')"
 python -c "from add_bbox import *; get_prediction_mistakes_iterative('/home/as-hunt/Fake/gt.txt', '/home/as-hunt/Fake/results.txt', '/home/as-hunt/Fake/in/', '/home/as-hunt/Fake/out/')"
 python -c "from add_bbox import *; get_prediction_mistakes_iterative('/home/as-hunt/Fake/gt.txt', '/home/as-hunt/Fake/results.txt', '/home/as-hunt/Fake/out/', '/home/as-hunt/Fake/out/')"
 python -c "from confusion import *; get_the_csv('/home/as-hunt/Fake/gt.txt', '/home/as-hunt/Fake/results.txt')"
-python -c "from confusion import *; plot_confusion_matrix('/home/as-hunt/Fake/gt.csv', '/home/as-hunt/Fake/results.csv', title='Confusion_matrix_Fake')"
-python -c "from confusion import *; plot_normalised_confusion_matrix('/home/as-hunt/Fake/gt.csv', '/home/as-hunt/Fake/results.csv', title='Normalised_Confusion_matrix_Fake')"
+python -c "from confusion import *; plot_confusion_matrix('/home/as-hunt/Etra-Space/Diffy-10k/1/gt.csv', '/home/as-hunt/Etra-Space/Diffy-10k/1/results.csv', title='Confusion_matrix_Diffy10k-1')"
+python -c "from confusion import *; plot_normalised_confusion_matrix('/home/as-hunt/Etra-Space/Diffy-10k/1/gt.csv', '/home/as-hunt/Etra-Space/Diffy-10k/1/results.csv', title='Normalised_Confusion_matrix_Diffy10k-1')"
 
 mv Confusion_matrix* /home/as-hunt/Fake/
 mv Normalised_Confusion_matrix* /home/as-hunt/Fake/

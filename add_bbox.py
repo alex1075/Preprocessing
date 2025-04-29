@@ -1,5 +1,6 @@
 import os
 import re
+import gc
 import random
 import string
 import cv2
@@ -10,6 +11,8 @@ import seaborn as sns
 import pandas as pd
 from matplotlib.colors import ListedColormap
 
+gc.collect()
+gc.set_threshold(0)
 
 def add_bbox(image, bbox, classes):
     """
@@ -22,9 +25,9 @@ def add_bbox(image, bbox, classes):
     5 - Cyan
     6 - Orange
     """
-    print(classes)
+    # print(classes)
     classes = int(classes)
-    image = cv2.imread(image)
+    img = cv2.imread(image)
     if classes == 0:
         colour = (0,0,255) #red
     elif classes == 1:
@@ -57,9 +60,11 @@ def add_bbox(image, bbox, classes):
     top_y = bbox[1]
     right_x = bbox[2]
     bottom_y = bbox[3]
-    print(left_x, top_y, right_x, bottom_y)
-    print(colour)
-    img = cv2.rectangle(image, (left_x,top_y), (right_x,bottom_y), colour, 2)
+    # print(left_x, top_y, right_x, bottom_y)
+    # print(colour)
+    img = cv2.rectangle(img, (left_x,top_y), (right_x,bottom_y), colour, 2)
+    # print(image)
+    cv2.imwrite(image, img)
     return img
 
 def iou_1(boxA, boxB):
@@ -244,10 +249,11 @@ def reiterate_over_images(list, path_to_images, save_directory, name):
 
         bbox_coordinates = [x1, y1, x2, y2]  
         print(bbox_coordinates)
+        print(path_to_images + image + '.jpg')
         img = add_bbox(path_to_images + image + '_' + name + '.jpg', bbox_coordinates, int(classes))
         cv2.imwrite(save_directory + image + '_' + name + '.jpg', img)
 
-# iterate_over_images('/home/as-hunt/results.txt', '/home/as-hunt/ni/', '/home/as-hunt/')
+iterate_over_images('/home/as-hunt/Etra-Space/Mono/4/gt.txt', '/home/as-hunt/Etra-Space/Mono/4/test/', '/home/as-hunt/leuko-out/', 'labelled')
 # iterate_over_images('/home/as-hunt/results.txt', '/home/as-hunt/', '/home/as-hunt/')
 
 
@@ -290,8 +296,12 @@ def get_prediction_mistakes(gt_file, pd_file, path_to_images, save_directory):
                     img = add_bbox(path_to_images + name+ '.jpg', bbox, int(classes))
                     cv2.imwrite(save_directory + name + '.jpg', img)
      
-# get_prediction_mistakes('gt.txt', 'pd.txt', '/home/as-hunt/Etra-Space/new_data_sidless_no_rcc_1/valid/', '/home/as-hunt/workspace/')
-# get_prediction_mistakes('gt.txt', 'pd.txt', '/home/as-hunt/workspace/', '/home/as-hunt/workspace/')
+# get_prediction_mistakes('/home/as-hunt/Etra-Space/Diffy-10k/1/gt.txt', '/home/as-hunt/Etra-Space/Diffy-10k/1/results.txt', '/home/as-hunt/Etra-Space/Diffy-10k/1/test/', '/home/as-hunt/workspace/')
+# get_prediction_mistakes('/home/as-hunt/Etra-Space/Diffy-10k/1/gt.txt', '/home/as-hunt/Etra-Space/Diffy-10k/1/results.txt', '/home/as-hunt/workspace/', '/home/as-hunt/workspace/')
+# get_prediction_mistakes('/home/as-hunt/Etra-Space/Diffy-10k/1/gt.txt', '/home/as-hunt/Etra-Space/Diffy-10k/1/results.txt', '/home/as-hunt/workspace/', '/home/as-hunt/workspace/')
+# get_prediction_mistakes('/home/as-hunt/Etra-Space/Diffy-10k/1/gt.txt', '/home/as-hunt/Etra-Space/Diffy-10k/1/results.txt', '/home/as-hunt/workspace/', '/home/as-hunt/workspace/')
+# get_prediction_mistakes('/home/as-hunt/Etra-Space/Diffy-10k/1/gt.txt', '/home/as-hunt/Etra-Space/Diffy-10k/1/results.txt', '/home/as-hunt/workspace/', '/home/as-hunt/workspace/')
+# get_prediction_mistakes('/home/as-hunt/Etra-Space/Diffy-10k/1/gt.txt', '/home/as-hunt/Etra-Space/Diffy-10k/1/results.txt', '/home/as-hunt/workspace/', '/home/as-hunt/workspace/')
 
 def get_prediction_mistakes_iterative(gt_file, pd_file, path_to_images, save_directory):
     gt = open(gt_file)
@@ -372,6 +382,9 @@ def get_prediction_mistakes_iterative(gt_file, pd_file, path_to_images, save_dir
                 classes = 12
             img = add_bbox(path_to_images + name+ '.jpg', bbox, int(classes))
             cv2.imwrite(save_directory + name + '.jpg', img)
+
+# get_prediction_mistakes_iterative('/home/as-hunt/Etra-Space/Diffy-10k/1/gt.txt', '/home/as-hunt/Etra-Space/Diffy-10k/1/results.txt', '/home/as-hunt/Etra-Space/Diffy-10k/1/test/', '/home/as-hunt/workspace/')
+
 
 def normalize(df):
     result = df.copy()
@@ -496,9 +509,10 @@ def plot_bbox_area(gt_file, pd_file, save_name='areas.png'):
     df = pd.DataFrame({'Class':classesp, 'Area':dfp, 'Dataset':tagp}, columns=["Class", "Area", "Dataset"])
     for i in range(len(classesg)):
         new_row = {'Class': classesg[i], 'Area': dfg[i], 'Dataset': tagg[i]}
-        df = df.append(new_row, ignore_index=True)
+        df = df._append(new_row, ignore_index=True)
     # print(df)
     sns.violinplot(data=df, cut=0, x='Class', y='Area', inner='box', scale='count', hue="Dataset", split=True, ax=axs[0, 0])
+    # axs[0,0].set_xticklabels(["Echinocyte", "Erythrocyte", "Lymphocyte", "Monocyte", "Neutrophil", "Platelet"])
     axs[0, 0].set_title('Bbox Area Plotting per Class')
 
     # plt.savefig(save_name+'_2.png', bbox_inches='tight')
@@ -533,23 +547,12 @@ def plot_bbox_area(gt_file, pd_file, save_name='areas.png'):
     print(du)
     plt.savefig(save_name+'_33.png', bbox_inches='tight')
   
+def bbox_area(bbox):
+    return abs(int(bbox[2]) - int(bbox[0])) * abs(int(bbox[3]) - int(bbox[1]))
   
-def export_errors(gt_file, pd_file, save_name='Error_'):
-    names = []
-    values = []
-    gtchaart = []
-    pdchaart = []
-    areas = []
+def export_errors(gt_file, pd_file, path1, path2, save_name='Error_'):
     gt_array = []
     pd_array = []
-    dfp = []
-    classesp = []
-    classesg = []
-    combined = []
-    tagp = []
-    tagg = []
-    ious = []
-    dfg = []
     listed = open(pd_file, 'r')
     losted = open(gt_file, 'r')
     for line in listed:
@@ -565,6 +568,9 @@ def export_errors(gt_file, pd_file, save_name='Error_'):
         clisses = lu[1]
         bbax = [int(lu[2]), int(lu[3]), int(lu[4]), int(lu[5])]
         gt_array.append([nome, bbax, clisses])
+
+
+
     for item in pd_array:
         name = item[0]
         bbox = item[1]
@@ -579,10 +585,10 @@ def export_errors(gt_file, pd_file, save_name='Error_'):
                 # print(iou(bbox, bbax))
                 if iou(bbax, bbox) >= 0.5:
                     if classes == clisses:
+                       print("Classes match! Success!")
                     #    pass
                        print(name)
-                       path = '/home/as-hunt/'
-                       path2 = '/home/as-hunt/Etra-Space/white-thirds/test/'
+                       path = path1
                        print(path)
                        # Add function to add bbox on image
                        save_name = path + 'Match_' + name + '.png'
@@ -603,8 +609,7 @@ def export_errors(gt_file, pd_file, save_name='Error_'):
                        plt.savefig(save_name , bbox_inches='tight')
                     else:   
                         print(name)
-                        path = '/home/as-hunt/'
-                        path2 = '/home/as-hunt/Etra-Space/white-thirds/test/'
+                        path = path1
                         print(path)
                         # Add function to add bbox on image
                         save_name = path + 'Error_' + name + '.png'
@@ -621,7 +626,193 @@ def export_errors(gt_file, pd_file, save_name='Error_'):
                         axs[0].set_title('Ground Truth')
                         axs[1].imshow(labelled_pd_image)
                         axs[1].set_title('Prediction')
-                        plt.figtext(0.20, 0.15, 'Red - Lymphocyte, Green - Monocyte Blue - Neutrophil')
+                        # plt.figtext(0.20, 0.15, 'Red - Lymphocyte, Green - Monocyte Blue - Neutrophil')
                         plt.savefig(save_name , bbox_inches='tight')
 
                     gt_array.pop(place) 
+
+# export_errors('/home/as-hunt/Etra-Space/Diffy-10k/1/gt.txt', '/home/as-hunt/Etra-Space/Diffy-10k/1/results.txt', '/home/as-hunt/Etra-Space/Diffy-10k/1/test/', '/home/as-hunt/Etra-Space/Diffy-10k/1/test/')
+
+
+
+def export_errors_neo(gt_file, pd_file, path1, path2):
+    from collections import defaultdict
+    import tqdm
+
+    gt_dict = defaultdict(list)
+    pd_dict = defaultdict(list)
+
+    with open(pd_file, 'r') as listed:
+        for line in listed:
+            li = line.split(' ')
+            name = li[0]
+            classes = li[1]
+            bbox = [int(li[2]), int(li[3]), int(li[4]), int(li[5])]
+            confidence = li[6]
+            pd_dict[name].append([bbox, classes, confidence])
+
+    for name, pd_entries in tqdm.tqdm(pd_dict.items()):
+        # check for duplicate bbox per image using iou and remove the one with the biggest area
+        pd_entries = sorted(pd_entries, key=lambda x: x[2], reverse=True)
+        pd_dict[name] = pd_entries
+        # print(pd_entries[0])
+        for i in range(len(pd_entries)):
+            for j in range(i+1, len(pd_entries)):
+                try:
+                    if iou(pd_entries[i][0], pd_entries[j][0]) >= 0.5:
+                        if bbox_area(pd_entries[i][0]) > bbox_area(pd_entries[j][0]):
+                            pd_entries.pop(j)
+                            print('pop')
+                        else:
+                            pd_entries.pop(i)
+                            print('pop')
+                except:
+                    pass
+
+    with open(gt_file, 'r') as losted:
+        for line in losted:
+            li = line.split(' ')
+            name = li[0]
+            classes = li[1]
+            bbox = [int(li[2]), int(li[3]), int(li[4]), int(li[5])]
+            gt_dict[name].append([bbox, classes])
+
+    # check for identical ground truth bbox per image and remove duplicates
+    for name, gt_entries in tqdm.tqdm(gt_dict.items()):
+        gt_entries = sorted(gt_entries, key=lambda x: x[1], reverse=True)
+        gt_dict[name] = gt_entries
+        for i in range(len(gt_entries)):
+            for j in range(i+1, len(gt_entries)):
+                try:    
+                    if iou(gt_entries[i][0], gt_entries[j][0]) >= 0.5:
+                        if bbox_area(gt_entries[i][0]) > bbox_area(gt_entries[j][0]):
+                            gt_entries.pop(j)
+                            print('pop')
+                        else:
+                            gt_entries.pop(i) 
+                            print('pop')
+                except:
+                    pass
+
+    for name, pd_entries in tqdm.tqdm(pd_dict.items()):
+        match = False
+        annots = 0
+        gt_entries = gt_dict.get(name, [])
+        for pd_entry in pd_entries:
+            pd_bbox, pd_classes, confidence = pd_entry
+            for gt_entry in gt_entries:
+                gt_bbox, gt_classes = gt_entry
+                if iou(gt_bbox, pd_bbox) >= 0.5:
+                    if pd_classes == gt_classes:
+                        # print("Classes match! Success!")
+                        match = True
+                        # print(name)
+                        labelled_gt_image = add_bbox(path1 + name + '.jpg', gt_bbox, gt_classes)
+                        labelled_pd_image = add_bbox(path1 + name + '.jpg', pd_bbox, pd_classes)
+                        annots += 1
+                    else:
+                        # print("Classes do not match, detection error")
+                        match = False
+                        # print(name)
+                        labelled_gt_image = add_bbox(path1 + name + '.jpg', gt_bbox, gt_classes)
+                        labelled_pd_image = add_bbox(path1 + name + '.jpg', pd_bbox, pd_classes)
+                        annots += 1
+        fig, axs = plt.subplots(1, 2)
+        axs[0].imshow(labelled_gt_image)
+        axs[0].set_title('Ground Truth')
+        axs[1].imshow(labelled_pd_image)
+        axs[1].set_title('Prediction')
+        # print('Annotations: ', annots)
+        if match == False:
+              save_name = path2 + 'Error_' + name + '.png'  
+              plt.savefig(save_name , bbox_inches='tight')   
+              # clear figure
+              plt.close()    
+        else:
+              save_name = path2 + 'Match_' + name + '.png'
+              plt.savefig(save_name , bbox_inches='tight')
+              plt.close()
+        
+
+# export_errors_neo('/home/as-hunt/Etra-Space/Diffy-10k/1/gt.txt', '/home/as-hunt/Etra-Space/Diffy-10k/1/results.txt', '/home/as-hunt/Etra-Space/Diffy-10k/1/test/', '/home/as-hunt/workspace/')
+
+
+# write a function that plots the predicted bounding boxes on a plot (width x height) coloured by class
+
+def plot_bboxes_dimentions(pd_file, obj_names, save_name='prediction.png'):
+    from dimentions import pixel_size, margin_error_um
+    target_names = ['Echinocyte', 'Erythrocyte', 'Lymphocyte', 'Neutrophil', 'Monocyte', 'Platelet']
+    values = [] 
+    pd_array = []
+    with open(pd_file, 'r') as liste:
+        for line in liste:
+            li = line.split(' ')
+            name = li[0]
+            classes = li[1]
+            bbox = [int(li[2]), int(li[3]), int(li[4]), int(li[5])]
+            confidence = li[6]
+            pd_array.append([name, bbox, classes, confidence])
+    # check for duplicate bbox per image using iou and remove the one with the highest confidence
+    print('1')
+    # for item in pd_array:
+    #     name = item[0]
+    #     bbox = item[1]
+    #     classes = item[2]
+    #     confidence = item[3]
+    #     for thing in pd_array:
+    #         nome = thing[0]
+    #         bbax = thing[1]
+    #         clisses = thing[2]
+    #         if name in thing[0]:
+    #             place = pd_array.index(thing)
+    #             if iou(bbax, bbox) >= 0.5:
+    #                 if confidence > thing[3]:
+    #                     pd_array.pop(place)
+    #                 else:
+    #                     try:
+    #                         pd_array.pop(pd_array.index(item))
+    #                     except:
+    #                         pass    
+    # work out the width and heigh of each predicted object 
+    print('2')
+    for item in pd_array:
+        # print(item)
+        name = item[0]
+        bbox = item[1]
+        classes = target_names[int(item[2])]
+        confidence = item[3]
+        width = abs(int(bbox[2]) - int(bbox[0]))
+        height = abs(int(bbox[3]) - int(bbox[1]))
+        width = abs(float((width * pixel_size) - (margin_error_um / 2)))
+        height = abs(float((height * pixel_size) - (margin_error_um / 2)))
+        if width <= 0.8:
+            pass
+        else:
+            if height <= 0.9:
+                pass
+            else:
+                values.append([width, height, classes])
+    #plot the width and height of each predicted object
+    print('3')
+    import seaborn as sns
+    import pandas as pd
+    df = pd.DataFrame(values, columns=["Width", "Height", "Class"])
+    plt.figsize=(53, 30)
+    fig, ax = plt.subplots()
+    sns.scatterplot(data=df, x="Width", y="Height", hue="Class", s=2)
+    ax.set_title('Predicted Cell Width and Height')
+    ax.set_xlabel('Width (µm)')
+    ax.set_ylabel('Height (µm)')
+    plt.legend(title='Cell Type', fontsize='small', title_fontsize='small', markerscale=4, loc='lower right')
+    resolution_value = 1200
+    plt.savefig(save_name, bbox_inches='tight', dpi=resolution_value)
+    plt.close()
+
+plot_bboxes_dimentions('/home/as-hunt/Etra-Space/Diffy-10k/1/results.txt', '/home/as-hunt/Etra-Space/Diffy-10k/1/obj.names', 'areas.tiff')    
+
+def convertRGB_toCYMK(image_in):
+    from PIL import Image
+    Image.open(image_in).convert('CMYK').save(image_in)
+
+
+convertRGB_toCYMK('areas.tiff')    
